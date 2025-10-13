@@ -15,8 +15,13 @@ public class Math {
 
     /********************************
 <<<<<<< HEAD
+<<<<<<< HEAD
     Developer: (Rehana Ria)
     University ID: (240366050)
+=======
+    Developer: (Haroon Mohammed)
+    University ID: (240109826)
+>>>>>>> b680ae074375190c35160c2c95a220b106e9bb21
 =======
     Developer: (Haroon Mohammed)
     University ID: (240109826)
