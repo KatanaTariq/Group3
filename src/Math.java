@@ -14,8 +14,18 @@ public class Math {
     }
 
     /********************************
-    Developer: (Teammate Name)
-    University ID: (ID)
+<<<<<<< HEAD
+<<<<<<< HEAD
+    Developer: (Rehana Ria)
+    University ID: (240366050)
+=======
+    Developer: (Haroon Mohammed)
+    University ID: (240109826)
+>>>>>>> b680ae074375190c35160c2c95a220b106e9bb21
+=======
+    Developer: (Haroon Mohammed)
+    University ID: (240109826)
+>>>>>>> b680ae074375190c35160c2c95a220b106e9bb21
     Function: Returns the larger of two integers.
     ********************************/
     public static int Max(int a, int b) {
@@ -31,7 +41,8 @@ public class Math {
 
 
     // ——— Stubs for other teammates to fill ———
-    public static int Min(int a, int b) { return (a < b) ? a : b; }
+    public static int Min(int a, int b) 
+    { return (a < b) ? a : b; }
     public static int Sub(int a, int b) { return a - b; }
 
     public static int Divide(int a, int b) {
