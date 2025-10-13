@@ -22,10 +22,17 @@ public class Math {
         return (a > b) ? a : b;
     }
 
+    /********************************
+    Developer: (Kiera Thomas-Cooper)
+    University ID: (240382599)
+    Function: This function takes two integer as input, multiple both numbers and returns the result.
+    ********************************/
+    public static int Multi(int a, int b) { return a * b; }
+
+
     // ——— Stubs for other teammates to fill ———
     public static int Min(int a, int b) { return (a < b) ? a : b; }
     public static int Sub(int a, int b) { return a - b; }
-    public static int Multi(int a, int b) { return a * b; }
 
     public static int Divide(int a, int b) {
         // Basic guard (optional)
