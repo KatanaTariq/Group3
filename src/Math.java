@@ -39,10 +39,15 @@ public class Math {
     ********************************/
     public static int Multi(int a, int b) { return a * b; }
 
+    /********************************
+    Developer: (Nazareth Godspower)
+    University ID: (240368434)
+    Function: This function takes two integer as input and returns the minimum one
+    ********************************/
+    public static int Min(int a, int b) { return (a < b) ? a : b; }
 
     // ——— Stubs for other teammates to fill ———
-    public static int Min(int a, int b) 
-    { return (a < b) ? a : b; }
+    
     public static int Sub(int a, int b) { return a - b; }
 
     public static int Divide(int a, int b) {
