@@ -1,0 +1,27 @@
+name: deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: setup ssh
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        echo "stricthostkeychecking=no" >> ~/.ssh/config
+
+    - name: upload files to server
+      run: |
+        rsync -avz --delete \
+        -e "ssh -i ~/.ssh/deploy_key" \
+        ./ cs2team3@cs2410-web01pvm.aston.ac.uk:/home/cs2team3/public_html
