@@ -248,49 +248,49 @@ CREATE TABLE ContactMessage (
 -- TRIGGERS
 -- =====================================================
 
--- Trigger to update inventory when an order is placed
-DELIMITER //
-CREATE TRIGGER after_orderline_insert
-AFTER INSERT ON OrderLine
-FOR EACH ROW
-BEGIN
-    -- Update inventory
-    UPDATE Inventory 
-    SET current_stock = current_stock - NEW.quantity 
-    WHERE variant_id = NEW.variant_id;
-    
-    -- Log the inventory change
-    INSERT INTO InventoryLog (variant_id, change_amount, reason, created_at)
-    VALUES (NEW.variant_id, -NEW.quantity, 'Order placed', NOW());
-END//
-DELIMITER ;
+    -- Trigger to update inventory when an order is placed
+    DELIMITER //
+    CREATE TRIGGER after_orderline_insert
+    AFTER INSERT ON OrderLine
+    FOR EACH ROW
+    BEGIN
+        -- Update inventory
+        UPDATE Inventory 
+        SET current_stock = current_stock - NEW.quantity 
+        WHERE variant_id = NEW.variant_id;
+        
+        -- Log the inventory change
+        INSERT INTO InventoryLog (variant_id, change_amount, reason, created_at)
+        VALUES (NEW.variant_id, -NEW.quantity, 'Order placed', NOW());
+    END//
+    DELIMITER ;
 
--- Trigger to update inventory when a return is approved
-DELIMITER //
-CREATE TRIGGER after_return_approved
-AFTER UPDATE ON `Return`
-FOR EACH ROW
-BEGIN
-    IF NEW.status = 'Approved' AND OLD.status != 'Approved' THEN
-        -- Update inventory for each returned item
-        UPDATE Inventory i
-        INNER JOIN ReturnItem ri ON i.variant_id = ri.variant_id
-        SET i.current_stock = i.current_stock + ri.quantity
-        WHERE ri.return_id = NEW.return_id;
-    END IF;
-END//
-DELIMITER ;
+    -- Trigger to update inventory when a return is approved
+    DELIMITER //
+    CREATE TRIGGER after_return_approved
+    AFTER UPDATE ON `Return`
+    FOR EACH ROW
+    BEGIN
+        IF NEW.status = 'Approved' AND OLD.status != 'Approved' THEN
+            -- Update inventory for each returned item
+            UPDATE Inventory i
+            INNER JOIN ReturnItem ri ON i.variant_id = ri.variant_id
+            SET i.current_stock = i.current_stock + ri.quantity
+            WHERE ri.return_id = NEW.return_id;
+        END IF;
+    END//
+    DELIMITER ;
 
--- Trigger to ensure only one main image per product
-DELIMITER //
-CREATE TRIGGER before_productimage_insert
-BEFORE INSERT ON ProductImage
-FOR EACH ROW
-BEGIN
-    IF NEW.is_main = 1 THEN
-        UPDATE ProductImage 
-        SET is_main = 0 
-        WHERE product_id = NEW.product_id AND is_main = 1;
-    END IF;
-END//
-DELIMITER ;
+    -- Trigger to ensure only one main image per product
+    DELIMITER //
+    CREATE TRIGGER before_productimage_insert
+    BEFORE INSERT ON ProductImage
+    FOR EACH ROW
+    BEGIN
+        IF NEW.is_main = 1 THEN
+            UPDATE ProductImage 
+            SET is_main = 0 
+            WHERE product_id = NEW.product_id AND is_main = 1;
+        END IF;
+    END//
+    DELIMITER ;
