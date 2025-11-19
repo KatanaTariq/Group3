@@ -1,38 +1,36 @@
 name: deploy
-
 on:
   push:
-    branches: [ "main" ]   # run pipeline on push to main branch
-  workflow_dispatch:        # allow manual triggering from GitHub Actions
-
+    branches: [ "main" ]  # run pipeline on push to main branch
+  workflow_dispatch:  # allow manual triggering from GitHub Actions
 jobs:
   deploy:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
     
     steps:
-    # download the repository code onto the runner
+    # download the repository code onto the GitHub Actions runner
     - name: Checkout Repository
       uses: actions/checkout@v3
-
+    
     # set up the SSH private key so GitHub Actions can log into the server
     - name: Setup SSH key
       run: |
-        mkdir -p ~/.ssh                                  
-        echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa 
-        chmod 600 ~/.ssh/id_rsa                          
-        printf "Host cs2410-web01pvm.aston.ac.uk\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config 
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        printf "Host cs2410-web01pvm.aston.ac.uk\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
     
     # test the SSH connection to confirm authentication works
     - name: Test SSH Connection
       run: |
-        ssh -i ~/.ssh/id_rsa cs2team3@cs2410-web01pvm.aston.ac.uk 'pwd'   # runs 'pwd' on the remote server
-
-    # deploy the project
+        ssh -i ~/.ssh/id_rsa cs2team3@cs2410-web01pvm.aston.ac.uk 'pwd'
+    
+    # deploy the project using rsync
     - name: Deploy to Server
       run: |
         rsync -avz --delete \
           -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
-          --exclude='.git' \                                        
-          --exclude='.github' \                                     
-          ./ \                                                      
-          cs2team3@cs2410-web01pvm.aston.ac.uk:/home/cs2team3/public_html/   
+          --exclude='.git' \
+          --exclude='.github' \
+          ./ \
+          cs2team3@cs2410-web01pvm.aston.ac.uk:/home/cs2team3/public_html/
