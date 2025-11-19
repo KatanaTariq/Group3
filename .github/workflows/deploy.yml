@@ -6,10 +6,9 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Use Ubuntu virtual machine
+    runs-on: ubuntu-latest
     
     steps:
-    # Download repository code to the runner
     - name: Checkout Repository
       uses: actions/checkout@v3
     
@@ -20,14 +19,19 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa  # Write private key to file
         chmod 600 ~/.ssh/id_rsa  # Set correct permissions (owner read/write only)
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}  # Load secret from GitHub
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }} 
+    
+    # Test SSH connection first
+    - name: Test SSH Connection
+      run: |
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no cs2team3@cs2410-web01pvm.aston.ac.uk 'pwd'
     
     # Copy files to server using rsync
     - name: Deploy to Server
       run: |
         rsync -avz --delete \
-          -e "ssh -o StrictHostKeyChecking=no" \
+          -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
           --exclude='.git' \
           --exclude='.github' \
           ./ \
-          cs2team3@cs2410-web01pvm.aston.ac.uk:/public_html/
+          cs2team3@cs2410-web01pvm.aston.ac.uk:~/public_html/
