@@ -30,4 +30,4 @@ jobs:
           --exclude='.git' \
           --exclude='.github' \
           ./ \
-          cs2team3@cs2410-web01pvm.aston.ac.uk:/home/cs2team3/public_html/
+          cs2team3@cs2410-web01pvm.aston.ac.uk:/public_html/
