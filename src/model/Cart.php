@@ -38,6 +38,157 @@ class Cart {
         return(int) $basketID;
     }
 
+    /**Fetches all items in the current basket and the current price from Product Variant */
+    protected fuction getBasketItemsForCheckout(int $basketID):{
+        $sql = "SELECT bi.variant_id, bi.quantity, pv.price FROM BasketItems bi JOIN Prodoct pv ON pv.prodoct_id = (SELECT product_id FROM ProductVariant WHERE variant_id = bi.variant_id LIMIT 1)
+                WHERE bi.basket_id = :basket_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['basket_id' => $basketID]);
+        $items = $stmt->fetchALL(\PDO::FETCH_ASSOC);
+
+        return $items ?: null;
+    }
+
+    /** Generates a unique, short order number for the Order table. */
+    protected function generatedOrderNumber(): string{
+        // generats a simple 8 character string based order number based on time and a random value
+        return strtoupper(substr(uniqid(), -4) . bin2hex(random_bytes(2)));
+    }
+
+    /**fetches all items in the customers nasket with product details to display on the cart page (name, price, quantity, stock). */
+    public funtion getContents(): array{
+        $basketID = $this->getOrCreateBasket();
+        $sql = "SELECT bi.basket_item_id, bi.quantity, bi.variant_id,p.name AS product_name,p.base_price AS price, pv.variant_name, i.current_stock
+                FROM BasketItems bi JOIN ProductVariant pv ON bi.variant_id = pv.variant_id
+                JOIN Product p ON pv.product_id = p.product_id LEFT JOIN Inventory i ON bi.variant_id = i.variant_id WHERE bi.basket_id = :basket_id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['basket_id' => $basketID]);
+        $items = $stmt->fetchAll(\PDO::FETCH-ASSOC);
+
+        // MAP DATA TO STRUCTURE IT FOR THE VIEW CONTROLLER
+        return array_map(function($item) {
+            //combine product name and variant name for a neat display name
+            $fullName = $item['product_name'] . ' - ' . $item['variant_name'];
+            return ['item_id' => (int)$item['basket_item_id'],
+                    'name' => htmlspecialchars($fullName),
+                    'price' => (float)$item['price'],
+                    'quantity' => (int)$item['quantity'],
+                    'variant_id' => (int)$item['variant_id'],
+                    'current_stock' => (int)($item['current_stock'] ?? 0)];
+        }, $items);
+    }
+
+    /** Calculates the total monetary value of all items in the customers basket */
+    public function calculateSubtotal(): float{
+        $basketID = $this->getOrCreateBasket();
+        $sql = "SELECT SUM(bi.quantity * p.base_price) AS subtotal FROM BasketItems bi JOIN ProductVariant pv ON bi.variant_id = pv.variant_id
+                JOIN Product p ON pv.ptoduvt_id = p.product_id WHERE bi.basket_id = :basket_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['basket_id' => $basketID]);
+        $result = $stmt->fetch(\PDO::FETCH_COLUMN);
+        return round((float)$result, 2);
+    }     
+    
+
+    /** Executes the entire checkout process atomically within a database transaction
+     * i.calculate total ammount and recheck stock (security check)
+     * ii. creates the order record
+     * iii. transfers items to OrderLine
+     * iv. decrements inventory stock
+     * v. clear the basket
+     */
+
+    public function finalizeCheckout(int $shippingAddressID, int $billingAddressID): string|bool{
+            $basketID = $this->getOrCreateBasket();
+
+            // start transaction
+            $this->pdo->beginTransaction();
+
+            try{
+                $basketItems = $this->getBasketItemsForCheckout($basketID);
+
+                if (empty($basketItems)) {
+                    $this->pdo->rollBack();
+                    return "Your basket it empty. Cannot finalize checkout.";
+                }
+
+                $totalAmount = 0.0;
+
+                // i.
+                foreach ($basketItems as $item) {
+                    $unitPrice = (float)$item['price'];
+                    $quantity = (int)$item['quantity'];
+                    $variantID = (int)$it6em['variant_id'];
+
+                    // get curent stock (final check before commiting the order)
+                    $stockSql = "SELECT current_stock FROM Inventory WHERE variant_id = :variant_id";
+                    $stmt = this->pdo->prepare($stockSql);
+                    $stmt->execute(['variant_id' => $variantID]);
+                    $stockResult = $stmt->fetchColumn();
+
+                    if($stockResult === false || $quantity > (int)$stockResult) {
+                        $this->pdo->rollBack();
+                        return "Stock check failed for variant ID " . $variantID . ". Only " . (int)$stockResult . " remaining.";
+                     } 
+                     $totalAmount += ($unitPrice * $quantity);
+                }
+
+                // ii.
+                $ordrNumber = $this->generateOrderNumber();
+                $orderSql = "INSERT INTO `Order`(customer_id, order_number, total_amount, shipping_address_id, status)
+                            VALUES (:customer_id, :order_number, :total_amount, :shipping_address_id,  :billing_address_id, 'Processing')";
+                $stmt = $this->pdo->prepare($orderSql);
+                $stmt->execute(['customer_id' => $this->customerID, 
+                                'order_number' => $orderNumber, 
+                                'total_amount' => $totalAmount, 
+                                'shipping_address_id' => $shippingAddressID, 
+                                'billing_address_id' => $billingAddressID ]);
+                $orderID = $this->pdo->lastInsertID();
+
+                // iii & iv.
+
+                $orderLineSql = "INSERT INTO OrderLine (order_id, variant_id, quantity, unit_price, subtotal) VALUES (:order_id, :variant_id, :quantity, :unit_price, :subtotal)";
+                $updateStockSql = "UPDATE Inventory SET current_stock = current_stock - :quantity WHERE variant_id = :variant_id";
+
+                foreach ($basketItems as $item) {
+                    $unitPrice = (float)$item['price'];
+                    $quantity = (int)$item['quantity'];
+                    $variantID = (int)$item['variant_id'];
+                    $subtotal = $unitPrice * $quantity;
+
+                    //insert into OrderLine
+                    $stmt = $this->pdo->prepare($orderLineSql);
+                    $stmt->execute([
+                        'order_id' => $orderID,
+                        'variant_id' => $variantID,
+                        'quantity' => $quantity,
+                        'unit_price' => $unitPrice,
+                        'subtotal' => $subtotal
+                    ]);
+                }
+                
+                // clear the basket
+                $deleteBasketSql = "DELETE FROM BasketItems WHERE basket_id = :basket_id";
+                $stmt = $this->pdo->prepare($deleteBasketSql);
+                $stmt->execute(['basket_id => $basketID']);
+
+                // commit transaction
+                $this->pdo->commit();
+                return true; // checkout succesful
+
+            } catch (/PDOException $e) {
+                 $this->pdo->rollBack();
+                 error_log("Checkout transaction failed: " . $e->getMessage());
+                 return "An unexpected error occurred during checkout. Please contact support";
+            }
+
+
+    }
+
+
+
+
     /**Adds a product variant to the customers basket or updates the quantity if a product is already in the basket */
     public function addItem(int $variantID, int $quantity = 1): string|bool{
         if ($quantity < 1) {
