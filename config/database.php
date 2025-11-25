@@ -1,7 +1,7 @@
 <?php
 
 // load database credentials
-include __DIR__ . '/../config.php';
+include __DIR__ . '/../setup/config.php';
 
 try {
     $pdo = new PDO(
