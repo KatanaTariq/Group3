@@ -1,5 +1,4 @@
 <?php
-
 // Create database connection
 include __DIR__ . "/config/database.php";
 
