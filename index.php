@@ -1,34 +1,38 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+// Create database connection
+include __DIR__ . "/config/database.php";
 
-echo "<h2>Debug Info</h2>";
-echo "REQUEST_URI: " . $_SERVER['REQUEST_URI'] . "<br>";
-echo "SCRIPT_NAME: " . $_SERVER['SCRIPT_NAME'] . "<br>";
+// Load the controllers
+require __DIR__ . '/src/controller/BaseController.php';
+require __DIR__ . '/src/controller/AdminController.php';
+require __DIR__ . '/src/controller/AuthController.php';
+require __DIR__ . '/src/controller/BasketController.php';
+require __DIR__ . '/src/controller/CustomerController.php';
+require __DIR__ . '/src/controller/OrderController.php';
+require __DIR__ . '/src/controller/ProductController.php';
+require __DIR__ . '/src/controller/ReturnController.php';
+require __DIR__ . '/src/controller/ReviewController.php';
+require __DIR__ . '/src/controller/WishlistController.php';
 
-$requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-echo "Parsed Path: " . $requestPath . "<br>";
+// Get the current request URL
+$request = $_SERVER['REQUEST_URI'];
+$requestPath = parse_url($request, PHP_URL_PATH);
 
-echo "<br><h2>Testing database connection...</h2>";
-
-if (file_exists(__DIR__ . "/config/database.php")) {
-    echo "database.php exists<br>";
-    include __DIR__ . "/config/database.php";
-    echo "database.php loaded successfully<br>";
-    echo "PDO connection exists: " . (isset($pdo) ? "YES" : "NO") . "<br>";
-} else {
-    echo "database.php NOT FOUND<br>";
-}
-
-echo "<br><h2>Checking controller files...</h2>";
-$controllers = [
-    'BaseController.php',
-    'AdminController.php', 
-    'AuthController.php'
-];
-
-foreach ($controllers as $controller) {
-    $path = __DIR__ . '/controller/' . $controller;
-    echo $controller . ": " . (file_exists($path) ? "EXISTS" : "MISSING") . "<br>";
+// Simple routers
+switch ($requestPath) {
+    // Home page
+    case '/':
+    case '/index.php':
+        require __DIR__ . '/src/view/pages/home.php';
+        break;
+    // Login page
+    case '/login':
+        require __DIR__ . '/src/view/pages/login.php';
+        break;
+    // 404 fallback
+    default:
+        http_response_code(404);
+        require __DIR__ . '/src/view/pages/404.php';
+        break;
 }
 ?>
