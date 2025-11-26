@@ -18,11 +18,16 @@ require __DIR__ . '/src/controller/WishlistController.php';
 $request = $_SERVER['REQUEST_URI'];
 $requestPath = parse_url($request, PHP_URL_PATH);
 
+// Remove /index.php from path if present
+$requestPath = str_replace('/index.php', '', $requestPath);
+if ($requestPath === '') {
+    $requestPath = '/';
+}
+
 // Simple routers
 switch ($requestPath) {
     // Home page
     case '/':
-    case '/index.php':
         require __DIR__ . '/src/view/pages/home.php';
         break;
     // Login page
