@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const heroBox = document.getElementById("hero-slideshow");
 
     const heroImages = [
-        "src\Assets\Home\footballjersey.png",
-        "src\Assets\Home\Bottomsjoggers.png",
-        "src\Assets\Home\boxingshortmen.png",
-        "src\Assets\Home\menhoodie.png"
+        "footballjersey.png",
+        "Bottomsjoggers.png",
+        "boxingshortmen.png",
+        "menhoodie.png"
     ];
 
     heroBox.style.backgroundImage = `url(${heroImages[0]})`;
