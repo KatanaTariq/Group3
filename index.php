@@ -13,6 +13,8 @@ require __DIR__ . '/src/controller/ProductController.php';
 require __DIR__ . '/src/controller/ReturnController.php';
 require __DIR__ . '/src/controller/ReviewController.php';
 require __DIR__ . '/src/controller/WishlistController.php';
+require __DIR__ . '/src/controller/InventoryController.php';
+
 
 // Get the current request URL
 $request = $_SERVER['REQUEST_URI'];
@@ -26,19 +28,33 @@ if ($requestPath === '') {
 
 // Simple routers
 switch ($requestPath) {
-    // Home page
+    // Public pages
     case '/':
     case '/home':
         require __DIR__ . '/src/view/pages/home.php';
         break;
-    // Login page
+
     case '/login':
         require __DIR__ . '/src/view/pages/login.php';
         break;
+
+    // Admin pages (Tariq's area)
+    case '/admin/login':
+        require __DIR__ . '/src/view/pages/admin/login.php';
+        break;
+
+    case '/admin/home':
+    case '/admin/dashboard':
+        require __DIR__ . '/src/view/pages/admin/home.php';
+        break;
+
+    case '/admin/inventory':     
+    require __DIR__ . '/src/view/pages/admin/inventory.php';
+    break;
+
     // 404 fallback
     default:
         http_response_code(404);
         require __DIR__ . '/src/view/pages/404.php';
         break;
 }
-?>
