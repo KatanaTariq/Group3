@@ -2,11 +2,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const heroBox = document.getElementById("hero-slideshow");
 
     const heroImages = [
-        "/images/productImages/homepage/footballjersey.png",
-        "/images/productImages/homepage/Bottomsjoggers.png",
-        "/images/productImages/homepage/boxingshortmen.png",
-        "/images/productImages/homepage/menhoodie.png"
+        "/src/view/images/productImages/homepage/footballjersey.png",
+        "/src/view/images/productImages/homepage/Bottomsjoggers.png",
+        "/src/view/images/productImages/homepage/boxingshortmen.png",
+        "/src/view/images/productImages/homepage/menhoodie.png"
     ];
+
 
     heroBox.style.backgroundImage = `url(${heroImages[0]})`;
 

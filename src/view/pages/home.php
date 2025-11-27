@@ -153,7 +153,7 @@ nav {
 <!--  Navigation  -->
 
 <nav>
-    <img src="/images/logos/athletiqlogo.png" alt="Athletiq Logo" class="logo-img">
+    <img src="/src/view/images/logos/athletiqlogo.png" alt="Athletiq Logo" class="logo-img">
 
 
     <ul class="nav-links">
@@ -185,7 +185,7 @@ nav {
 
 <!-- link js -->
 
-<script src="/js/home.js"></script>
+<script src="/src/view/js/home.js"></script>
 </body>
 </html>
 
@@ -195,7 +195,7 @@ nav {
     <div class="category-box">
         <a href="shop-men.html">
             <div class="img-container">
-                <img src="/images/productImages/homepage/polotankman.png" alt="Shop Men">
+                <img src="/src/view/images/productImages/homepage/polotankman.png" alt="Shop Men">
                 <div class="overlay-text">Shop Men</div>
             </div>
         </a>
@@ -204,7 +204,7 @@ nav {
     <div class="category-box">
         <a href="shop-women.html">
             <div class="img-container">
-                <img src="/images/productImages/homepage/poloteewomen.png" alt="Shop Women">
+                <img src="/src/view/images/productImages/homepage/poloteewomen.png" alt="Shop Women">
                 <div class="overlay-text">Shop Women</div>
             </div>
         </a>
@@ -280,19 +280,19 @@ nav {
 
     <div class="products">
         <div class="product-card">
-            <img src="/images/productImages/homepage/womenrunningspikes.png" alt="Women Running Spikes">
+            <img src="/src/view/images/productImages/homepage/womenrunningspikes.png" alt="Women Running Spikes">
             <h3>Women's Running Spikes</h3>
             <a href="product1.html"><button class="product-btn">View Product</button></a>
         </div>
 
         <div class="product-card">
-            <<img src="/images/productImages/homepage/menfootballboot.png" alt="Men Football Boots">
+            <img src="/src/view/images/productImages/homepage/menfootballboot.png" alt="Men Football Boots">
             <h3>Men's Football Boots</h3>
             <a href="product2.html"><button class="product-btn">View Product</button></a>
         </div>
 
         <div class="product-card">
-            <img src="/images/productImages/homepage/womenrunningshoes.png" alt="Women Running Shoes">
+            <img src="/src/view/images/productImages/homepage/womenrunningshoes.png" alt="Women Running Shoes">
             <h3>Women's Running Shoes</h3>
             <a href="product3.html"><button class="product-btn">View Product</button></a>
         </div>
@@ -443,7 +443,7 @@ nav {
   </div>
 
   <div class="footer-logo">
-    <img src="/images/logos/athletiqlogotransparent.png" alt="Athletiq Logo">
+    <img src="/src/view/images/logos/athletiqlogotransparent.png" alt="Athletiq Logo">
   </div>
 </footer>
 
