@@ -28,6 +28,7 @@ if ($requestPath === '') {
 switch ($requestPath) {
     // Home page
     case '/':
+    case '/home':
         require __DIR__ . '/src/view/pages/home.php';
         break;
     // Login page
