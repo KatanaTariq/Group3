@@ -1,14 +1,4 @@
 <?php
-
-class AdminController extends BaseController
-{
-    private $pdo;
-
-    public function __construct($pdo)
-    {
-        $this->pdo = $pdo;
-    }
-
     /**
      * handles all administrator functionality for the mvp.
      *
@@ -28,6 +18,4 @@ class AdminController extends BaseController
      * - show low-stock warnings using inventory + thresholds 
      *
      */
-}
-
 ?>
