@@ -1,9 +1,32 @@
 <?php
-// Create database connection
+
+// Routing
+$request = $_SERVER['REQUEST_URI'];
+$requestPath = parse_url($request, PHP_URL_PATH);
+$method = $_SERVER['REQUEST_METHOD'];
+
+// Clean up the request path - remove index
+$requestPath = str_replace('/index.php', '', $requestPath);
+if ($requestPath === '') {
+    $requestPath = '/';
+}
+
+// Start session
+session_start();
+
+// Create connection to database
 include __DIR__ . "/config/database.php";
 
-// Load the controllers
-require __DIR__ . '/src/controller/BaseController.php';
+// Create Models
+include __DIR__ . '/src/model/Admin.php';
+include __DIR__ . '/src/model/Auth.php';
+include __DIR__ . '/src/model/Basket.php';
+include __DIR__ . '/src/model/Customer.php';
+include __DIR__ . '/src/model/Order.php';
+include __DIR__ . '/src/model/Product.php';
+include __DIR__ . '/src/model/Wishlist.php';
+
+// Include the controllers
 require __DIR__ . '/src/controller/AdminController.php';
 require __DIR__ . '/src/controller/AuthController.php';
 require __DIR__ . '/src/controller/BasketController.php';
@@ -14,32 +37,119 @@ require __DIR__ . '/src/controller/ReturnController.php';
 require __DIR__ . '/src/controller/ReviewController.php';
 require __DIR__ . '/src/controller/WishlistController.php';
 
-// Get the current request URL
-$request = $_SERVER['REQUEST_URI'];
-$requestPath = parse_url($request, PHP_URL_PATH);
+// Initialise controllers
+$auth = new AuthController($pdo);
 
-// Remove /index.php from path if present
-$requestPath = str_replace('/index.php', '', $requestPath);
-if ($requestPath === '') {
-    $requestPath = '/';
-}
 
-// Basic Router
 switch ($requestPath) {
-    // Home page
+
     case '/':
     case '/home':
-        require __DIR__ . '/src/view/pages/home.php';
+        handleHomeRequest();
         break;
 
-    // Login page
+    case '/register':
+        handleRegisterRequest();
+        break;
+
     case '/login':
-        require __DIR__ . '/src/view/pages/login.php';
+        handleLoginRequest();
         break;
 
-    // 404 fallback
+    case '/logout':
+        handleLogoutRequest();
+        break;
+
+    case '/profile':
+        handleProfileRequest();
+        break;
+
     default:
-        http_response_code(404);
-        require __DIR__ . '/src/view/pages/404.php';
+        handle404Request();
         break;
 }
+
+
+/**
+ * Handles home page requests
+ * 
+ * @return void
+ */
+function handleHomeRequest() {
+    require __DIR__ . '/src/view/pages/home.php';
+}
+
+/**
+ * Handle registration page requests
+ * 
+ * @return void
+ */
+function handleRegisterRequest() {
+    global $auth;
+
+    switch ($_SERVER['REQUEST_METHOD']) {
+
+        // Display the registration form for GET requests
+        case 'GET':
+            $auth->displayRegister();
+            break;
+        
+        // Handle registration form submission for POST requests
+        case 'POST':
+            $auth->register();
+            break;
+    }
+}
+
+/**
+ * Handle login page requests
+ * 
+ * @return void
+ */
+function handleLoginRequest() {
+    global $auth;
+
+    switch ($_SERVER['REQUEST_METHOD']) {
+
+        // Display the login form for GET requests
+        case 'GET':
+            $auth->displayLogin();
+            break;
+        
+        // Handle login form submission for POST requests
+        case 'POST':
+            $auth->login();
+            break;
+    }
+}
+
+/**
+ * Handle logout requests
+ * 
+ * @return void
+ */
+function handleLogoutRequest() {
+    global $auth;
+    $auth->logout();
+}
+
+/**
+ * Handle profile page requests
+ * 
+ * @return void
+ */
+function handleProfileRequest() {
+    require __DIR__ . '/src/view/pages/profile.php';
+}
+
+/**
+ * Handle 404 page requests
+ * 
+ * @return void
+ */
+function handle404Request() {
+    http_response_code(404);
+    require __DIR__ . '/src/view/pages/404.php';
+}
+
+?>
