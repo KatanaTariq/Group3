@@ -1,0 +1,11 @@
+<?php
+
+    /**
+     * handles user shopping basket operations.
+     *
+     * responsibilities:
+     * - add, remove, update basket items
+     * - calculate and display basket subtotal
+     */
+
+?>
