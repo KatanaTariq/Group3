@@ -1,13 +1,4 @@
 <?php
-
-/**
- * handles all authentication tasks for the mvp.
- *
- * responsibilities:
- * - login and logout
- * - register
- */
-
 class AuthController
 {
     private CustomerModel $customerModel;
