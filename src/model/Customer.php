@@ -46,9 +46,8 @@ class Customer
     }
 }
 
-
 /**
- * CustomerModel - handles all database operations for customers.
+ * CustomerModel handles all database operations for customers.
  */
 class CustomerModel
 {
@@ -60,7 +59,7 @@ class CustomerModel
     }
 
     /**
-     * find a customer by email (used for login + validation).
+     * find a customer by email
      */
     public function getCustomerByEmail(string $email): ?Customer
     {
@@ -81,7 +80,7 @@ class CustomerModel
     }
 
     /**
-     * find a customer by ID (used after login).
+     * find a customer by ID
      */
     public function getCustomerByID(int $id): ?Customer
     {
@@ -102,7 +101,7 @@ class CustomerModel
     }
 
     /**
-     * register a new customer.
+     * register a new customer
      */
     public function registerCustomer(array $userData): ?Customer
     {
