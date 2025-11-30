@@ -1,7 +1,7 @@
 /*******************************************
 Developer: Mokutmfonobong Utuk
 University ID: 240240082
-Function: adds, removes and updates items
+Function: adds, removes, updates items with a checkout function
 *******************************************/
 
 <?php
