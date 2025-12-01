@@ -77,7 +77,7 @@ switch ($requestPath) {
 
     case '/shop-women':
     case '/women':
-    case '/womenspage':
+    case '/womens_page':
         handleWomenPageRequest();
         break;
 
