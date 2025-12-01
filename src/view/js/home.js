@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const heroBox = document.getElementById("hero-slideshow");
 
     const heroImages = [
-        "/src/view/images/productImages/homepage/footballjersey.png",
-        "/src/view/images/productImages/homepage/Bottomsjoggers.png",
-        "/src/view/images/productImages/homepage/boxingshortmen.png",
-        "/src/view/images/productImages/homepage/menhoodie.png"
+        "/src/view/images/productImages/home/football_jersey.png",
+        "/src/view/images/productImages/home/home_bottoms_joggers.png",
+        "/src/view/images/productImages/home/boxing_short_men.png",
+        "/src/view/images/productImages/home/men_hoodie.png"
     ];
 
 

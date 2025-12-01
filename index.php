@@ -39,7 +39,6 @@ require __DIR__ . '/src/controller/WishlistController.php';
 
 // Initialise Controllers
 $auth = new AuthController($pdo);
-$product = new ProductController($pdo);
 
 switch ($requestPath) {
 

@@ -431,7 +431,7 @@ nav {
     <div class="category-box">
         <a href="#">
             <div class="img-container">
-                <img src="../images/productImages/home/polo_tank_man.png" alt="Shop Men">
+                <img src="/src/view/images/productImages/home/polo_tank_man.png" alt="Shop Men">
                 <div class="overlay-text">Shop Men</div>
             </div>
         </a>
@@ -440,7 +440,7 @@ nav {
     <div class="category-box">
         <a href="womens_page.php"> 
             <div class="img-container">
-                <img src="../images/productImages/home/polo_tee_women.png" alt="Shop Women">
+                <img src="/src/view/images/productImages/home/polo_tee_women.png" alt="Shop Women">
                 <div class="overlay-text">Shop Women</div>
             </div>
         </a>
@@ -455,7 +455,7 @@ nav {
     <div class="products">
 
         <div class="product-card">
-            <img src="../images/productImages/home/women_running_spikes.png" alt="Women Running Spikes">
+            <img src="/src/view/images/productImages/home/women_running_spikes.png" alt="Women Running Spikes">
             <h3>Women's Running Spikes</h3>
             <a href="womens_page.php">
                 <button class="product-btn">View Product</button>
@@ -463,7 +463,7 @@ nav {
         </div>
 
         <div class="product-card">
-            <img src="../images/productImages/home/men_football_boot.png" alt="Men Football Boots">
+            <img src="/src/view/images/productImages/home/men_football_boot.png" alt="Men Football Boots">
             <h3>Men's Football Boots</h3>
             <a href="#">
                 <button class="product-btn">View Product</button>
@@ -471,7 +471,7 @@ nav {
         </div>
 
         <div class="product-card">
-            <img src="../images/productImages/home/women_running_shoes.png" alt="Women Running Shoes">
+            <img src="/src/view/images/productImages/home/women_running_shoes.png" alt="Women Running Shoes">
             <h3>Women's Running Shoes</h3>
             <a href="womens_page.php">
                 <button class="product-btn">View Product</button>
