@@ -48,6 +48,10 @@ switch ($requestPath) {
         handleHomeRequest();
         break;
 
+    case '/about':
+        handleAboutRequest();
+        break;
+
     case '/register':
         handleRegisterRequest();
         break;
@@ -72,6 +76,7 @@ switch ($requestPath) {
         handleCheckoutRequest();
         break;
 
+    case '/shop-women':
     case '/women':
     case '/womenspage':
         handleWomenPageRequest();
@@ -89,6 +94,15 @@ switch ($requestPath) {
  */
 function handleHomeRequest() {
     require __DIR__ . '/src/view/pages/home.php';
+}
+
+/**
+ * Handles About Page Requests
+ * 
+ * @return void
+ */
+function handleAboutRequest() {
+    require __DIR__ . '/src/view/pages/about.php';
 }
 
 /**
@@ -178,7 +192,7 @@ function handleCheckoutRequest() {
  * @return void
  */
 function handleWomenPageRequest() {
-    require __DIR__ . '/src/view/pages/womensPage.php';
+    require __DIR__ . '/src/view/pages/womens_page.php';
 }
 
 /**
