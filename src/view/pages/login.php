@@ -103,14 +103,14 @@
         </div>
 
         <div class="details">
-            <form action="">
+            <form action="/login" method="post">
                 <div class="input-box">
-                    <input type="text" placeholder="Email address" required>
+                    <input type="text" name="email" placeholder="Email address" required>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Password" required>
+                    <input type="password" name="password" placeholder="Password" required>
                 </div>
-                   
+                <button type="submit" class="login-button">login</button>
             </form>
         </div>
 

@@ -331,7 +331,7 @@ select {
 
 
 <div class="product-card" data-category="tops">
-    <img src="/src/view/images/productImages/womens/woman_polo_tee.png" class="product-img">
+    <img src="/src/view/images/productImages/womens/women_polo_tee.png" class="product-img">
     <p class="product-name">Athletiq Polo Tee</p>
     <p class="price">£39.99</p>
     <select>
@@ -546,7 +546,7 @@ select {
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="/src/view/images/productImages/womens/women_swim_cap.png" class="product-img">
+    <img src="/src/view/images/productImages/womens/women_swimcap.png" class="product-img">
     <p class="product-name">Athletiq Swimcap</p>
     <p class="price">£10.99</p>
     <select>
