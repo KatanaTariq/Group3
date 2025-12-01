@@ -7,7 +7,7 @@ SET time_zone = "+00:00";
 -- =====================================================
 
 -- Customer table
-CREATE TABLE Customer (
+CREATE TABLE customer (
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE Customer (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Admin table
-CREATE TABLE Admin (
+CREATE TABLE admin (
     admin_id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
@@ -32,39 +32,38 @@ CREATE TABLE Admin (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Address table
-CREATE TABLE Address (
+CREATE TABLE address (
     address_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
     label VARCHAR(50),
-    address_type ENUM('Billing', 'Shipping', 'Both') NOT NULL,
+    address_type ENUM('BILLING', 'SHIPPING', 'BOTH') NOT NULL,
     street VARCHAR(100) NOT NULL,
     post_code VARCHAR(15) NOT NULL,
     city VARCHAR(100) NOT NULL,
     county VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON DELETE CASCADE
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Foreign key constraints are added after Address table is created to avoid circular dependency
 
-ALTER TABLE Customer 
+ALTER TABLE customer 
 ADD CONSTRAINT fk_customer_billing_address 
-FOREIGN KEY (primary_billing_address_id) REFERENCES Address(address_id) ON DELETE SET NULL;
+FOREIGN KEY (primary_billing_address_id) REFERENCES address(address_id) ON DELETE SET NULL;
 
-ALTER TABLE Customer 
+ALTER TABLE customer 
 ADD CONSTRAINT fk_customer_shipping_address 
-FOREIGN KEY (primary_shipping_address_id) REFERENCES Address(address_id) ON DELETE SET NULL;
-
+FOREIGN KEY (primary_shipping_address_id) REFERENCES address(address_id) ON DELETE SET NULL;
 
 -- CustomerSession table
-CREATE TABLE CustomerSession (
+CREATE TABLE customer_session (
     session_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
     token VARCHAR(255) NOT NULL,
-    expires_at DATETIME NOT NULL,
-    created_at DATETIME NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON DELETE CASCADE
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================================================
@@ -72,18 +71,18 @@ CREATE TABLE CustomerSession (
 -- =====================================================
 
 -- Category table (self-referencing)
-CREATE TABLE Category (
+CREATE TABLE category (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     description TEXT,
     parent_category_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (parent_category_id) REFERENCES Category(category_id) ON DELETE SET NULL
+    FOREIGN KEY (parent_category_id) REFERENCES category(category_id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Product table
-CREATE TABLE Product (
+CREATE TABLE product (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -91,11 +90,11 @@ CREATE TABLE Product (
     price DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES Category(category_id) ON DELETE RESTRICT
+    FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ProductVariant table
-CREATE TABLE ProductVariant (
+CREATE TABLE product_variant (
     variant_id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     size VARCHAR(10),
@@ -103,80 +102,80 @@ CREATE TABLE ProductVariant (
     sku VARCHAR(50) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ProductImage table
-CREATE TABLE ProductImage (
+CREATE TABLE product_image (
     image_id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     image_url VARCHAR(255) NOT NULL,
     is_main TINYINT(1) NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Review table
-CREATE TABLE Review (
+CREATE TABLE review (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     customer_id INT NOT NULL,
-    rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
     comment TEXT,
-    created_at DATETIME NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE,
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON DELETE CASCADE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================================================
 -- ORDER PROCESSING TABLES
 -- =====================================================
 
-CREATE TABLE `Order` (
+CREATE TABLE `order` (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
     order_number VARCHAR(50) UNIQUE NOT NULL,
     total_amount DECIMAL(10,2) NOT NULL,
-    status ENUM('Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled') NOT NULL DEFAULT 'Pending',
-    created_at DATETIME NOT NULL,
+    status ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON DELETE RESTRICT
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- OrderLine table
-CREATE TABLE OrderLine (
+CREATE TABLE order_line (
     order_line_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
     variant_id INT NOT NULL,
     quantity INT NOT NULL CHECK (quantity > 0),
     unit_price DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES `Order`(order_id) ON DELETE CASCADE,
-    FOREIGN KEY (variant_id) REFERENCES ProductVariant(variant_id) ON DELETE RESTRICT
+    FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE CASCADE,
+    FOREIGN KEY (variant_id) REFERENCES product_variant(variant_id) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Return table
-CREATE TABLE `Return` (
+CREATE TABLE `return` (
     return_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
     customer_id INT NOT NULL,
     reason VARCHAR(300) NOT NULL,
-    status ENUM('Pending', 'Approved', 'Rejected', 'Refunded') NOT NULL DEFAULT 'Pending',
-    created_at DATETIME NOT NULL,
+    status ENUM('PENDING', 'APPROVED', 'REJECTED', 'REFUNDED') NOT NULL DEFAULT 'PENDING',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES `Order`(order_id) ON DELETE RESTRICT,
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON DELETE RESTRICT
+    FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE RESTRICT,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ReturnItem table
-CREATE TABLE ReturnItem (
+CREATE TABLE return_item (
     return_item_id INT AUTO_INCREMENT PRIMARY KEY,
     return_id INT NOT NULL,
     variant_id INT NOT NULL,
     quantity INT NOT NULL CHECK (quantity > 0),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (return_id) REFERENCES `Return`(return_id) ON DELETE CASCADE,
-    FOREIGN KEY (variant_id) REFERENCES ProductVariant(variant_id) ON DELETE RESTRICT
+    FOREIGN KEY (return_id) REFERENCES `return`(return_id) ON DELETE CASCADE,
+    FOREIGN KEY (variant_id) REFERENCES product_variant(variant_id) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================================================
@@ -184,24 +183,24 @@ CREATE TABLE ReturnItem (
 -- =====================================================
 
 -- Basket table
-CREATE TABLE Basket (
+CREATE TABLE basket (
     basket_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT UNIQUE NOT NULL, -- One basket per customer
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON DELETE CASCADE
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- BasketItem table
-CREATE TABLE BasketItem (
+CREATE TABLE basket_item (
     basket_item_id INT AUTO_INCREMENT PRIMARY KEY,
     basket_id INT NOT NULL,
     variant_id INT NOT NULL,
     quantity INT NOT NULL CHECK (quantity > 0),
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (basket_id) REFERENCES Basket(basket_id) ON DELETE CASCADE,
-    FOREIGN KEY (variant_id) REFERENCES ProductVariant(variant_id) ON DELETE CASCADE,
+    FOREIGN KEY (basket_id) REFERENCES basket(basket_id) ON DELETE CASCADE,
+    FOREIGN KEY (variant_id) REFERENCES product_variant(variant_id) ON DELETE CASCADE,
     UNIQUE KEY unique_basket_variant (basket_id, variant_id) -- Prevent duplicate variants in same basket
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -210,24 +209,24 @@ CREATE TABLE BasketItem (
 -- =====================================================
 
 -- Inventory table
-CREATE TABLE Inventory (
+CREATE TABLE inventory (
     inventory_id INT AUTO_INCREMENT PRIMARY KEY,
     variant_id INT UNIQUE NOT NULL, -- One inventory record per variant
     current_stock INT NOT NULL DEFAULT 0 CHECK (current_stock >= 0),
     low_stock_threshold INT NOT NULL DEFAULT 10,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (variant_id) REFERENCES ProductVariant(variant_id) ON DELETE CASCADE
+    FOREIGN KEY (variant_id) REFERENCES product_variant(variant_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- InventoryLog table
-CREATE TABLE InventoryLog (
+CREATE TABLE inventory_log (
     log_id INT AUTO_INCREMENT PRIMARY KEY,
     variant_id INT NOT NULL,
     change_amount INT NOT NULL, 
     reason VARCHAR(100) NOT NULL,
-    created_at DATETIME NOT NULL,
-    FOREIGN KEY (variant_id) REFERENCES ProductVariant(variant_id) ON DELETE CASCADE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (variant_id) REFERENCES product_variant(variant_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================================================
@@ -235,62 +234,11 @@ CREATE TABLE InventoryLog (
 -- =====================================================
 
 -- ContactMessage table (standalone, no relationships)
-CREATE TABLE ContactMessage (
+CREATE TABLE contact_message (
     message_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     subject VARCHAR(100) NOT NULL,
     message TEXT NOT NULL,
-    created_at DATETIME NOT NULL
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- =====================================================
--- TRIGGERS
--- =====================================================
-
-    -- Trigger to update inventory when an order is placed
-    DELIMITER //
-    CREATE TRIGGER after_orderline_insert
-    AFTER INSERT ON OrderLine
-    FOR EACH ROW
-    BEGIN
-        -- Update inventory
-        UPDATE Inventory 
-        SET current_stock = current_stock - NEW.quantity 
-        WHERE variant_id = NEW.variant_id;
-        
-        -- Log the inventory change
-        INSERT INTO InventoryLog (variant_id, change_amount, reason, created_at)
-        VALUES (NEW.variant_id, -NEW.quantity, 'Order placed', NOW());
-    END//
-    DELIMITER ;
-
-    -- Trigger to update inventory when a return is approved
-    DELIMITER //
-    CREATE TRIGGER after_return_approved
-    AFTER UPDATE ON `Return`
-    FOR EACH ROW
-    BEGIN
-        IF NEW.status = 'Approved' AND OLD.status != 'Approved' THEN
-            -- Update inventory for each returned item
-            UPDATE Inventory i
-            INNER JOIN ReturnItem ri ON i.variant_id = ri.variant_id
-            SET i.current_stock = i.current_stock + ri.quantity
-            WHERE ri.return_id = NEW.return_id;
-        END IF;
-    END//
-    DELIMITER ;
-
-    -- Trigger to ensure only one main image per product
-    DELIMITER //
-    CREATE TRIGGER before_productimage_insert
-    BEFORE INSERT ON ProductImage
-    FOR EACH ROW
-    BEGIN
-        IF NEW.is_main = 1 THEN
-            UPDATE ProductImage 
-            SET is_main = 0 
-            WHERE product_id = NEW.product_id AND is_main = 1;
-        END IF;
-    END//
-    DELIMITER ;
