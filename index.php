@@ -5,19 +5,19 @@ $request = $_SERVER['REQUEST_URI'];
 $requestPath = parse_url($request, PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Clean up the request path - remove index
+// Clean Up the Request Path - Remove index.php
 $requestPath = str_replace('/index.php', '', $requestPath);
 if ($requestPath === '') {
     $requestPath = '/';
 }
 
-// Start session
+// Start Session
 session_start();
 
-// Create connection to database
+// Create Connection to Database
 include __DIR__ . "/config/database.php";
 
-// Create Models
+// Include Models
 include __DIR__ . '/src/model/Admin.php';
 include __DIR__ . '/src/model/Auth.php';
 include __DIR__ . '/src/model/Basket.php';
@@ -26,7 +26,7 @@ include __DIR__ . '/src/model/Order.php';
 include __DIR__ . '/src/model/Product.php';
 include __DIR__ . '/src/model/Wishlist.php';
 
-// Include the controllers
+// Include Controllers
 require __DIR__ . '/src/controller/AdminController.php';
 require __DIR__ . '/src/controller/AuthController.php';
 require __DIR__ . '/src/controller/BasketController.php';
@@ -37,19 +37,15 @@ require __DIR__ . '/src/controller/ReturnController.php';
 require __DIR__ . '/src/controller/ReviewController.php';
 require __DIR__ . '/src/controller/WishlistController.php';
 
-// Initialise controllers
+// Initialise Controllers
 $auth = new AuthController($pdo);
-$auth = new ProductController($pdo);
+$product = new ProductController($pdo);
 
 switch ($requestPath) {
 
     case '/':
     case '/home':
         handleHomeRequest();
-        break;
-
-    case '/about':
-        handleAboutRequest();
         break;
 
     case '/register':
@@ -87,7 +83,7 @@ switch ($requestPath) {
 }
 
 /**
- * Handles home page requests
+ * Handles Home Page Requests
  * 
  * @return void
  */
@@ -96,16 +92,7 @@ function handleHomeRequest() {
 }
 
 /**
- * Handles about page requests
- *
- * @return void
- */
-function handleAboutRequest() {
-    require __DIR__ . '/src/view/pages/about.php';
-}
-
-/**
- * Handle registration page requests
+ * Handles Registration Page Requests
  * 
  * @return void
  */
@@ -114,12 +101,12 @@ function handleRegisterRequest() {
 
     switch ($_SERVER['REQUEST_METHOD']) {
 
-        // display the registration form for GET requests
+        // Display the Registration Form for GET Requests
         case 'GET':
             $auth->displayRegister();
             break;
         
-        // handle registration form submission for POST requests
+        // Handle Registration Form Submission for POST Requests
         case 'POST':
             $auth->register();
             break;
@@ -127,7 +114,7 @@ function handleRegisterRequest() {
 }
 
 /**
- * Handle login page requests
+ * Handles Login Page Requests
  * 
  * @return void
  */
@@ -136,12 +123,12 @@ function handleLoginRequest() {
 
     switch ($_SERVER['REQUEST_METHOD']) {
 
-        // display the login form for GET requests
+        // Display the Login Form for GET Requests
         case 'GET':
             $auth->displayLogin();
             break;
         
-        // handle login form submission for POST requests
+        // Handle Login Form Submission for POST Requests
         case 'POST':
             $auth->login();
             break;
@@ -149,7 +136,7 @@ function handleLoginRequest() {
 }
 
 /**
- * Handle logout requests
+ * Handles Logout Requests
  * 
  * @return void
  */
@@ -159,7 +146,7 @@ function handleLogoutRequest() {
 }
 
 /**
- * Handle profile page requests
+ * Handles Profile Page Requests
  * 
  * @return void
  */
@@ -168,7 +155,7 @@ function handleProfileRequest() {
 }
 
 /**
- * Handles basket page requests
+ * Handles Basket Page Requests
  *
  * @return void
  */
@@ -177,7 +164,7 @@ function handleBasketRequest() {
 }
 
 /**
- * Handles checkout page requests
+ * Handles Checkout Page Requests
  *
  * @return void
  */
@@ -186,7 +173,7 @@ function handleCheckoutRequest() {
 }
 
 /**
- * Handles women's category page requests
+ * Handles Women's Category Page Requests
  *
  * @return void
  */
@@ -195,7 +182,7 @@ function handleWomenPageRequest() {
 }
 
 /**
- * Handle 404 page requests
+ * Handles 404 Page Requests
  * 
  * @return void
  */
