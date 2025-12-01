@@ -14,6 +14,12 @@ if ($requestPath === '') {
 // Start Session
 session_start();
 
+// Security helper (input validation, CSRF, headers)
+require __DIR__ . '/src/security.php';
+
+// Send secure HTTP headers on every request
+send_security_headers();
+
 // Create Connection to Database
 include __DIR__ . "/config/database.php";
 
