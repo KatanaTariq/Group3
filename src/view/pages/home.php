@@ -396,20 +396,21 @@ nav {
 <body>
 
 <nav>
-    <img src="athletiqlogo.png" alt="Athletiq Logo" class="logo-img">
+    <img src="../images/logos/athletiqLogo.png" alt="Athletiq Logo" class="logo-img">
 
     <ul class="nav-links">
         <li><a href="#">Men</a></li>
-        <li><a href="../Womensproductpage/womenspage.html">Women</a></li> 
+        <li><a href="../pages/womenspage.php">Women</a></li> 
     </ul>
 
-    <div class="search-box"> <input type="text" placeholder="Search products..."> </div>
+    <div class="search-box">
+        <input type="text" placeholder="Search products...">
+    </div>
 
     <div class="auth-btns">
-        <button onclick="location.href='basket.html'" class="basket-btn">View Basket</button>
-        <button class="signup-btn">Sign Up</button>
-        <button class="login-btn">Log In</button>
-
+        <button onclick="location.href='../pages/basket.php'" class="basket-btn">View Basket</button>
+        <button onclick="location.href='../pages/register.php'" class="signup-btn">Sign Up</button>
+        <button onclick="location.href='../pages/login.php'" class="login-btn">Log In</button>
     </div>
 </nav>
 
@@ -419,53 +420,64 @@ nav {
     <div class="hero-text">
         <h1>Welcome to Athletiq</h1>
         <p>Premium Sportswear. Designed for the Athletiqs, by the Athletes.</p>
-        <a href="about.html"><button class="learn-more-btn">Learn more About Us</button></a>
+        <a href="../pages/about.php">
+            <button class="learn-more-btn">Learn more About Us</button>
+        </a>
     </div>
 </section>
 
 
 <section class="categories">
     <div class="category-box">
-        <a href="shop-men.html">
+        <a href="#">
             <div class="img-container">
-                <img src="polotankman.png" alt="Shop Men">
+                <img src="../images/productImages/home/poloTankMan.png" alt="Shop Men">
                 <div class="overlay-text">Shop Men</div>
             </div>
         </a>
     </div>
 
     <div class="category-box">
-        <a href="../Womensproductpage/womenspage.html"> 
+        <a href="../pages/womenspage.php"> 
             <div class="img-container">
-                <img src="poloteewomen.png" alt="Shop Women">
+                <img src="../images/productImages/home/poloTeeWomen.png" alt="Shop Women">
                 <div class="overlay-text">Shop Women</div>
             </div>
         </a>
     </div>
 </section>
 
+
 <section class="just-in">
     <h2>Just In!</h2>
     <p>Browse our Newest Arrivals at Athletiq.</p>
 
     <div class="products">
+
         <div class="product-card">
-            <img src="womenrunningspikes.png" alt="Women Running Spikes">
+            <img src="../images/productImages/home/womenRunningSpikes.png" alt="Women Running Spikes">
             <h3>Women's Running Spikes</h3>
-            <a href="../Womensproductpage/womenspage.html"><button class="product-btn">View Product</button></a>
+            <a href="../pages/womenspage.php">
+                <button class="product-btn">View Product</button>
+            </a>
         </div>
 
         <div class="product-card">
-            <img src="menfootballboot.png" alt="Men Football Boots">
+            <img src="../images/productImages/home/menFootballBoot.png" alt="Men Football Boots">
             <h3>Men's Football Boots</h3>
-            <a href="product2.html"><button class="product-btn">View Product</button></a>
+            <a href="#">
+                <button class="product-btn">View Product</button>
+            </a>
         </div>
 
         <div class="product-card">
-            <img src="womenrunningshoes.png" alt="Women Running Shoes">
+            <img src="../images/productImages/home/womenRunningShoes.png" alt="Women Running Shoes">
             <h3>Women's Running Shoes</h3>
-            <a href="../Womensproductpage/womenspage.html"><button class="product-btn">View Product</button></a>
+            <a href="../pages/womenspage.php">
+                <button class="product-btn">View Product</button>
+            </a>
         </div>
+
     </div>
 </section>
 
@@ -473,29 +485,33 @@ nav {
 <section class="signup-promo">
     <h2>Love Athletiq?</h2>
     <p>Join our Athletiq champions and Sign up now! 10% Welcome voucher included and other deals, exclusive to members only.</p>
-    <a href="signup.html"><button class="signup-btn">Sign Up Now</button></a>
+    <a href="../pages/register.php">
+        <button class="signup-btn">Sign Up Now</button>
+    </a>
 </section>
 
 
 <footer id="site-footer">
   <div class="footer-nav">
     <h3>Quick Links</h3>
-    <a href="index.html">Home</a>
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact Us</a>
-    <a href="signin.html">Sign In</a>
+    <a href="/home">Home</a>
+    <a href="/about">About Us</a>
+    <a href="/contact">Contact Us</a>
+    <a href="/login">Sign In</a>
   </div>
 
   <div class="footer-center">
     <p>Let's stay in touch! Sign up to experience the benefits of Athletiq!</p>
-    <a href="signup.html"><button class="footer-signup-btn">Sign Up</button></a>
+    <a href="../pages/register.php">
+        <button class="footer-signup-btn">Sign Up</button>
+    </a>
   </div>
 
   <div class="footer-logo">
-    <img src="athletiqlogotransparent.png" alt="Athletiq Logo">
+    <img src="../images/logos/athletiqLogoTransparent.png" alt="Athletiq Logo">
   </div>
 </footer>
 
-<script src="src\view\js\home.js"></script>
+<script src="../js/home.js"></script>
 </body>
 </html>

@@ -39,13 +39,17 @@ require __DIR__ . '/src/controller/WishlistController.php';
 
 // Initialise controllers
 $auth = new AuthController($pdo);
-
+$auth = new ProductController($pdo);
 
 switch ($requestPath) {
 
     case '/':
     case '/home':
         handleHomeRequest();
+        break;
+
+    case '/about':
+        handleAboutRequest();
         break;
 
     case '/register':
@@ -64,11 +68,23 @@ switch ($requestPath) {
         handleProfileRequest();
         break;
 
+    case '/basket':
+        handleBasketRequest();
+        break;
+
+    case '/checkout':
+        handleCheckoutRequest();
+        break;
+
+    case '/women':
+    case '/womenspage':
+        handleWomenPageRequest();
+        break;
+
     default:
         handle404Request();
         break;
 }
-
 
 /**
  * Handles home page requests
@@ -77,6 +93,15 @@ switch ($requestPath) {
  */
 function handleHomeRequest() {
     require __DIR__ . '/src/view/pages/home.php';
+}
+
+/**
+ * Handles about page requests
+ *
+ * @return void
+ */
+function handleAboutRequest() {
+    require __DIR__ . '/src/view/pages/about.php';
 }
 
 /**
@@ -89,12 +114,12 @@ function handleRegisterRequest() {
 
     switch ($_SERVER['REQUEST_METHOD']) {
 
-        // Display the registration form for GET requests
+        // display the registration form for GET requests
         case 'GET':
             $auth->displayRegister();
             break;
         
-        // Handle registration form submission for POST requests
+        // handle registration form submission for POST requests
         case 'POST':
             $auth->register();
             break;
@@ -111,12 +136,12 @@ function handleLoginRequest() {
 
     switch ($_SERVER['REQUEST_METHOD']) {
 
-        // Display the login form for GET requests
+        // display the login form for GET requests
         case 'GET':
             $auth->displayLogin();
             break;
         
-        // Handle login form submission for POST requests
+        // handle login form submission for POST requests
         case 'POST':
             $auth->login();
             break;
@@ -143,6 +168,33 @@ function handleProfileRequest() {
 }
 
 /**
+ * Handles basket page requests
+ *
+ * @return void
+ */
+function handleBasketRequest() {
+    require __DIR__ . '/src/view/pages/basket.php';
+}
+
+/**
+ * Handles checkout page requests
+ *
+ * @return void
+ */
+function handleCheckoutRequest() {
+    require __DIR__ . '/src/view/pages/checkout.php';
+}
+
+/**
+ * Handles women's category page requests
+ *
+ * @return void
+ */
+function handleWomenPageRequest() {
+    require __DIR__ . '/src/view/pages/womensPage.php';
+}
+
+/**
  * Handle 404 page requests
  * 
  * @return void
@@ -151,5 +203,3 @@ function handle404Request() {
     http_response_code(404);
     require __DIR__ . '/src/view/pages/404.php';
 }
-
-?>
