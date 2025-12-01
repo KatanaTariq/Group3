@@ -1,10 +1,10 @@
+<?php
+
 /*******************************************
 Developer: Mokutmfonobong Utuk
 University ID: 240240082
 Function: adds, removes, updates items with a checkout function
 *******************************************/
-
-<?php
 
 namespace AthLETIQ\Model;
 
@@ -89,8 +89,8 @@ class Basket {
         $basketID = $this->getOrCreateBasket();
 
         $sql = "SELECT SUM(bi.quantity * p.base_price) AS subtotal
-                FROM basketitem bi
-                JOIN productvariant pv ON bi.variant_id = pv.variant_id
+                FROM basket_item bi
+                JOIN product_variant pv ON bi.variant_id = pv.variant_id
                 JOIN product p ON pv.product_id = p.product_id
                 WHERE bi.basket_id = :basket_id
                 ";
@@ -109,7 +109,7 @@ class Basket {
      * @param int $quantity the amount to add(defaults to 1)
      * @return bool|string true on success, error message string on failure
      */
-    public function addItem(int $variantID, int $quantiy = 1): string|bool {
+    public function addItem(int $variantID, int $quantity = 1): string|bool {
         if($quantity < 1) {
             throw new \InvalidArgumentException("Quantity must be at least 1.");
         }
@@ -122,16 +122,16 @@ class Basket {
                             WHERE i.variant_id = :variant_id
                         ";
         $stmt = $this->pdo->prepare($stockCheckSql);
-        $stmt->$execute(['baslet_id' => $basketID, 'variant_id' => $variantID]);
+        $stmt->execute(['basket_id' => $basketID, 'variant_id' => $variantID]);
         $data = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        if (!data) {
-            throw new \Exception("Error: Product variant not found in inventory.");
+        if (!$data) {
+            throw new \Exception("Product variant ID {$variantID} not found in the inventory.");
 
         }
 
         $currentStock = (int)$data['current_stock'];
-        $currentBasketQty (int)($data['basket_quantity'] ?? 0);
+        $currentBasketQty = (int)($data['basket_quantity'] ?? 0);
         $newTotalQuantity = $currentBasketQty + $quantity;
 
         // 2 check if the new total quantity exceeds available stock
@@ -143,7 +143,7 @@ class Basket {
         
             if ($currentBasketQty > 0){
                 //item exists: UPDATE quantity
-                $updateSql = "UPDATE basket_item SET quantity = :new_quantiy WHERE basket_id = :basket_id AND variant_id = :variant_id
+                $updateSql = "UPDATE basket_item SET quantity = :new_quantity WHERE basket_id = :basket_id AND variant_id = :variant_id
                 ";
                 $stmt = $this->pdo->prepare($updateSql);
                 $stmt->execute(['new_quantity' => $newTotalQuantity,
@@ -153,8 +153,8 @@ class Basket {
 
             } else {
                 //item does not exist: insert new record
-                $insertSql = "INSERT INTO basket_item (basket_id, variant_id. quantity)
-                                VALUES (:basket_id, :variant_id, :quantity_id)
+                $insertSql = "INSERT INTO basket_item (basket_id, variant_id, quantity)
+                                VALUES (:basket_id, :variant_id, :quantity)
                 ";
                 $stmt = $this->pdo->prepare($insertSql);
                 $stmt->execute(['basket_id' => $basketID,
@@ -192,7 +192,7 @@ class Basket {
         $data = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if (!data) {
-            throw new \Exception("Error: Basket item not found or does not belong to your basket.");
+            throw new \Exception("Basket item not found or does not belong to your basket.");
         }
 
         $currentStock = (int)$data['current_stock'];
@@ -205,12 +205,12 @@ class Basket {
         //3. execute the update
         
         $updateSql = "UPDATE basket_item SET quantity = :new_qunatity, updated_at =NOW()
-                        WHERE basket_item_id = :basket_item_id AND basket_id = :basket_id
-                        ";
+                      WHERE basket_item_id = :basket_item_id AND basket_id = :basket_id
+                      ";
         $stmt = $this->pdo->prepare($updateSql);
         $stmt->execute(['new_quantity' => $newQuantity,
-                            'basket_item_id' => $basketItemID,
-                            'basket_id' => $basketID
+                        'basket_item_id' => $basketItemID,
+                        'basket_id' => $basketID
         ]);
         return $stmt->rowCount() > 0;
         
@@ -256,12 +256,12 @@ class Basket {
         return $items ?: null;
     }
 
-     /**
+    /**
      * Generates a unique, short order number for the Order table
      * @return string A unique number string
-     */
+    */
     protected function generateOrderNumber(): string{
-        simple 8-character unique string based on time and a random value
+        //simple 8-character unique string based on time and a random value
             return strtoupper(substr(uniqid(), -4) . bin2hex(random_bytes(2)));
     }
 
@@ -286,7 +286,7 @@ class Basket {
 
             if (empty($basketItem)) {
                 $this->pdo->rollBack();
-                return "Your basket is empty. Checkout cannot be finalized.";
+                throw new \Exception("Basket is empty.");
 
             }
             $totalAmount = 0.0;
@@ -294,7 +294,7 @@ class Basket {
             // calculate total amount and re-check stock
             foreach ($basketItem as $item) {
                 $unitPrice = (float)$item['price'];
-                $qunatity = (int)$item['quantity'];
+                $quantity = (int)$item['quantity'];
                 $variantID = (int)$item['variant_id'];
                 
                 //get current stock
@@ -305,23 +305,23 @@ class Basket {
 
                 if ($stockResult === false || $quantity >(int)$stockResult){
                     $this->pdo->rollBack();
-                    return "Stock check failed for variant ID " . $variantID . ". Only " . (int)$stockResult . " remaining.";
+                    throw new \Exception("Stock check failed for variant ID " . $variantID . ". Only " . (int)$stockResult . " remaining.");
                 }
-                $totalAmount += ($unitPrice * $qunatity);       
+                $totalAmount += ($unitPrice * $quantity);       
             }
             //create the main order record
             $orderNumber = $this->generateOrderNumber();
             $orderSql = "INSERT INTO `Order` (customer_id, order_number, total_amount, shipping_address_id, billing_address_id, status)
                          VALUES (:customer_id, :order_number, :total_amount, :shipping_address_id, :billing_address_id, 'Processing')
                          ";
-            $stmt = this->pdo->prepare($orderSql);
+            $stmt = $this->pdo->prepare($orderSql);
             $stmt->execute(['customer_id' => $this->customerID,
                              'order_number' => $orderNumber,
                              'total_amount' => $totalAmount,
                              'shipping_address_id' => $shippingAddressID,
                              'billing_address_id' => $billingAddressID
             ]);
-            $oderID = $this->pdo->lastInsertID();
+            $orderID = $this->pdo->lastInsertID();
 
             //transfer to OrderLine and Decrement Inventory
             $orderLineSql = "INSERT INTO OrderLine (order_id, variant_id, quantity, unit_price, subtotal)
@@ -331,7 +331,7 @@ class Basket {
                                SET current_stock = current_stock - :quantity
                                WHERE variant_id = :variant_id
                                ";
-            foreach ($basketItems as $item) {
+            foreach ($basketItem as $item) {
                 $unitPrice = (float)$item['price'];
                 $quantity = (int)$item['quantity'];
                 $variantID = (int)$item['variant_id'];
