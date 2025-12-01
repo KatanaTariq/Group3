@@ -272,56 +272,52 @@ select {
 
 
 <div class="product-card" data-category="hoodies">
-    <img src="../images/womens/WomanBlackhoodie.png" class="product-img">
+    <img src="WomanBlackhoodie.png" class="product-img">
     <p class="product-name">Black Athletiq Hoodie</p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="hoodies">
-    <img src="../images/womens/Womangreenblackhoodie.png" class="product-img">
+    <img src="Womangreenblackhoodie.png" class="product-img">
     <p class="product-name">Green & Black Athletiq Hoodie</p>
     <p class="price">£35</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="hoodies">
-    <img src="../images/womens/Womanwhitehoodie.png" class="product-img">
+    <img src="Womanwhitehoodie.png" class="product-img">
     <p class="product-name">White Athletiq Hoodie</p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="hoodies">
-    <img src="../images/womens/Womangreenhoodie.png" class="product-img">
+    <img src="Womangreenhoodie.png" class="product-img">
     <p class="product-name">Green Athletiq Hoodie</p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="hoodies">
-    <img src="../images/womens/Womengreyhoodie.png" class="product-img">
+    <img src="Womengreyhoodie.png" class="product-img">
     <p class="product-name">Grey Athletiq Hoodie</p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
@@ -329,123 +325,115 @@ select {
 
 
 <div class="product-card" data-category="tops">
-    <img src="../images/womens/poloteewomen.png" class="product-img">
+    <img src="poloteewomen.png" class="product-img">
     <p class="product-name">Athletiq Polo Tee</p>
     <p class="price">£39.99</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="tops">
-    <img src="../images/womens/footballjerseywomen.png" class="product-img">
+    <img src="footballjerseywomen.png" class="product-img">
     <p class="product-name">Athletiq Football Jersey</p>
     <p class="price">£45</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="tops">
-    <img src="../images/womens/Compressionshirtwomen.png" class="product-img">
+    <img src="Compressionshirtwomen.png" class="product-img">
     <p class="product-name">Athletiq Compression Top</p>
     <p class="price">£40</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="tops">
-    <img src="../images/womens/camitanktopwomen.png" class="product-img">
+    <img src="camitanktopwomen.png" class="product-img">
     <p class="product-name">Athletiq Cami-Tanktop</p>
     <p class="price">£25</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="tops">
-    <img src="../images/womens/basketballjerseywomen.png" class="product-img">
+    <img src="basketballjerseywomen.png" class="product-img">
     <p class="product-name">Athletiq Basketball Jersey</p>
     <p class="price">£45</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
 
 
 
-
 <div class="product-card" data-category="bottoms">
-    <img src="../images/womens/tennisskortwomen.png" class="product-img">
+    <img src="tennisskortwomen.png" class="product-img">
     <p class="product-name">Athletiq Tennis Skort</p>
     <p class="price">£32</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="bottoms">
-    <img src="../images/womens/leggingswomen.png" class="product-img">
+    <img src="leggingswomen.png" class="product-img">
     <p class="product-name">Athletiq Leggings</p>
     <p class="price">£35</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="bottoms">
-    <img src="../images/womens/swimmingshortswomen.png" class="product-img">
+    <img src="swimmingshortswomen.png" class="product-img">
     <p class="product-name">Athletiq Swimming Shorts</p>
     <p class="price">£25</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="bottoms">
-    <img src="../images/womens/joggerswomen.png" class="product-img">
+    <img src="joggerswomen.png" class="product-img">
     <p class="product-name">Athletiq Baggy Joggers</p>
     <p class="price">£49.99</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="bottoms">
-    <img src="../images/womens/cyclingshortswomen.png" class="product-img">
+    <img src="cyclingshortswomen.png" class="product-img">
     <p class="product-name">Athletiq Cycling Shorts</p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
+
 
 
 
 
 <div class="product-card" data-category="footwear">
-    <img src="../images/womens/womenrunningspikes.png" class="product-img">
+    <img src="womenrunningspikes.png" class="product-img">
     <p class="product-name">Womens Running Spikes</p>
     <p class="price">£85.99</p>
     <select>
@@ -454,9 +442,8 @@ select {
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="footwear">
-    <img src="../images/womens/Womenflipflop.png" class="product-img">
+    <img src="Womenflipflop.png" class="product-img">
     <p class="product-name">Womens Flip Flops</p>
     <p class="price">£20</p>
     <select>
@@ -465,9 +452,8 @@ select {
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="footwear">
-    <img src="../images/womens/womenrunningshoes.png" class="product-img">
+    <img src="womenrunningshoes.png" class="product-img">
     <p class="product-name">Womens Running Shoes</p>
     <p class="price">£80</p>
     <select>
@@ -476,9 +462,8 @@ select {
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="footwear">
-    <img src="../images/womens/womenbasketballshoes.png" class="product-img">
+    <img src="womenbasketballshoes.png" class="product-img">
     <p class="product-name">Womens Basketball Shoes</p>
     <p class="price">£90</p>
     <select>
@@ -487,9 +472,8 @@ select {
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
-
 <div class="product-card" data-category="footwear">
-    <img src="../images/womens/womanfootballboots.png" class="product-img">
+    <img src="womanfootballboots.png" class="product-img">
     <p class="product-name">Womens Football Boots</p>
     <p class="price">£85.99</p>
     <select>
@@ -503,56 +487,56 @@ select {
 
 
 <div class="product-card" data-category="headwear">
-    <img src="../images/womens/womenVisorcap.png" class="product-img">
+    <img src="womenVisorcap.png" class="product-img">
     <p class="product-name">Athletiq Visor</p>
     <p class="price">£25</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="../images/womens/womensweatband.png" class="product-img">
+    <img src="womensweatband.png" class="product-img">
     <p class="product-name">Athletiq Sweatband</p>
     <p class="price">£15.99</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="../images/womens/womenrugbyhelmet.png" class="product-img">
+    <img src="womenrugbyhelmet.png" class="product-img">
     <p class="product-name">Athletiq Rugby Helmet</p>
     <p class="price">£75</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="../images/womens/womenbaseballcap.png" class="product-img">
+    <img src="womenbaseballcap.png" class="product-img">
     <p class="product-name">Athletiq Baseball Cap</p>
     <p class="price">£35</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="../images/womens/Womanswimcap.png" class="product-img">
+    <img src="Womanswimcap.png" class="product-img">
     <p class="product-name">Athletiq Swimcap</p>
     <p class="price">£10.99</p>
     <select>
         <option selected disabled>Select Size</option>
-        <option>S</option><option>M</option><option>L</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
     </select><br>
     <button class="add-btn">Add to Basket</button>
 </div>
