@@ -396,11 +396,11 @@ nav {
 <body>
 
 <nav>
-    <img src="../images/logos/athletiqLogo.png" alt="Athletiq Logo" class="logo-img">
+    <img src="../images/logos/athletiq_logo.png" alt="Athletiq Logo" class="logo-img">
 
     <ul class="nav-links">
         <li><a href="#">Men</a></li>
-        <li><a href="../pages/womenspage.php">Women</a></li> 
+        <li><a href="womens_page.php">Women</a></li> 
     </ul>
 
     <div class="search-box">
@@ -408,9 +408,9 @@ nav {
     </div>
 
     <div class="auth-btns">
-        <button onclick="location.href='../pages/basket.php'" class="basket-btn">View Basket</button>
-        <button onclick="location.href='../pages/register.php'" class="signup-btn">Sign Up</button>
-        <button onclick="location.href='../pages/login.php'" class="login-btn">Log In</button>
+        <button onclick="location.href='basket.php'" class="basket-btn">View Basket</button>
+        <button onclick="location.href='register.php'" class="signup-btn">Sign Up</button>
+        <button onclick="location.href='login.php'" class="login-btn">Log In</button>
     </div>
 </nav>
 
@@ -420,7 +420,7 @@ nav {
     <div class="hero-text">
         <h1>Welcome to Athletiq</h1>
         <p>Premium Sportswear. Designed for the Athletiqs, by the Athletes.</p>
-        <a href="../pages/about.php">
+        <a href="about.php">
             <button class="learn-more-btn">Learn more About Us</button>
         </a>
     </div>
@@ -431,16 +431,16 @@ nav {
     <div class="category-box">
         <a href="#">
             <div class="img-container">
-                <img src="../images/productImages/home/poloTankMan.png" alt="Shop Men">
+                <img src="../images/productImages/home/polo_tank_man.png" alt="Shop Men">
                 <div class="overlay-text">Shop Men</div>
             </div>
         </a>
     </div>
 
     <div class="category-box">
-        <a href="../pages/womenspage.php"> 
+        <a href="womens_page.php"> 
             <div class="img-container">
-                <img src="../images/productImages/home/poloTeeWomen.png" alt="Shop Women">
+                <img src="../images/productImages/home/polo_tee_women.png" alt="Shop Women">
                 <div class="overlay-text">Shop Women</div>
             </div>
         </a>
@@ -455,15 +455,15 @@ nav {
     <div class="products">
 
         <div class="product-card">
-            <img src="../images/productImages/home/womenRunningSpikes.png" alt="Women Running Spikes">
+            <img src="../images/productImages/home/women_running_spikes.png" alt="Women Running Spikes">
             <h3>Women's Running Spikes</h3>
-            <a href="../pages/womenspage.php">
+            <a href="womens_page.php">
                 <button class="product-btn">View Product</button>
             </a>
         </div>
 
         <div class="product-card">
-            <img src="../images/productImages/home/menFootballBoot.png" alt="Men Football Boots">
+            <img src="../images/productImages/home/men_football_boot.png" alt="Men Football Boots">
             <h3>Men's Football Boots</h3>
             <a href="#">
                 <button class="product-btn">View Product</button>
@@ -471,9 +471,9 @@ nav {
         </div>
 
         <div class="product-card">
-            <img src="../images/productImages/home/womenRunningShoes.png" alt="Women Running Shoes">
+            <img src="../images/productImages/home/women_running_shoes.png" alt="Women Running Shoes">
             <h3>Women's Running Shoes</h3>
-            <a href="../pages/womenspage.php">
+            <a href="womens_page.php">
                 <button class="product-btn">View Product</button>
             </a>
         </div>
@@ -485,7 +485,7 @@ nav {
 <section class="signup-promo">
     <h2>Love Athletiq?</h2>
     <p>Join our Athletiq champions and Sign up now! 10% Welcome voucher included and other deals, exclusive to members only.</p>
-    <a href="../pages/register.php">
+    <a href="register.php">
         <button class="signup-btn">Sign Up Now</button>
     </a>
 </section>
@@ -494,21 +494,21 @@ nav {
 <footer id="site-footer">
   <div class="footer-nav">
     <h3>Quick Links</h3>
-    <a href="/home">Home</a>
-    <a href="/about">About Us</a>
-    <a href="/contact">Contact Us</a>
-    <a href="/login">Sign In</a>
+    <a href="home.php">Home</a>
+    <a href="about.php">About Us</a>
+    <a href="#">Contact Us</a>
+    <a href="login.php">Sign In</a>
   </div>
 
   <div class="footer-center">
     <p>Let's stay in touch! Sign up to experience the benefits of Athletiq!</p>
-    <a href="../pages/register.php">
+    <a href="register.php">
         <button class="footer-signup-btn">Sign Up</button>
     </a>
   </div>
 
   <div class="footer-logo">
-    <img src="../images/logos/athletiqLogoTransparent.png" alt="Athletiq Logo">
+    <img src="../images/logos/athletiq_logo_transparent.png" alt="Athletiq Logo">
   </div>
 </footer>
 
