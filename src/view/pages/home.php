@@ -24,8 +24,6 @@ a {
     color: inherit;
 }
 
-/*  -Navigation- */
-
 nav {
     display: flex;
     align-items: center;
@@ -70,21 +68,23 @@ nav {
     gap: 15px;
 }
 
-.signup-btn, .login-btn {
+.signup-btn, .login-btn, .basket-btn {
     background: var(--black);
     color: var(--white);
     padding: 8px 18px;
     border-radius: 4px;
     font-weight: bold;
     border: none;
+    cursor: pointer;
 }
 
-.signup-btn:hover, .login-btn:hover {
+.signup-btn:hover, .login-btn:hover, .basket-btn:hover {
     background: var(--primary);
     color: var(--black);
 }
 
-/* -Athletiq welcome- */
+
+
 
 .hero {
     display: flex;
@@ -144,78 +144,6 @@ nav {
     text-decoration: none;
 }
 
-
-</style>
-</head>
-
-<body>
-
-<!--  Navigation  -->
-
-<nav>
-    <img src="/src/view/images/logos/athletiqlogo.png" alt="Athletiq Logo" class="logo-img">
-
-
-    <ul class="nav-links">
-        <li><a href="#">Men</a></li>
-        <li><a href="#">Women</a></li>
-    </ul>
-
-    <div class="search-box">
-        <input type="text" placeholder="Search products...">
-    </div>
-
-    <div class="auth-btns">
-        <button class="signup-btn">Sign Up</button>
-        <button class="login-btn">Log In</button>
-    </div>
-</nav>
-
-<!-- Athletiq welcome -->
-
-<section class="hero">
-    <div id="hero-slideshow" class="hero-img"></div>
-
-    <div class="hero-text">
-        <h1>Welcome to Athletiq</h1>
-        <p>Premium Sportswear. Designed for the Athletiqs, by the Athletes.</p>
-        <a href="about.html"><button class="learn-more-btn">Learn more About Us</button></a>
-    </div>
-</section>
-
-<!-- link js -->
-
-<script src="/src/view/js/home.js"></script>
-</body>
-</html>
-
-<!-- Shop Categories -->
-
-<section class="categories">
-    <div class="category-box">
-        <a href="shop-men.html">
-            <div class="img-container">
-                <img src="/src/view/images/productImages/homepage/polotankman.png" alt="Shop Men">
-                <div class="overlay-text">Shop Men</div>
-            </div>
-        </a>
-    </div>
-
-    <div class="category-box">
-        <a href="shop-women.html">
-            <div class="img-container">
-                <img src="/src/view/images/productImages/homepage/poloteewomen.png" alt="Shop Women">
-                <div class="overlay-text">Shop Women</div>
-            </div>
-        </a>
-    </div>
-</section>
-
-<style>
-:root {
-    --primary: #A8D5BA;
-}
-
 .categories {
     display: flex;
     justify-content: center;
@@ -252,6 +180,7 @@ nav {
     object-fit: cover;
     display: block;
 }
+
 .overlay-text {
     position: absolute;
     bottom: 0;
@@ -270,36 +199,6 @@ nav {
     text-decoration: none;
     color: inherit;
 }
-</style>
-
-<!-- Just in section-->
- 
-<section class="just-in">
-    <h2>Just In!</h2>
-    <p>Browse our Newest Arrivals at Athletiq.</p>
-
-    <div class="products">
-        <div class="product-card">
-            <img src="/src/view/images/productImages/homepage/womenrunningspikes.png" alt="Women Running Spikes">
-            <h3>Women's Running Spikes</h3>
-            <a href="product1.html"><button class="product-btn">View Product</button></a>
-        </div>
-
-        <div class="product-card">
-            <img src="/src/view/images/productImages/homepage/menfootballboot.png" alt="Men Football Boots">
-            <h3>Men's Football Boots</h3>
-            <a href="product2.html"><button class="product-btn">View Product</button></a>
-        </div>
-
-        <div class="product-card">
-            <img src="/src/view/images/productImages/homepage/womenrunningshoes.png" alt="Women Running Shoes">
-            <h3>Women's Running Shoes</h3>
-            <a href="product3.html"><button class="product-btn">View Product</button></a>
-        </div>
-    </div>
-</section>
-
-<style>
 
 .just-in {
     background: #f9f9f9; 
@@ -318,14 +217,12 @@ nav {
     color: #555;
 }
 
-
 .products {
     display: flex;
     justify-content: center;
     gap: 40px;
     flex-wrap: wrap;
 }
-
 
 .product-card {
     background: #fff;
@@ -375,17 +272,8 @@ nav {
 .product-card a {
     text-decoration: none;
 }
-</style>
 
-<!-- Sign up promo section -->
-
-<section class="signup-promo">
-    <h2>Love Athletiq?</h2>
-    <p>Join our Athletiq champions and Sign up now! 10% Welcome voucher included and other deals, exclusive to members only.</p>
-    <a href="signup.html"><button class="signup-btn">Sign Up Now</button></a>
-</section>
-
-<style>.signup-promo {
+.signup-promo {
     background-color: var(--primary); 
     padding: 60px 20px;
     text-align: center;
@@ -424,36 +312,9 @@ nav {
     transform: scale(1.05);
     background-color: #f0f0f0;
 }
-</style>
 
-<!-- Website footer -->
- 
-<footer id="site-footer">
-  <div class="footer-nav">
-    <h3>Quick Links</h3>
-    <a href="index.html">Home</a>
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact Us</a>
-    <a href="signin.html">Sign In</a>
-  </div>
 
-  <div class="footer-center">
-    <p>Let's stay in touch! Sign up to experience the benefits of Athletiq!</p>
-    <a href="signup.html"><button class="footer-signup-btn">Sign Up</button></a>
-  </div>
 
-  <div class="footer-logo">
-    <img src="/src/view/images/logos/athletiqlogotransparent.png" alt="Athletiq Logo">
-  </div>
-</footer>
-
-<style>
-:root {
-  --primary: #A8D5BA;
-  --white: #fff;
-  --grey: #e0e0e0;
-  --black: #000;
-}
 
 #site-footer {
   background-color: #f2f2f2; 
@@ -530,3 +391,111 @@ nav {
   height: 60px;
 }
 </style>
+</head>
+
+<body>
+
+<nav>
+    <img src="athletiqlogo.png" alt="Athletiq Logo" class="logo-img">
+
+    <ul class="nav-links">
+        <li><a href="#">Men</a></li>
+        <li><a href="../Womensproductpage/womenspage.html">Women</a></li> 
+    </ul>
+
+    <div class="search-box"> <input type="text" placeholder="Search products..."> </div>
+
+    <div class="auth-btns">
+        <button onclick="location.href='basket.html'" class="basket-btn">View Basket</button>
+        <button class="signup-btn">Sign Up</button>
+        <button class="login-btn">Log In</button>
+
+    </div>
+</nav>
+
+
+<section class="hero">
+    <div id="hero-slideshow" class="hero-img"></div>
+    <div class="hero-text">
+        <h1>Welcome to Athletiq</h1>
+        <p>Premium Sportswear. Designed for the Athletiqs, by the Athletes.</p>
+        <a href="about.html"><button class="learn-more-btn">Learn more About Us</button></a>
+    </div>
+</section>
+
+
+<section class="categories">
+    <div class="category-box">
+        <a href="shop-men.html">
+            <div class="img-container">
+                <img src="polotankman.png" alt="Shop Men">
+                <div class="overlay-text">Shop Men</div>
+            </div>
+        </a>
+    </div>
+
+    <div class="category-box">
+        <a href="../Womensproductpage/womenspage.html"> 
+            <div class="img-container">
+                <img src="poloteewomen.png" alt="Shop Women">
+                <div class="overlay-text">Shop Women</div>
+            </div>
+        </a>
+    </div>
+</section>
+
+<section class="just-in">
+    <h2>Just In!</h2>
+    <p>Browse our Newest Arrivals at Athletiq.</p>
+
+    <div class="products">
+        <div class="product-card">
+            <img src="womenrunningspikes.png" alt="Women Running Spikes">
+            <h3>Women's Running Spikes</h3>
+            <a href="../Womensproductpage/womenspage.html"><button class="product-btn">View Product</button></a>
+        </div>
+
+        <div class="product-card">
+            <img src="menfootballboot.png" alt="Men Football Boots">
+            <h3>Men's Football Boots</h3>
+            <a href="product2.html"><button class="product-btn">View Product</button></a>
+        </div>
+
+        <div class="product-card">
+            <img src="womenrunningshoes.png" alt="Women Running Shoes">
+            <h3>Women's Running Shoes</h3>
+            <a href="../Womensproductpage/womenspage.html"><button class="product-btn">View Product</button></a>
+        </div>
+    </div>
+</section>
+
+
+<section class="signup-promo">
+    <h2>Love Athletiq?</h2>
+    <p>Join our Athletiq champions and Sign up now! 10% Welcome voucher included and other deals, exclusive to members only.</p>
+    <a href="signup.html"><button class="signup-btn">Sign Up Now</button></a>
+</section>
+
+
+<footer id="site-footer">
+  <div class="footer-nav">
+    <h3>Quick Links</h3>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="signin.html">Sign In</a>
+  </div>
+
+  <div class="footer-center">
+    <p>Let's stay in touch! Sign up to experience the benefits of Athletiq!</p>
+    <a href="signup.html"><button class="footer-signup-btn">Sign Up</button></a>
+  </div>
+
+  <div class="footer-logo">
+    <img src="athletiqlogotransparent.png" alt="Athletiq Logo">
+  </div>
+</footer>
+
+<script src="src\view\js\home.js"></script>
+</body>
+</html>
