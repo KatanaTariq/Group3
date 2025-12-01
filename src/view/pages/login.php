@@ -95,6 +95,9 @@
     </style>
 
     <!-- Log in page -->
+    <?php if (!empty($_GET['error'])): ?>
+        <p>login failed: <?php echo htmlspecialchars($_GET['error']); ?></p>
+    <?php endif; ?>
     <div class = "login-border">
 
         <div class="login-logo">
@@ -104,6 +107,8 @@
 
         <div class="details">
             <form action="/login" method="post">
+                <input type="hidden" name="csrf_token"
+                        value="<?php echo htmlspecialchars(get_csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
                 <div class="input-box">
                     <input type="text" name="email" placeholder="Email address" required>
                 </div>
