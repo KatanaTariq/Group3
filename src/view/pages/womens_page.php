@@ -285,7 +285,7 @@ select {
 </div>
 
 <div class="product-card" data-category="hoodies">
-    <img src="/src/view/images/productImages/womens/women_black_green_hoodie.png" class="product-img">
+    <img src="/src/view/images/productImages/womens/women_green_black_hoodie.png" class="product-img">
     <p class="product-name">Green & Black Athletiq Hoodie</p>
     <p class="price">£35</p>
     <select>
@@ -331,7 +331,7 @@ select {
 
 
 <div class="product-card" data-category="tops">
-    <img src="/src/view/images/productImages/womens/polo_tee_women.png" class="product-img">
+    <img src="/src/view/images/productImages/womens/woman_polo_tee.png" class="product-img">
     <p class="product-name">Athletiq Polo Tee</p>
     <p class="price">£39.99</p>
     <select>
@@ -353,7 +353,7 @@ select {
 </div>
 
 <div class="product-card" data-category="tops">
-    <img src="/src/view/images/productImages/womens/women_compression_top.png" class="product-img">
+    <img src="/src/view/images/productImages/womens/women_compression_shirt.png" class="product-img">
     <p class="product-name">Athletiq Compression Top</p>
     <p class="price">£40</p>
     <select>
