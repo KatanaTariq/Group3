@@ -112,19 +112,30 @@ nav {
 .quantity-control {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+}
+
+.quantity-btn {
+    padding: 6px 10px;
+    border: none;
+    background: var(--primary);
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.quantity-btn:hover {
+    background: #8CCAA0;
 }
 
 .quantity-control input {
-    width: 50px;
-    padding: 4px;
+    width: 45px;
     text-align: center;
+    padding: 5px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-
-
 
 .remove-btn {
     padding: 7px 16px;
@@ -141,8 +152,6 @@ nav {
     background: #e04343;
     transform: scale(1.05);
 }
-
-
 
 
 .basket-footer {
@@ -173,7 +182,6 @@ nav {
     background: #8CCAA0;
     transform: scale(1.05);
 }
-
 
 
 #empty-message {
