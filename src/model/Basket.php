@@ -6,7 +6,7 @@ University ID: 240240082
 Function: adds, removes, updates items with a checkout function
 *******************************************/
 
-namespace AthLETIQ\Model;
+namespace AthlETIQ\Model;
 
 class Basket {
     private \PDO $pdo;
