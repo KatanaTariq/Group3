@@ -34,24 +34,25 @@ class AuthController
         $firstName = sanitize_string($firstNameRaw);
         $lastName  = sanitize_string($lastNameRaw);
         $email     = validate_email($emailRaw);
-        $password  = trim($passwordRaw);
-
-        $errors = [];
-
-        if ($firstName === '' || strlen($firstName) > 50) {
-            $errors[] = 'Invalid first name';
-        }
-
-        if ($lastName === '' || strlen($lastName) > 50) {
-            $errors[] = 'Invalid last name';
-        }
 
         if ($email === null) {
-            $errors[] = 'Invalid email';
+            return $this->redirect('/register?error=' . urlencode('Invalid email'));
         }
+
+        // Password validation
+        $password = trim($passwordRaw);
+        $errors = [];
 
         if (strlen($password) < 8) {
             $errors[] = 'Password must be at least 8 characters long';
+        }
+
+        if (!preg_match('/[A-Z]/', $password)) {
+            $errors[] = 'Password must contain at least one uppercase letter';
+        }
+
+        if (!preg_match('/[\W_]/', $password)) {
+            $errors[] = 'Password must contain at least one special character';
         }
 
         if (!empty($errors)) {
