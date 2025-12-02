@@ -54,10 +54,14 @@ switch ($requestPath) {
         break;
 
     case '/about':
+    case '/about-us':
+    case '/aboutus':
         handleAboutRequest();
         break;
 
     case '/register':
+    case '/signup':
+    case '/sign-up':
         handleRegisterRequest();
         break;
 
@@ -83,7 +87,6 @@ switch ($requestPath) {
 
     case '/shop-women':
     case '/women':
-    case '/womens_page':
         handleWomenPageRequest();
         break;
 
