@@ -14,12 +14,12 @@
 <h1 class="women-title">Women</h1>
 
 <div style="text-align:center; margin: 20px 0;">
-    <button class="filter-btn" onclick="filterProducts('all')">All</button>
-    <button class="filter-btn" onclick="filterProducts('hoodies')">Hoodies</button>
-    <button class="filter-btn" onclick="filterProducts('tops')">Tops</button>
-    <button class="filter-btn" onclick="filterProducts('bottoms')">Bottoms</button>
-    <button class="filter-btn" onclick="filterProducts('footwear')">Footwear</button>
-    <button class="filter-btn" onclick="filterProducts('headwear')">Headwear</button>
+    <button class="filter-btn" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="hoodies">Hoodies</button>
+    <button class="filter-btn" data-filter="tops">Tops</button>
+    <button class="filter-btn" data-filter="bottoms">Bottoms</button>
+    <button class="filter-btn" data-filter="footwear">Footwear</button>
+    <button class="filter-btn" data-filter="headwear">Headwear</button>
 </div>
 
 <section class="products-container" id="all-products">
