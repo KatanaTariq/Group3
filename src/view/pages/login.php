@@ -94,45 +94,45 @@
         }
     </style>
 
-    <!-- Log in page -->
-    <?php if (!empty($_GET['error'])): ?>
-        <p>login failed: <?php echo htmlspecialchars($_GET['error']); ?></p>
-    <?php endif; ?>
-    <div class = "login-border">
+<!-- Log in page -->
+<?php if (!empty($_GET['error'])): ?>
+    <p>login failed: <?php echo htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'); ?></p>
+<?php endif; ?>
 
-        <div class="login-logo">
-            <img src="images/athletiqlogotransparent.png" alt="Athletiq logo">
-            <h1>Login</h1>
-        </div>
+<div class="login-border">
 
-        <div class="details">
-            <form action="/login" method="post">
-                <input type="hidden" name="csrf_token"
-                        value="<?php echo htmlspecialchars(get_csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
-                <div class="input-box">
-                    <input type="text" name="email" placeholder="Email address" required>
-                </div>
-                <div class="input-box">
-                    <input type="password" name="password" placeholder="Password" required>
-                </div>
-                <button type="submit" class="login-button">login</button>
-            </form>
-        </div>
-
-        <div class="remember-forgotten">
-            <label><input type="checkbox">Remember Me</label>
-            <a href="forgotPassword.html">Forgot Password?</a>
-        </div>
-        <div class="submit">
-            <button type="submit" class="login-button">Login</button> 
-        </div>
-
-       <div class="no-account">
-            <p>Don't have an account yet? <a href="signup.html">Sign up here</a></p>
-       </div>
-        
-        
+    <div class="login-logo">
+        <img src="/src/view/images/logos/athletiq_logo_transparent.png" alt="Athletiq logo">
+        <h1>Login</h1>
     </div>
+
+    <div class="details">
+        <form action="/login" method="post">
+            <input type="hidden" name="csrf_token"
+                   value="<?php echo htmlspecialchars(get_csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
+
+            <div class="input-box">
+                <input type="text" name="email" placeholder="Email address" required>
+            </div>
+
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="login-button">Login</button>
+        </form>
+    </div>
+
+    <div class="remember-forgotten">
+        <label><input type="checkbox" name="remember_me"> Remember Me</label>
+        <a href="/forgot-password">Forgot Password?</a>
+    </div>
+
+    <div class="no-account">
+        <p>Don't have an account yet? <a href="/register">Sign up here</a></p>
+    </div>
+
+</div>
 
     <style>
         @keyframes slideInLeft {

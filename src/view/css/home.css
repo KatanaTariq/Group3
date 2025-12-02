@@ -43,6 +43,11 @@ nav {
     color: var(--primary);
 }
 
+nav a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .search-box {
     margin-left: 20px;
 }
