@@ -37,7 +37,7 @@
     <div class="category-box">
         <a href="/shop-women"> 
             <div class="img-container">
-                <img src="/src/view/images/productImages/womens/women_polo_tee.png" alt="Shop Women">
+                <img src="/src/view/images/productImages/women_polo_tee.png" alt="Shop Women">
                 <div class="overlay-text">Shop Women</div>
             </div>
         </a>
