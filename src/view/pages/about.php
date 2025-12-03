@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Athletiq | About Us </title>
-<link rel="stylesheet" href="/src/view/css/about.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athletiq | About Us </title>
+    <link rel="stylesheet" href="/src/view/css/about.css">
+    <link rel="stylesheet" href="/src/view/css/nav.css">
+    <link rel="stylesheet" href="/src/view/css/footer.css">
 </head>
 
 <body>
@@ -40,20 +42,20 @@
 
     <div class="team-grid">
         <div class="athlete-card">
-            <img src="/src/view/images/productImages/home/about_us_rugby.png">
+            <img src="/src/view/images/productImages/about_us_rugby.png">
             <h3>Jae</h3>
             <p>Professional Rugby Player — Designer of Athletiqs Protective Rugby Helmet, 
                 with earpadding and ventilation holes.</p>
         </div>
 
         <div class="athlete-card">
-            <img src="/src/view/images/productImages/home/about_us_running_shoes.png">
+            <img src="/src/view/images/productImages/about_us_running_shoes.png">
             <h3>Alayaa</h3>
             <p>Competetive Long-distance Runner — Creator of Athletiqs running shoes with breathable soles.</p>
         </div>
 
         <div class="athlete-card">
-            <img src="/src/view/images/productImages/home/about_us_basketball_jersey.png">
+            <img src="/src/view/images/productImages/about_us_basketball_jersey.png">
             <h3>Miyaz</h3>
             <p>Pro Basketballer — Worked on Athletiqs Basketball Jersey, LightWeight and Moisture-wicking.</p>
         </div>
