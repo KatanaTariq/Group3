@@ -11,115 +11,103 @@ class Inventory
 
     /**
      * Get all inventory items with product + variant info.
-     * If DB is unavailable, falls back to dummy data for development.
+     *
+     * Uses your LOCAL table names:
+     *  - product
+     *  - productvariant
+     *  - inventory
      */
     public function getAllInventory(): array
     {
-        try {
-            $sql = "
-                SELECT
-                    pv.variant_id,
-                    p.name           AS product_name,
-                    pv.size          AS variant_size,
-                    pv.colour        AS variant_colour,
-                    pv.sku           AS sku,
-                    i.current_stock,
-                    i.low_stock_threshold
-                FROM product_variant pv
-                INNER JOIN product p
-                    ON pv.product_id = p.product_id
-                LEFT JOIN inventory i
-                    ON i.variant_id = pv.variant_id
-                ORDER BY p.name, pv.size, pv.colour
-            ";
+        $sql = "
+            SELECT
+                pv.variant_id,
+                p.name AS product_name,
+                pv.size,
+                pv.colour,
+                pv.sku,
+                COALESCE(i.current_stock, 0)        AS current_stock,
+                COALESCE(i.low_stock_threshold, 0)  AS low_stock_threshold
+            FROM productvariant pv
+            INNER JOIN product p
+                ON p.product_id = pv.product_id
+            LEFT JOIN inventory i
+                ON i.variant_id = pv.variant_id
+            ORDER BY p.name, pv.size, pv.colour
+        ";
 
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute();
-            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
 
-            if (!$rows) {
-                return [];
-            }
-
-            return $rows;
-
-        } catch (Throwable $e) {
-
-            // Fallback dummy data for when MySQL/XAMPP is down.
-            return [
-                [
-                    'variant_id'          => 1,
-                    'product_name'        => 'Athletiq Tee – Black',
-                    'variant_size'        => 'M',
-                    'variant_colour'      => 'Black',
-                    'sku'                 => 'TEE-BLK-M',
-                    'current_stock'       => 12,
-                    'low_stock_threshold' => 5
-                ],
-                [
-                    'variant_id'          => 2,
-                    'product_name'        => 'Athletiq Hoodie – Grey',
-                    'variant_size'        => 'L',
-                    'variant_colour'      => 'Grey',
-                    'sku'                 => 'HOOD-GRY-L',
-                    'current_stock'       => 3,
-                    'low_stock_threshold' => 5
-                ]
-            ];
-        }
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
-     * Update stock for a specific variant.
-     * (Real SQL will run once DB is working again.)
+     * Update the stock for a given variant_id and log the change.
+     *
+     * Uses your LOCAL table names:
+     *  - inventory
+     *  - inventorylog
      */
     public function updateStock(int $variantId, int $newQuantity): bool
     {
         try {
-            $sql = "
-                UPDATE inventory
-                SET current_stock = :qty,
-                    updated_at = CURRENT_TIMESTAMP
-                WHERE variant_id = :variant_id
-            ";
+            $this->pdo->beginTransaction();
 
-            $stmt = $this->pdo->prepare($sql);
-            return $stmt->execute([
-                ':qty'        => $newQuantity,
-                ':variant_id' => $variantId
-            ]);
-
-        } catch (Throwable $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Get the current stock for a variant (used before logging changes).
-     */
-    public function getCurrentStock(int $variantId): ?int
-    {
-        try {
-            $sql = "
+            // Lock the row and read old quantity
+            $currentSql = "
                 SELECT current_stock
                 FROM inventory
                 WHERE variant_id = :variant_id
-                LIMIT 1
+                FOR UPDATE
             ";
+            $currentStmt = $this->pdo->prepare($currentSql);
+            $currentStmt->execute([':variant_id' => $variantId]);
+            $row = $currentStmt->fetch(PDO::FETCH_ASSOC);
 
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([':variant_id' => $variantId]);
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $oldQty       = $row ? (int)$row['current_stock'] : 0;
+            $changeAmount = $newQuantity - $oldQty;
 
-            if ($row === false) {
-                return null;
+            // Insert or update inventory row
+            if ($row) {
+                $updateSql = "
+                    UPDATE inventory
+                    SET current_stock = :qty,
+                        updated_at    = NOW()
+                    WHERE variant_id = :variant_id
+                ";
+            } else {
+                $updateSql = "
+                    INSERT INTO inventory (variant_id, current_stock, low_stock_threshold, created_at, updated_at)
+                    VALUES (:variant_id, :qty, 0, NOW(), NOW())
+                ";
             }
 
-            return (int)$row['current_stock'];
+            $updateStmt = $this->pdo->prepare($updateSql);
+            $updateStmt->execute([
+                ':variant_id' => $variantId,
+                ':qty'        => $newQuantity,
+            ]);
 
-        } catch (Throwable $e) {
-            return null;
+            // Log change in inventorylog
+            $logSql = "
+                INSERT INTO inventorylog (variant_id, change_amount, reason, created_at)
+                VALUES (:variant_id, :change_amount, :reason, NOW())
+            ";
+            $logStmt = $this->pdo->prepare($logSql);
+            $logStmt->execute([
+                ':variant_id'    => $variantId,
+                ':change_amount' => $changeAmount,
+                ':reason'        => 'Manual admin update',
+            ]);
+
+            $this->pdo->commit();
+            return true;
+
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            // For debugging you can temporarily echo $e->getMessage();
+            return false;
         }
     }
 }
-

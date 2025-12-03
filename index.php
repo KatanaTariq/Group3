@@ -15,7 +15,6 @@ require __DIR__ . '/src/controller/ReviewController.php';
 require __DIR__ . '/src/controller/WishlistController.php';
 require __DIR__ . '/src/controller/InventoryController.php';
 
-
 // Get the current request URL
 $request = $_SERVER['REQUEST_URI'];
 $requestPath = parse_url($request, PHP_URL_PATH);
@@ -24,6 +23,15 @@ $requestPath = parse_url($request, PHP_URL_PATH);
 $requestPath = str_replace('/index.php', '', $requestPath);
 if ($requestPath === '') {
     $requestPath = '/';
+}
+
+// Remove the /Group3 prefix (project folder) so routing works
+$basePath = '/Group3';
+if (strpos($requestPath, $basePath) === 0) {
+    $requestPath = substr($requestPath, strlen($basePath));
+    if ($requestPath === '') {
+        $requestPath = '/';
+    }
 }
 
 // Simple routers
@@ -69,15 +77,16 @@ switch ($requestPath) {
             $controller = new InventoryController($pdo);
             $controller->updateStock();
         } else {
-            header('Location: /admin/inventory');
+            header('Location: /Group3/admin/inventory');
             exit;
         }
         break;
 
-    // Inventory change log page
+    // Inventory change log page (we’ll fill later)
     case '/admin/inventory/logs':
         $controller = new InventoryController($pdo);
-        $controller->logs();
+        // $controller->logs(); // TODO: implement
+        require __DIR__ . '/src/view/pages/admin/inventory.php';
         break;
 
     // ======================
@@ -88,5 +97,3 @@ switch ($requestPath) {
         require __DIR__ . '/src/view/pages/404.php';
         break;
 }
-
-
