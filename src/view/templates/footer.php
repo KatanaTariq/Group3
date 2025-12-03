@@ -9,9 +9,9 @@
 
     <div class="footer-center">
         <p>Let's stay in touch! Sign up to experience the benefits of Athletiq!</p>
-        <a href="/signup"><button class="footer-signup-btn">Sign Up</button></a>
+        <a href="/login"><button class="footer-signup-btn">Sign Up</button></a>
     </div>
-    
+
     <div class="footer-logo">
         <img src="/src/view/images/logos/athletiq_logo_transparent.png" alt="Athletiq Logo">
     </div>
