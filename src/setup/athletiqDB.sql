@@ -83,7 +83,7 @@ CREATE TABLE category (
 
 -- Product table
 CREATE TABLE product (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
     category_id INT NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE product (
 
 -- ProductVariant table
 CREATE TABLE product_variant (
-    variant_id INT AUTO_INCREMENT PRIMARY KEY,
+    variant_id INT PRIMARY KEY,
     product_id INT NOT NULL,
     size VARCHAR(10),
     colour VARCHAR(30),
@@ -242,3 +242,5 @@ CREATE TABLE contact_message (
     message TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+COMMIT;
