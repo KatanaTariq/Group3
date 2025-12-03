@@ -12,13 +12,13 @@
     <div class="search-box">
         <input type="text" placeholder="Search products...">
     </div>
-
+    
     <div class="auth-btns">
         <?php if (isset($_SESSION['customer_id'])): ?>
             <a href="/basket" class="basket-btn">View Basket</a>
             <a href="/logout" class="login-btn">Log Out</a>
         <?php else: ?>
-            <a href="/register" class="signup-btn">Sign Up</a>
+            <a href="/signup" class="signup-btn">Sign Up</a>
             <a href="/login" class="login-btn">Log In</a>
         <?php endif; ?>
     </div>
