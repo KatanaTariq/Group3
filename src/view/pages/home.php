@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Athletiq | Sportswear</title>
 <link rel="stylesheet" href="/src/view/css/home.css">
+<link rel="stylesheet" href="/src/view/css/nav.css">
+<link rel="stylesheet" href="/src/view/css/footer.css">
 </head>
 
 <body>
@@ -37,7 +39,7 @@
     <div class="category-box">
         <a href="/shop-women"> 
             <div class="img-container">
-                <img src="/src/view/images/productImages/womens/women_polo_tee.png" alt="Shop Women">
+                <img src="/src/view/images/productImages/women_polo_tee.png" alt="Shop Women">
                 <div class="overlay-text">Shop Women</div>
             </div>
         </a>
