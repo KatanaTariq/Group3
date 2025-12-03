@@ -28,7 +28,10 @@ if ($requestPath === '') {
 
 // Simple routers
 switch ($requestPath) {
-    // Public pages
+
+    // ======================
+    // PUBLIC PAGES
+    // ======================
     case '/':
     case '/home':
         require __DIR__ . '/src/view/pages/home.php';
@@ -38,7 +41,9 @@ switch ($requestPath) {
         require __DIR__ . '/src/view/pages/login.php';
         break;
 
-    // Admin pages (Tariq's area)
+    // ======================
+    // ADMIN AUTH / DASHBOARD
+    // ======================
     case '/admin/login':
         require __DIR__ . '/src/view/pages/admin/login.php';
         break;
@@ -48,13 +53,40 @@ switch ($requestPath) {
         require __DIR__ . '/src/view/pages/admin/home.php';
         break;
 
-    case '/admin/inventory':     
-    require __DIR__ . '/src/view/pages/admin/inventory.php';
-    break;
+    // ======================
+    // ADMIN INVENTORY (Tariq)
+    // ======================
 
-    // 404 fallback
+    // Main inventory management page
+    case '/admin/inventory':
+        $controller = new InventoryController($pdo);
+        $controller->index();
+        break;
+
+    // Handle stock update form submissions (POST only)
+    case '/admin/inventory/update':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller = new InventoryController($pdo);
+            $controller->updateStock();
+        } else {
+            header('Location: /admin/inventory');
+            exit;
+        }
+        break;
+
+    // Inventory change log page
+    case '/admin/inventory/logs':
+        $controller = new InventoryController($pdo);
+        $controller->logs();
+        break;
+
+    // ======================
+    // 404 FALLBACK
+    // ======================
     default:
         http_response_code(404);
         require __DIR__ . '/src/view/pages/404.php';
         break;
 }
+
+
