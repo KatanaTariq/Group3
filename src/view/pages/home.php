@@ -28,7 +28,7 @@
     <div class="category-box">
         <a href="#">
             <div class="img-container">
-                <img src="/src/view/images/productImages/home/home_men_polo_tank.png" alt="Shop Men">
+                <img src="/src/view/images/productImages/home_men_polo_tank.png" alt="Shop Men">
                 <div class="overlay-text">Shop Men</div>
             </div>
         </a>
@@ -52,7 +52,7 @@
     <div class="products">
 
         <div class="product-card">
-            <img src="/src/view/images/productImages/home/home_women_running_spikes.png" alt="Women Running Spikes">
+            <img src="/src/view/images/productImages/home_women_running_spikes.png" alt="Women Running Spikes">
             <h3>Women's Running Spikes</h3>
             <a href="/shop-women">
                 <button class="product-btn">View Product</button>
@@ -60,7 +60,7 @@
         </div>
 
         <div class="product-card">
-            <img src="/src/view/images/productImages/home/home_men_football_boot.png" alt="Men Football Boots">
+            <img src="/src/view/images/productImages/home_men_football_boot.png" alt="Men Football Boots">
             <h3>Men's Football Boots</h3>
             <a href="#">
                 <button class="product-btn">View Product</button>
@@ -68,7 +68,7 @@
         </div>
 
         <div class="product-card">
-            <img src="/src/view/images/productImages/home/home_women_running_shoes.png" alt="Women Running Shoes">
+            <img src="/src/view/images/productImages/home_women_running_shoes.png" alt="Women Running Shoes">
             <h3>Women's Running Shoes</h3>
             <a href="/shop-women">
                 <button class="product-btn">View Product</button>
