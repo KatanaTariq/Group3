@@ -21,7 +21,7 @@
     <div class="hero-text">
         <h1>Welcome to Athletiq</h1>
         <p>Premium Sportswear. Designed for the Athletiqs, by the Athletes.</p>
-        <a href="about.php">
+        <a href="/about">
             <button class="learn-more-btn">Learn more About Us</button>
         </a>
     </div>
