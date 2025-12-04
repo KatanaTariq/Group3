@@ -94,7 +94,7 @@ class AuthController
 
         // CSRF check
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
-            return $this->redirect('/login?error=' . urlencode('invalid CSRF token'));
+            return $this->redirect('/login?error=' . urlencode('Invalid CSRF token'));
         }
 
         $emailRaw = $_POST['email'] ?? '';
@@ -104,7 +104,7 @@ class AuthController
         $password = trim($password);
 
         if ($email === null || $password === '') {
-            return $this->redirect('/login?error=' . urlencode('invalid credentials'));
+            return $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
         }
 
         // Retrieve user by email
@@ -112,7 +112,7 @@ class AuthController
 
         // Use password_verify to compare plaintext to hash
         if (!$customer || !password_verify($password, $customer->getPasswordHash())) {
-            return $this->redirect('/login?error=' . urlencode('invalid credentials'));
+            return $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
         }
 
         // Success: store session data

@@ -29,6 +29,12 @@
         <h1>Login</h1>
     </div>
 
+    <?php if (!empty($_GET['error'])): ?>
+        <div class="error-message">
+            <?php echo htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'); ?>
+        </div>
+    <?php endif; ?>
+
     <div class="details">
         <form action="/login" method="post">
             <input type="hidden" name="csrf_token"

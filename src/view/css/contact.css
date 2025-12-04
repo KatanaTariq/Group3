@@ -19,18 +19,18 @@
 }
 
 .header{
-    background-color: rgba(255, 255, 255, 0.233);
+    background-color: #EEEEEE;
     background-image: url(src/view/images/productImages/male_hoodie_black.png);
     background-blend-mode: overlay;
-    background-size:cover;
-    background-position:center;
+    background-size: cover;
+    background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .header h1{
-    animation:slideInLeft 1s;
+    animation: slideInLeft 1s;
     background-color: rgba(0, 0, 0, 0.86);
     color: var(--white);
     margin-top: 100px;
@@ -44,19 +44,18 @@
 .container{
     display: flex;
     align-items: stretch;
-    background-color: var(--white);
     margin: 50px auto;
     border-radius: 25px;
     box-shadow: 0 0 15px #797979;
     width: 80%;
+    overflow: hidden;
 }
 
 .contact_details{
     background-color: var(--primary);
     text-align: center;
-    width: 25%;
+    flex: 0 0 25%;
     padding: 30px 20px;
-    border-radius: 20px 0 0 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -73,11 +72,13 @@
 }
 
 .contact_form{
-    width: 75%;
+    background-color: var(--white);
+    flex: 1;
     padding: 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-left: -2px;
 }
 
 .contact_form h2{
@@ -97,29 +98,28 @@
 
 .input-box{
     width: 80%;
-    height: 35px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
 .input-box input{
-    height: 100%;
+    height: 35px;
     width: 100%;
     border: none;
     background: #ebebeb;
     border-radius: 5px;
-    padding-left: 15px;
+    padding: 0 15px;
     font-size: 15px;
+    box-sizing: border-box;
 }
 
 .message-box{
     width: 80%;
-    height: 150px;
     margin-top: 10px;
 }
 
 .message-box textarea{
-    height: 100%;
+    height: 150px;
     width: 100%;
     border: none;
     background: #ebebeb;
