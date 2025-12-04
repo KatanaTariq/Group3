@@ -43,12 +43,10 @@ function loadBasket() {
         `;
 
         basketContainer.appendChild(itemDiv);
-
         total += item.price * item.quantity;
     });
 
     basketTotal.innerText = total.toFixed(2);
-
     updateButtons();
 }
 
@@ -56,41 +54,49 @@ function updateButtons(){
     const basket = JSON.parse(localStorage.getItem('basket')) || [];
 
     document.querySelectorAll('.increase').forEach(btn => {
-        btn.onclick = () => {
+        btn.addEventListener('click', () => {
             const i = btn.dataset.index;
             basket[i].quantity++;
             localStorage.setItem('basket', JSON.stringify(basket));
             loadBasket();
-        };
+        });
     });
 
     document.querySelectorAll('.decrease').forEach(btn => {
-        btn.onclick = () => {
+        btn.addEventListener('click', () => {
             const i = btn.dataset.index;
             if (basket[i].quantity > 1){
                 basket[i].quantity--;
             }
             localStorage.setItem('basket', JSON.stringify(basket));
             loadBasket();
-        };
+        });
     });
 
     document.querySelectorAll('.quantity-input').forEach(input => {
-        input.onchange = () => {
+        input.addEventListener('change', () => {
             const i = input.dataset.index;
-            basket[i].quantity = Math.max(1, parseInt(input.value)); // Minimum 1
+            basket[i].quantity = Math.max(1, parseInt(input.value) || 1);
             localStorage.setItem('basket', JSON.stringify(basket));
             loadBasket();
-        };
+        });
     });
 
     document.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.onclick = () => {
+        btn.addEventListener('click', () => {
             const i = btn.dataset.index;
             basket.splice(i, 1);
             localStorage.setItem('basket', JSON.stringify(basket));
             loadBasket();
-        };
+        });
+    });
+}
+
+if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', () => {
+        if (!checkoutBtn.disabled) {
+            window.location.href = '/checkout';
+        }
     });
 }
 
