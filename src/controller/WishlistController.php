@@ -1,5 +1,7 @@
 <?php
     /**
+     * NOT IMPLEMENTED
+     *
      * handles user wishlist functionality.
      *
      * responsibilities:
