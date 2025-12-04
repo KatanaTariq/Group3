@@ -10,7 +10,7 @@ Function: - add, remove, update basket items
 namespace AthlETIQ\Controller;
 use AthlETIQ\model\Basket;
 
-class BasketController{
+class BasketController {
 
     private $basketModel ;
 
@@ -58,10 +58,11 @@ class BasketController{
             } catch (\Exception $e) {
                 // Controller failure message for Model errors (e.g., insufficient stock)
                 $this->setFlashMessage('error', 'Failed to add item: ' . $e->getMessage());
-        }
+            }
 
-        header('Location: /basket');
-        exit();
+            header('Location: /basket');
+            exit();
+        }
     }
 
     /**
