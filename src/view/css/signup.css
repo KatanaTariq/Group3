@@ -5,11 +5,6 @@
 --black: #000;
 }
 
-body{
-    background-color: #eee;
-    
-}
-
 @keyframes slideInLeft {
     from{
         transform: translateX(-300px);

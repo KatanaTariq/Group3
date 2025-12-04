@@ -5,12 +5,6 @@
     --black: #000;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #eee;
-}
-
 @keyframes slideInLeft {
     from {
         transform: translateX(-300px);

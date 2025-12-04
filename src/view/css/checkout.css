@@ -4,13 +4,6 @@
     --white: #fff;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--white);
-    color: var(--black);
-}
-
 .checkout-title {
     text-align: center;
     font-size: 2rem;
