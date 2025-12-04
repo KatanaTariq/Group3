@@ -128,9 +128,10 @@ body{
     border: none;
     background: #ebebeb;
     border-radius: 5px;
-    padding-left: 15 px;
+    padding: 10px 15px;
     font-size: 15px;
     resize: none;
+    box-sizing: border-box;
 }
 
 .header3{
