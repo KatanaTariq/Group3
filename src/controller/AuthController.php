@@ -10,7 +10,7 @@ class AuthController
 
     public function displayRegister()
     {
-        return $this->view('pages/register');
+        return $this->view('pages/signup');
     }
 
     public function register()
@@ -21,7 +21,7 @@ class AuthController
 
         // CSRF check
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
-            return $this->redirect('/register?error=' . urlencode('invalid CSRF token'));
+            return $this->redirect('/signup?error=' . urlencode('invalid CSRF token'));
         }
 
         // Raw inputs
@@ -36,7 +36,7 @@ class AuthController
         $email     = validate_email($emailRaw);
 
         if ($email === null) {
-            return $this->redirect('/register?error=' . urlencode('Invalid email'));
+            return $this->redirect('/signup?error=' . urlencode('Invalid email'));
         }
 
         // Password validation
@@ -57,7 +57,7 @@ class AuthController
 
         if (!empty($errors)) {
             $errorString = urlencode(implode(', ', $errors));
-            return $this->redirect('/register?error=' . $errorString);
+            return $this->redirect('/signup?error=' . $errorString);
         }
 
         // Password hashing (NEVER store plain text)
@@ -72,7 +72,7 @@ class AuthController
         ]);
 
         if ($customer === null) {
-            return $this->redirect('/register?error=' . urlencode('could not create account'));
+            return $this->redirect('/signup?error=' . urlencode('could not create account'));
         }
 
         // Log the user in

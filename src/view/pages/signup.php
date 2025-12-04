@@ -22,33 +22,44 @@
             <h1>Sign Up</h1>
         </div>
 
+        <?php if (!empty($_GET['error'])): ?>
+            <p><?php echo htmlspecialchars($_GET['error']); ?></p>
+        <?php endif; ?>
+
         <div class="details">
-            <form action="">
+            <form method="POST" action="/signup">
+
+                <!-- CSRF token -->
+                <input type="hidden" name="csrf_token"
+                       value="<?php echo htmlspecialchars(generate_csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
+
                 <div class="input-box">
-                    <input type="text" placeholder="Full name" required>
+                    <input type="text" name="first_name" placeholder="First name" required>
                 </div>
+
                 <div class="input-box">
-                    <input type="text" placeholder="Email address" required>
+                    <input type="text" name="last_name" placeholder="Last name" required>
                 </div>
+
                 <div class="input-box">
-                    <input type="password" placeholder="Password" required>
+                    <input type="email" name="email" placeholder="Email address" required>
                 </div>
+
                 <div class="input-box">
-                    <input type="password" placeholder="Re-enter password" required>
+                    <input type="password" name="password" placeholder="Password" required>
                 </div>
-                   
+
+                <div class="submit">
+                    <button type="submit" class="signup-button">Sign Up</button> 
+                </div>
+
             </form>
         </div>
 
-        <div class="submit">
-            <button type="submit" class="signup-button">Sign Up</button> 
-        </div>
-
        <div class="has-account">
-            <p>Already have an account? <a href="signin.html">Login here</a></p>
+            <p>Already have an account? <a href="/login">Login here</a></p>
        </div>
-        
-        
+
     </div>
 
     <?php include __DIR__ . '/../templates/footer.php'; ?>

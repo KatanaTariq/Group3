@@ -41,7 +41,7 @@
                     <td data-label="Date ordered">04/12/2025</td>
                     <td data-label="Item"><img class="order-image" src="src/view/images/productImages/male_hat_visor.png"></td>
                     <td data-label="Description">
-                        Athletiq male visor
+                        Athletiq Male Visor
                         <br>Size: S
                         <br>Qty: 1
                     </td>
@@ -53,7 +53,7 @@
                     <td data-label="Date ordered">04/12/2025</td>
                     <td data-label="Item"><img class="order-image" src="src/view/images/productImages/male_hoodie_zipup.png"></td>
                     <td data-label="Description">
-                        Athletiq male hoodie
+                        Athletiq Male Hoodie
                         <br>Size: M
                         <br>Qty: 2
                     </td>
