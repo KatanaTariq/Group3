@@ -39,7 +39,7 @@
             <tbody>
                 <tr>
                     <td data-label="Date ordered">04/12/2025</td>
-                    <td data-label="Item"><img class="order-image" src="images/male_hat_visor.png"></td>
+                    <td data-label="Item"><img class="order-image" src="src/view/images/productImages/male_hat_visor.png"></td>
                     <td data-label="Description">
                         Athletiq male visor
                         <br>Size: S
@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <td data-label="Date ordered">04/12/2025</td>
-                    <td data-label="Item"><img class="order-image" src="images/male_hoodie_zipup.png"></td>
+                    <td data-label="Item"><img class="order-image" src="src/view/images/productImages/male_hoodie_zipup.png"></td>
                     <td data-label="Description">
                         Athletiq male hoodie
                         <br>Size: M
