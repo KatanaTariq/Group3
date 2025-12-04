@@ -23,7 +23,7 @@
 
 <div class="basket-footer">
     <p class="total">Total: £<span id="basket-total">0.00</span></p>
-    <button class="checkout-btn" onclick="location.href='/checkout'">Proceed to Checkout</button>
+    <button class="checkout-btn">Proceed to Checkout</button>
 </div>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>

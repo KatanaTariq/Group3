@@ -93,6 +93,19 @@
     background: #8CCAA0;
 }
 
+.payment-form {
+    max-width: 500px;
+    margin: 0 auto 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
 @media (max-width: 700px) {
     .checkout-item {
         flex-direction: column;
