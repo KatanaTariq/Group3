@@ -5,19 +5,25 @@ $request = $_SERVER['REQUEST_URI'];
 $requestPath = parse_url($request, PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Clean up the request path - remove index
+// Clean Up the Request Path - Remove index.php
 $requestPath = str_replace('/index.php', '', $requestPath);
 if ($requestPath === '') {
     $requestPath = '/';
 }
 
-// Start session
+// Start Session
 session_start();
 
-// Create connection to database
+// Security helper (input validation, CSRF, headers)
+require __DIR__ . '/src/security.php';
+
+// Send secure HTTP headers on every request
+send_security_headers();
+
+// Create Connection to Database
 include __DIR__ . "/config/database.php";
 
-// Create Models
+// Include Models
 include __DIR__ . '/src/model/Admin.php';
 include __DIR__ . '/src/model/Auth.php';
 include __DIR__ . '/src/model/Basket.php';
@@ -26,7 +32,7 @@ include __DIR__ . '/src/model/Order.php';
 include __DIR__ . '/src/model/Product.php';
 include __DIR__ . '/src/model/Wishlist.php';
 
-// Include the controllers
+// Include Controllers
 require __DIR__ . '/src/controller/AdminController.php';
 require __DIR__ . '/src/controller/AuthController.php';
 require __DIR__ . '/src/controller/BasketController.php';
@@ -37,9 +43,8 @@ require __DIR__ . '/src/controller/ReturnController.php';
 require __DIR__ . '/src/controller/ReviewController.php';
 require __DIR__ . '/src/controller/WishlistController.php';
 
-// Initialise controllers
+// Initialise Controllers
 $auth = new AuthController($pdo);
-
 
 switch ($requestPath) {
 
@@ -48,7 +53,15 @@ switch ($requestPath) {
         handleHomeRequest();
         break;
 
+    case '/about':
+    case '/about-us':
+    case '/aboutus':
+        handleAboutRequest();
+        break;
+
     case '/register':
+    case '/signup':
+    case '/sign-up':
         handleRegisterRequest();
         break;
 
@@ -64,14 +77,26 @@ switch ($requestPath) {
         handleProfileRequest();
         break;
 
+    case '/basket':
+        handleBasketRequest();
+        break;
+
+    case '/checkout':
+        handleCheckoutRequest();
+        break;
+
+    case '/shop-women':
+    case '/women':
+        handleWomenPageRequest();
+        break;
+
     default:
         handle404Request();
         break;
 }
 
-
 /**
- * Handles home page requests
+ * Handles Home Page Requests
  * 
  * @return void
  */
@@ -80,7 +105,16 @@ function handleHomeRequest() {
 }
 
 /**
- * Handle registration page requests
+ * Handles About Page Requests
+ * 
+ * @return void
+ */
+function handleAboutRequest() {
+    require __DIR__ . '/src/view/pages/about.php';
+}
+
+/**
+ * Handles Registration Page Requests
  * 
  * @return void
  */
@@ -89,12 +123,12 @@ function handleRegisterRequest() {
 
     switch ($_SERVER['REQUEST_METHOD']) {
 
-        // Display the registration form for GET requests
+        // Display the Registration Form for GET Requests
         case 'GET':
             $auth->displayRegister();
             break;
         
-        // Handle registration form submission for POST requests
+        // Handle Registration Form Submission for POST Requests
         case 'POST':
             $auth->register();
             break;
@@ -102,7 +136,7 @@ function handleRegisterRequest() {
 }
 
 /**
- * Handle login page requests
+ * Handles Login Page Requests
  * 
  * @return void
  */
@@ -111,12 +145,12 @@ function handleLoginRequest() {
 
     switch ($_SERVER['REQUEST_METHOD']) {
 
-        // Display the login form for GET requests
+        // Display the Login Form for GET Requests
         case 'GET':
             $auth->displayLogin();
             break;
         
-        // Handle login form submission for POST requests
+        // Handle Login Form Submission for POST Requests
         case 'POST':
             $auth->login();
             break;
@@ -124,7 +158,7 @@ function handleLoginRequest() {
 }
 
 /**
- * Handle logout requests
+ * Handles Logout Requests
  * 
  * @return void
  */
@@ -134,7 +168,7 @@ function handleLogoutRequest() {
 }
 
 /**
- * Handle profile page requests
+ * Handles Profile Page Requests
  * 
  * @return void
  */
@@ -143,7 +177,34 @@ function handleProfileRequest() {
 }
 
 /**
- * Handle 404 page requests
+ * Handles Basket Page Requests
+ *
+ * @return void
+ */
+function handleBasketRequest() {
+    require __DIR__ . '/src/view/pages/basket.php';
+}
+
+/**
+ * Handles Checkout Page Requests
+ *
+ * @return void
+ */
+function handleCheckoutRequest() {
+    require __DIR__ . '/src/view/pages/checkout.php';
+}
+
+/**
+ * Handles Women's Category Page Requests
+ *
+ * @return void
+ */
+function handleWomenPageRequest() {
+    require __DIR__ . '/src/view/pages/womens_page.php';
+}
+
+/**
+ * Handles 404 Page Requests
  * 
  * @return void
  */
@@ -151,5 +212,3 @@ function handle404Request() {
     http_response_code(404);
     require __DIR__ . '/src/view/pages/404.php';
 }
-
-?>

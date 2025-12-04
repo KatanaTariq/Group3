@@ -5,6 +5,9 @@
 <?php endif; ?>
 
 <form method="post" action="/register">
+    <!-- CSRF token -->
+    <input type="hidden" name="csrf_token"
+           value="<?php echo htmlspecialchars(get_csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
     <label>first name</label>
     <input type="text" name="first_name">
 
