@@ -8,6 +8,7 @@
     <link rel="icon" href="/src/view/images/logos/athletiq_logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/src/view/css/nav.css">
     <link rel="stylesheet" href="/src/view/css/footer.css">
+    <link rel="stylesheet" href="src/view/css/previous_orders.css">
 </head>
 
 <body>
@@ -66,64 +67,7 @@
     </table>
 
     <style>
-        :root{
-            --primary: #A8D5BA;
-            --white: #fff;
-            --grey: #e0e0e0;
-            --black: #000;
-        }
-
-        body{
-            font-family:Arial, Helvetica, sans-serif ;
-        }
-
-        .orders-table {
-            align-items: center;
-            background-color: var(--white);
-            margin: 50px auto;
-            margin-bottom: 50px;           
-            border-collapse: collapse;
-            box-shadow: 2px 2px 15px #c5c5c5;
-            width: 80%;
-        }
-        .orders-table th{
-            padding: 12px;
-            text-align: center; 
-            background: var(--primary);
-            color: #fff;
-        }
-        .orders-table td{
-            padding: 12px;
-            text-align: center;
-            border-bottom: 2px solid #dedede;
-        }
-        .orders-table tr:hover {
-            background: #f0f0f0;
-        }
-        .order-image {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-        .reorder-button{
-            width: 100px;
-            height: 30px;
-            background-color: var(--primary)  ;
-            color: var(--black);
-            margin-top: 25px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: bold;
-            transition: all 0.3s ease ;
-        }
-        .reorder-button:hover{
-            background: #8CCAA0;
-            color: #ffffff;
-        }
+        
     </style>
 
     <?php include __DIR__ . '/../templates/footer.php'; ?>
