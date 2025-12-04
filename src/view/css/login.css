@@ -119,11 +119,6 @@
     font-size: 14px;
 }
 
-.error-message::before{
-    content: "⚠ ";
-    font-weight: bold;
-}
-
 .error-message{
     position: relative;
     cursor: pointer;
