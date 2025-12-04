@@ -6,7 +6,6 @@ Function: - add, remove, update basket items
      * - calculate and display basket subtotal
 *******************************************/
 
-
 namespace AthlETIQ\Controller;
 use AthlETIQ\Model\Basket;
 
@@ -78,7 +77,8 @@ class BasketController {
                     //if quantity drops to zero, call the remove method
                     $success = $this->basketModel->removeItem($itemID);
                     $message = $success ? 'Item removed fro basket.' : 'Could not remove item.';
-                    $this->setFlashMessage($success ? 'error', $message);
+                    $this->setFlashMessage($success ? 'success' : 'error', $message);
+
                 } else {
                     //update nthe quantity
                     $this->basketModel->updateItemQuantity($itemID, $newQuantity);
@@ -145,7 +145,7 @@ class BasketController {
             exit();
         }
     }
-
+    /**
     *
      * Renders a view template and outputs it to the user.
      * * NOTE: This is a placeholder for a real view rendering system.
