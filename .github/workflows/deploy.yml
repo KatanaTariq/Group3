@@ -3,6 +3,7 @@ on:
   push:
     branches: [ "main" ]  # run pipeline on push to main branch
   workflow_dispatch:  # allow manual triggering from GitHub Actions
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,7 +20,22 @@ jobs:
         echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         printf "Host cs2410-web01pvm.aston.ac.uk\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-    
+
+    # validate all PHP files before deploying (blocks deployment if broken)
+    - name: PHP Syntax Check
+      run: |
+        php -v
+        find . -name "*.php" | xargs -n 1 php -l
+
+    # verify essential project files exist
+    - name: Check Core Files Exist
+      run: |
+        test -f index.php
+        test -d src
+        test -d config
+        test -f config/database.php
+        echo "All required files exist."
+
     # test the SSH connection to confirm authentication works
     - name: Test SSH Connection
       run: |
