@@ -15,23 +15,24 @@
     <?php include __DIR__ . '/../templates/nav.php'; ?>
 
     <!-- Sign Up page -->
-    <div class = "signup-border">
+    <div class="signup-border">
 
         <div class="signup-logo">
             <img src="src/view/images/logos/athletiq_logo_transparent.png" alt="Athletiq logo">
             <h1>Sign Up</h1>
         </div>
 
-        <?php if (!empty($_GET['error'])): ?>
-            <p><?php echo htmlspecialchars($_GET['error']); ?></p>
-        <?php endif; ?>
+        <div class="error-message">
+            <?php echo htmlspecialchars($_GET['error']); ?>
+        </div>
+
 
         <div class="details">
             <form method="POST" action="/signup">
 
                 <!-- CSRF token -->
                 <input type="hidden" name="csrf_token"
-                       value="<?php echo htmlspecialchars(generate_csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
+                       value="<?php echo htmlspecialchars(get_csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
 
                 <div class="input-box">
                     <input type="text" name="first_name" placeholder="First name" required>
