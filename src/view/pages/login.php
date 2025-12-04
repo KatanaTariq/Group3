@@ -16,24 +16,12 @@
 
 <?php include __DIR__ . '/../templates/nav.php'; ?>
 
-<?php if (!empty($_GET['error'])): ?>
-    <div class="error-message">
-    <?php echo htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'); ?>
-</div>
-<?php endif; ?>
-
 <div class="login-border">
 
     <div class="login-logo">
         <img src="/src/view/images/logos/athletiq_logo_transparent.png" alt="Athletiq logo">
         <h1>Login</h1>
     </div>
-
-    <?php if (!empty($_GET['error'])): ?>
-        <div class="error-message">
-            <?php echo htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'); ?>
-        </div>
-    <?php endif; ?>
 
     <div class="details">
         <form action="/login" method="post">

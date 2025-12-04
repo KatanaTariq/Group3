@@ -119,11 +119,9 @@
     font-size: 14px;
 }
 
-.error-message{
-    position: relative;
-    cursor: pointer;
-}
-
-.error-message:hover{
-    opacity: 0.8;
+.error-message:hover {
+    opacity: 1 !important;
+    filter: none !important;
+    box-shadow: none !important;
+    transform: none !important;
 }
