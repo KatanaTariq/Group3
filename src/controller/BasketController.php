@@ -12,10 +12,12 @@ use AthlETIQ\model\Basket;
 
 class BasketController{
 
-    private $basketModel;
+    private $basketModel ;
 
     public function __construct($db){
-        parent::__construct();
+         if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+         }
         // Assuming the user is authenticated and $userID is available
         $userID = $this->getCurrentUserId();
         $this->basketModel = new basket($db, $userID);
@@ -48,8 +50,14 @@ class BasketController{
                     throw new \InvalidArgumentException("Quantity must be at least 1.");
                 }
                 $this->basketModel->addItem($variantID, $quantity);
+                $this->setFlashMessage('success', 'Item added to basket successfully.');
+                
+            } catch (\InvalidArgumentException $e) {
+                // Controller failure message for bad input
+                $this->setFlashMessage('error', $e->getMessage());
+            } catch (\Exception $e) {
+                // Controller failure message for Model errors (e.g., insufficient stock)
                 $this->setFlashMessage('error', 'Failed to add item: ' . $e->getMessage());
-            }
         }
 
         header('Location: /basket');
@@ -89,7 +97,7 @@ class BasketController{
      */
     public function removeItem(){
         if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
-            $itemID = (int)$_POST['item'];
+            $itemID = (int)$_POST['item_id'];
 
             $success = $this->basketModel->removeItem($itemID);
 
@@ -123,7 +131,7 @@ class BasketController{
 
         try{
             //model execute the transaction and returns the new order ID
-            $orderID = $this->basketModel-.finalizeCheckout($shippingAddressID, $billingAddressID);
+            $orderID = $this->basketModel->finalizeCheckout($shippingAddressID, $billingAddressID);
 
             // success: controller sets the succes message and redirectsto confirmation/history
             $this->setFlashMessage('sucess', "Thank you! Your order #{$orderID} has been places successfully.");
@@ -137,10 +145,17 @@ class BasketController{
         }
     }
 
-    // mock function for getting the current logged in user ID
-    private function getCurrentUserID(): int{
-        //Kiera's responsibility: replace with actual session/ auth check
-        return 1;
+    *
+     * Renders a view template and outputs it to the user.
+     * * NOTE: This is a placeholder for a real view rendering system.
+     * @param string $viewPath Path to the view file (e.g., 'pages/basket').
+     * @param array $data Data to be passed to the view.
+     */
+    protected function render(string $viewPath, array $data = [])
+    {
+        // Simulation for compilation purposes:
+        echo "--- Rendering View: {$viewPath} ---\n";
+        echo "Data passed: " . print_r($data, true) . "\n";
     }
 
     /**
@@ -148,6 +163,12 @@ class BasketController{
      */
     private function setFlashMessage($type, $message){
         error_log("FLASH MESSAGE ({$type}): {$message}");
+    }
+
+    // mock function for getting the current logged in user ID
+    private function getCurrentUserID(): int{
+        //Kiera's responsibility: replace with actual session/ auth check
+        return 1;
     }
 }
     /**
