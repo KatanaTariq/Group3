@@ -72,3 +72,11 @@ nav a {
     background: var(--primary);
     color: var(--black);
 }
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--white);
+    color: var(--black);
+}

@@ -30,10 +30,13 @@ function loadCheckout() {
 
 loadCheckout();
 
+const paymentForm = document.getElementById('payment-form');
 
-document.getElementById('payment-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Order successfull! Thank you for shopping at Athletiq!');
-    localStorage.removeItem('basket');
-    window.location.href = '/index';
-});
+if (paymentForm) {
+    paymentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Order successful! Thank you for shopping at Athletiq!');
+        localStorage.removeItem('basket');
+        window.location.href = '/home';
+    });
+}

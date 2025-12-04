@@ -5,10 +5,6 @@
     --grey: #eee;
 }
 
-body{
-    background: var(--grey);
-    font-family: Arial, Helvetica, sans-serif;
-}
 
 .profilePage{
     min-height: 80vh;

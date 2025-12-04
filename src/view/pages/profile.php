@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <link rel="icon" href="/src/view/images/logos/athletiq_logo.png" type="image/x-icon">
     <link rel="icon" href="/src/view/images/logos/athletiq_logo.png">
     <link rel="stylesheet" href="/src/view/css/nav.css">
     <link rel="stylesheet" href="/src/view/css/footer.css">

@@ -5,10 +5,6 @@
     --black: #000;
 }
 
-body{
-    font-family:Arial, Helvetica, sans-serif ;
-}
-
 .orders-table {
     align-items: center;
     background-color: var(--white);
