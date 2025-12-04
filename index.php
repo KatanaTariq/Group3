@@ -14,6 +14,12 @@ if ($requestPath === '') {
 // Start Session
 session_start();
 
+// Security helper (input validation, CSRF, headers)
+require __DIR__ . '/src/security.php';
+
+// Send secure HTTP headers on every request
+send_security_headers();
+
 // Create Connection to Database
 include __DIR__ . "/config/database.php";
 
@@ -51,7 +57,11 @@ switch ($requestPath) {
         handleAboutRequest();
         break;
 
-    case '/register':
+    case '/contact':
+        handleContactRequest();
+        break;
+
+    case '/signup':
         handleRegisterRequest();
         break;
 
@@ -67,6 +77,10 @@ switch ($requestPath) {
         handleProfileRequest();
         break;
 
+    case '/previous-orders':
+        handlePreviousOrdersRequest();
+        break;
+
     case '/basket':
         handleBasketRequest();
         break;
@@ -76,9 +90,11 @@ switch ($requestPath) {
         break;
 
     case '/shop-women':
-    case '/women':
-    case '/womens_page':
         handleWomenPageRequest();
+        break;
+
+    case '/shop-men':
+        handleMenPageRequest();
         break;
 
     default:
@@ -102,6 +118,15 @@ function handleHomeRequest() {
  */
 function handleAboutRequest() {
     require __DIR__ . '/src/view/pages/about.php';
+}
+
+/**
+ * Handles Contact Page Requests
+ *
+ * @return void
+ */
+function handleContactRequest() {
+    require __DIR__ . '/src/view/pages/contact.php';
 }
 
 /**
@@ -168,6 +193,15 @@ function handleProfileRequest() {
 }
 
 /**
+ * Handles Previous Orders Page Requests
+ *
+ * @return void
+ */
+function handlePreviousOrdersRequest() {
+    require __DIR__ . '/src/view/pages/previous_orders.php';
+}
+
+/**
  * Handles Basket Page Requests
  *
  * @return void
@@ -192,6 +226,15 @@ function handleCheckoutRequest() {
  */
 function handleWomenPageRequest() {
     require __DIR__ . '/src/view/pages/womens_page.php';
+}
+
+/**
+ * Handles Men's Category Page Requests
+ *
+ * @return void
+ */
+function handleMenPageRequest() {
+    require __DIR__ . '/src/view/pages/mens_page.php';
 }
 
 /**

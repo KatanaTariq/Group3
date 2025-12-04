@@ -1,419 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Athletiq | Sportswear</title>
-
-<style>
-:root {
-    --primary: #A8D5BA;
-    --black: #000;
-    --white: #fff;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--white);
-    color: var(--black);
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-nav {
-    display: flex;
-    align-items: center;
-    padding: 15px 40px;
-    border-bottom: 1px solid #ccc;
-    background: var(--white);
-    gap: 20px;
-}
-
-.logo-img {
-    width: 80px;
-    height: auto;
-    cursor: pointer;
-}
-
-.nav-links {
-    display: flex;
-    gap: 15px;
-    list-style: none;
-    font-weight: bold;
-    margin-left: 10px;
-}
-
-.nav-links a:hover {
-    color: var(--primary);
-}
-
-.search-box {
-    margin-left: 20px;
-}
-
-.search-box input {
-    padding: 8px;
-    width: 230px;
-    border: 2px solid var(--black);
-    border-radius: 4px;
-}
-
-.auth-btns {
-    margin-left: auto;
-    display: flex;
-    gap: 15px;
-}
-
-.signup-btn, .login-btn, .basket-btn {
-    background: var(--black);
-    color: var(--white);
-    padding: 8px 18px;
-    border-radius: 4px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-}
-
-.signup-btn:hover, .login-btn:hover, .basket-btn:hover {
-    background: var(--primary);
-    color: var(--black);
-}
-
-
-
-
-.hero {
-    display: flex;
-    padding: 40px;
-    gap: 40px;
-    background: #f5f5f5;
-    align-items: center; 
-}
-
-.hero-img {
-    width: 400px;        
-    height: 400px;
-    background: #d9d9d9;
-    border: 5px solid var(--primary);
-    border-radius: 10px;
-    background-size: contain;   
-    background-position: center;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    transition: background-image 0.5s ease-in-out;
-}
-
-.hero-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    width: 40%;
-}
-
-.hero-text h1 {
-    font-size: 2.2rem;
-    margin-bottom: 15px;
-}
-
-.hero-text p {
-    font-size: 1.1rem;
-    margin-bottom: 25px;
-    line-height: 1.5;
-}
-
-.learn-more-btn {
-    padding: 10px 20px;
-    background-color: var(--primary);
-    color: #000;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.learn-more-btn:hover {
-    background-color: #8CCAA0;
-}
-
-.hero-text a {
-    text-decoration: none;
-}
-
-.categories {
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    padding: 60px 0;
-    background: var(--primary);
-    flex-wrap: wrap;
-}
-
-.category-box {
-    width: 220px;
-    cursor: pointer;
-    background: #fff;         
-    border: 3px solid #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.category-box:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-}
-
-.img-container {
-    position: relative;
-    width: 100%;
-    height: 220px;
-}
-
-.img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.overlay-text {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 10px 0;
-    background: rgba(0, 0, 0, 0.5); 
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.2rem;
-    text-align: center;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
-
-.category-box a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.just-in {
-    background: #f9f9f9; 
-    padding: 60px 20px;
-    text-align: center;
-}
-
-.just-in h2 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-.just-in p {
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-    color: #555;
-}
-
-.products {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.product-card {
-    background: #fff;
-    width: 220px;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-}
-
-.product-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-.product-card h3 {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #000;
-}
-
-.product-btn {
-    padding: 10px 18px;
-    background-color: var(--primary); 
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    color: #000;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.product-btn:hover {
-    background-color: #8CCAA0; 
-}
-
-.product-card a {
-    text-decoration: none;
-}
-
-.signup-promo {
-    background-color: var(--primary); 
-    padding: 60px 20px;
-    text-align: center;
-    color: #000;
-}
-
-.signup-promo h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-.signup-promo p {
-    font-size: 1.1rem;
-    margin-bottom: 30px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.5;
-}
-
-.signup-promo .signup-btn {
-    padding: 12px 30px;
-    background-color: #fff;
-    color: #000;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.signup-promo .signup-btn:hover {
-    transform: scale(1.05);
-    background-color: #f0f0f0;
-}
-
-
-
-
-#site-footer {
-  background-color: #f2f2f2; 
-  color: var(--black);
-  padding: 40px 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  font-family: Arial, Helvetica, sans-serif;
-  gap: 20px;
-}
-
-.footer-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.footer-nav h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.2rem;
-  color: var(--primary);
-}
-
-.footer-nav a {
-  color: var(--black);
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-.footer-nav a:hover {
-  color: var(--primary);
-}
-
-.footer-center {
-  flex: 1;
-  text-align: center;
-  min-width: 200px;
-  margin-top: 10px;
-}
-
-.footer-center p {
-  margin: 0 0 15px 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.footer-signup-btn {
-  padding: 10px 20px;
-  background-color: var(--primary);
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  color: var(--black);
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.footer-signup-btn:hover {
-  background-color: #8CCAA0;
-  transform: scale(1.05);
-}
-
-.footer-logo {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.footer-logo img {
-  height: 60px;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athletiq | Sportswear</title>
+    <link rel="stylesheet" href="/src/view/css/home.css">
+    <link rel="stylesheet" href="/src/view/css/nav.css">
+    <link rel="stylesheet" href="/src/view/css/footer.css">
 </head>
 
 <body>
 
-<nav>
-    <img src="/src/view/images/logos/athletiq_logo.png" alt="Athletiq Logo" class="logo-img">
-
-    <ul class="nav-links">
-        <li><a href="#">Men</a></li>
-        <li><a href="/shop-women">Women</a></li> 
-    </ul>
-
-    <div class="search-box">
-        <input type="text" placeholder="Search products...">
-    </div>
-
-    <div class="auth-btns">
-        <button onclick="location.href='basket.php'" class="basket-btn">View Basket</button>
-        <button onclick="location.href='register.php'" class="signup-btn">Sign Up</button>
-        <button onclick="location.href='login.php'" class="login-btn">Log In</button>
-    </div>
-</nav>
+<?php include __DIR__ . '/../templates/nav.php'; ?>
 
 
 <section class="hero">
@@ -432,7 +31,7 @@ nav {
     <div class="category-box">
         <a href="#">
             <div class="img-container">
-                <img src="/src/view/images/productImages/home/home_men_polo_tank.png" alt="Shop Men">
+                <img src="/src/view/images/productImages/home_men_polo_tank.png" alt="Shop Men">
                 <div class="overlay-text">Shop Men</div>
             </div>
         </a>
@@ -441,7 +40,7 @@ nav {
     <div class="category-box">
         <a href="/shop-women"> 
             <div class="img-container">
-                <img src="/src/view/images/productImages/womens/women_polo_tee.png" alt="Shop Women">
+                <img src="/src/view/images/productImages/women_polo_tee.png" alt="Shop Women">
                 <div class="overlay-text">Shop Women</div>
             </div>
         </a>
@@ -456,7 +55,7 @@ nav {
     <div class="products">
 
         <div class="product-card">
-            <img src="/src/view/images/productImages/home/home_women_running_spikes.png" alt="Women Running Spikes">
+            <img src="/src/view/images/productImages/home_women_running_spikes.png" alt="Women Running Spikes">
             <h3>Women's Running Spikes</h3>
             <a href="/shop-women">
                 <button class="product-btn">View Product</button>
@@ -464,7 +63,7 @@ nav {
         </div>
 
         <div class="product-card">
-            <img src="/src/view/images/productImages/home/home_men_football_boot.png" alt="Men Football Boots">
+            <img src="/src/view/images/productImages/home_men_football_boot.png" alt="Men Football Boots">
             <h3>Men's Football Boots</h3>
             <a href="#">
                 <button class="product-btn">View Product</button>
@@ -472,7 +71,7 @@ nav {
         </div>
 
         <div class="product-card">
-            <img src="/src/view/images/productImages/home/home_women_running_shoes.png" alt="Women Running Shoes">
+            <img src="/src/view/images/productImages/home_women_running_shoes.png" alt="Women Running Shoes">
             <h3>Women's Running Shoes</h3>
             <a href="/shop-women">
                 <button class="product-btn">View Product</button>
@@ -492,26 +91,7 @@ nav {
 </section>
 
 
-<footer id="site-footer">
-  <div class="footer-nav">
-    <h3>Quick Links</h3>
-    <a href="home.php">Home</a>
-    <a href="about.php">About Us</a>
-    <a href="#">Contact Us</a>
-    <a href="login.php">Sign In</a>
-  </div>
-
-  <div class="footer-center">
-    <p>Let's stay in touch! Sign up to experience the benefits of Athletiq!</p>
-    <a href="register.php">
-        <button class="footer-signup-btn">Sign Up</button>
-    </a>
-  </div>
-
-  <div class="footer-logo">
-    <img src="/src/view/images/logos/athletiq_logo_transparent.png" alt="Athletiq Logo">
-  </div>
-</footer>
+<?php include __DIR__ . '/../templates/footer.php'; ?>
 
 <script src="/src/view/js/home.js"></script>
 </body>

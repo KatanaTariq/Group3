@@ -1,9 +1,57 @@
-<h1>profile page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="icon" href="/src/view/images/logos/athletiq_logo.png">
+    <link rel="stylesheet" href="/src/view/css/nav.css">
+    <link rel="stylesheet" href="/src/view/css/footer.css">
+    <link rel="stylesheet" href="/src/view/css/profile.css">
+</head>
+<body>
 
-<?php if (!isset($_SESSION['customer_id'])): ?>
-    <p>not logged in</p>
-    <p><a href="/login">go to login</a></p>
-<?php else: ?>
-    <p>logged in as customer id: <?php echo $_SESSION['customer_id']; ?></p>
-    <p><a href="/logout">logout</a></p>
-<?php endif; ?>
+<?php include __DIR__ . '/../templates/nav.php'; ?>
+
+<div class="profilePage">
+
+    <div class="profileHeader">
+        <h1>Profile</h1>
+    </div>
+
+    <div class="profileCard">
+
+        <?php if (!isset($_SESSION['customer_id'])): ?>
+
+            <h2>You’re not logged in</h2>
+            <p>Please log in to access your profile.</p>
+
+            <div class="profileActions">
+                <a href="/login" class="btn">Go to Login</a>
+            </div>
+
+        <?php else: ?>
+
+            <h2>You're in!!</h2>
+
+            <p class="user">
+                Athlete ID: <?php echo htmlspecialchars($_SESSION['customer_id']); ?>
+            </p>
+
+            <p>
+                You're officially logged in and ready to move.
+            </p>
+
+            <div class="profileActions">
+                <a href="/logout" class="btn secondary">Log out</a>
+            </div>
+
+        <?php endif; ?>
+
+    </div>
+
+</div>
+
+<?php include __DIR__ . '/../templates/footer.php'; ?>
+
+</body>
+</html>
