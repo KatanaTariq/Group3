@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!heroBox) return;
 
     const heroImages = [
-        "/src/view/images/productImages/home_football_jersey.png",
-        "/src/view/images/productImages/home_women_joggers.png",
-        "/src/view/images/productImages/home_men_boxing_short.png",
-        "/src/view/images/productImages/home_men_hoodie.png"
+        "/public/images/productImages/home_football_jersey.png",
+        "/public/images/productImages/home_women_joggers.png",
+        "/public/images/productImages/home_men_boxing_short.png",
+        "/public/images/productImages/home_men_hoodie.png"
     ];
 
     let slideIndex = 0;
