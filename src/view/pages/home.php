@@ -95,6 +95,6 @@
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>
 
-<script src="/home/js/home.js"></script>
+<script src="/public/js/home.js"></script>
 </body>
 </html>
