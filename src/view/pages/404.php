@@ -21,7 +21,7 @@
 
     <div class="errorCard">
 
-        <h2>Woah athlete!! wrong lane.</h2>
+        <h2>Woah athlete!! Wrong lane.</h2>
 
         <p class="subtitle">
             Looks like you sprinted into a page that doesn’t exist.
