@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Athletiq | About Us </title>
-    <link rel="icon" href="/images/logos/athletiq_logo.png" type="image/x-icon">
+    <link rel="icon" href="/images/logos/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/images/logos/favicon.png">
     <link rel="stylesheet" href="/css/about.css">
     <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="/css/footer.css">

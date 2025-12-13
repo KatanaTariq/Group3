@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Athletiq | Basket</title>
-    <link rel="icon" href="/src/view/images/logos/athletiq_logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="/src/view/css/nav.css">
-    <link rel="stylesheet" href="/src/view/css/footer.css">
-    <link rel="stylesheet" href="/src/view/css/basket.css">
+    <link rel="icon" href="/images/logos/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/images/logos/favicon.png">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/basket.css">
 </head>
 
 <body>
@@ -28,7 +29,7 @@
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>
 
-<script src="/src/view/js/basket.js"></script>
+<script src="/js/basket.js"></script>
 
 </body>
 </html>

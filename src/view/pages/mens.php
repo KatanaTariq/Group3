@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Athletiq | Men</title>
-    <link rel="icon" href="/src/view/images/logos/athletiq_logo.png" type="image/x-icon">
-    <link rel="icon" href="/src/view/images/logos/athletiq_logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="/src/view/css/nav.css">
-    <link rel="stylesheet" href="/src/view/css/footer.css">
-    <link rel="stylesheet" href="src/view/css/mens_page.css">
+    <link rel="icon" href="/images/logos/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/images/logos/favicon.png">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/mens.css">
 </head>
 
 <body>
@@ -30,7 +30,7 @@
 <section class="products-container" id="all-products">
 
 <div class="product-card" data-category="hoodies">
-    <img src="src/view/images/productImages/male_hoodie_green.png" class="product-img">
+    <img src="/images/productImages/male_hoodie_green.png" class="product-img">
     <p class="product-name">Green Athletiq Hoodie</p>
     <p class="price">£30</p>
     <select required>
@@ -41,7 +41,7 @@
 </div>
 
 <div class="product-card" data-category="hoodies">
-    <img src="src/view/images/productImages/male_hoodie_black.png" class="product-img">
+    <img src="/images/productImages/male_hoodie_black.png" class="product-img">
     <p class="product-name">Green & Black Athletiq Hoodie</p>
     <p class="price">£35</p>
     <select required>
@@ -52,7 +52,7 @@
 </div>
 
 <div class="product-card" data-category="hoodies">
-    <img src="src/view/images/productImages/male_hoodie_turtleneck_zipup.png" class="product-img">
+    <img src="/images/productImages/male_hoodie_turtleneck_zipup.png" class="product-img">
     <p class="product-name">Green & Black Zipup Athletiq Turtleneck</p>
     <p class="price">£30</p>
     <select required>
@@ -63,7 +63,7 @@
 </div>
 
 <div class="product-card" data-category="hoodies">
-    <img src="src/view/images/productImages/male_hoodie_turtleneck.png" class="product-img">
+    <img src="/images/productImages/male_hoodie_turtleneck.png" class="product-img">
     <p class="product-name">Green Athletiq Turtleneck</p>
     <p class="price">£30</p>
     <select required>
@@ -74,7 +74,7 @@
 </div>
 
 <div class="product-card" data-category="hoodies">
-    <img src="src/view/images/productImages/male_hoodie_zipup.png" class="product-img">
+    <img src="/images/productImages/male_hoodie_zipup.png" class="product-img">
     <p class="product-name">Green Zip up Athletiq Hoodie</p>
     <p class="price">£30</p>
     <select required>
@@ -85,7 +85,7 @@
 </div>
 
 <div class="product-card" data-category="tops">
-    <img src="src/view/images/productImages/male_shirt_polo.png" class="product-img">
+    <img src="/images/productImages/male_shirt_polo.png" class="product-img">
     <p class="product-name">Athletiq Polo Tee</p>
     <p class="price">£39.99</p>
     <select required>
@@ -96,7 +96,7 @@
 </div>
 
 <div class="product-card" data-category="tops">
-    <img src="src/view/images/productImages/male_shirt_football.png" class="product-img">
+    <img src="/images/productImages/male_shirt_football.png" class="product-img">
     <p class="product-name">Athletiq Football Jersey</p>
     <p class="price">£45</p>
     <select required>
@@ -107,7 +107,7 @@
 </div>
 
 <div class="product-card" data-category="tops">
-    <img src="src/view/images/productImages/male_shirt_compression.png" class="product-img">
+    <img src="/images/productImages/male_shirt_compression.png" class="product-img">
     <p class="product-name">Athletiq Compression Top</p>
     <p class="price">£40</p>
     <select required>
@@ -118,7 +118,7 @@
 </div>
 
 <div class="product-card" data-category="tops">
-    <img src="src/view/images/productImages/male_shirt_tank.png" class="product-img">
+    <img src="/images/productImages/male_shirt_tank.png" class="product-img">
     <p class="product-name">Athletiq Gym Tanktop</p>
     <p class="price">£25</p>
     <select required>
@@ -129,7 +129,7 @@
 </div>
 
 <div class="product-card" data-category="tops">
-    <img src="src/view/images/productImages/male_shirt_basketball.png" class="product-img">
+    <img src="/images/productImages/male_shirt_basketball.png" class="product-img">
     <p class="product-name">Athletiq Basketball Jersey</p>
     <p class="price">£45</p>
     <select required>
@@ -140,7 +140,7 @@
 </div>
 
 <div class="product-card" data-category="bottoms">
-    <img src="src/view/images/productImages/male_pants_tennis.png" class="product-img">
+    <img src="/images/productImages/male_pants_tennis.png" class="product-img">
     <p class="product-name">Athletiq Tennis Shorts</p>
     <p class="price">£32</p>
     <select required>
@@ -151,7 +151,7 @@
 </div>
 
 <div class="product-card" data-category="bottoms">
-    <img src="src/view/images/productImages/male_pants_rugby.png" class="product-img">
+    <img src="/images/productImages/male_pants_rugby.png" class="product-img">
     <p class="product-name">Athletiq Rugby Shorts</p>
     <p class="price">£35</p>
     <select required>
@@ -162,7 +162,7 @@
 </div>
 
 <div class="product-card" data-category="bottoms">
-    <img src="src/view/images/productImages/male_pants_swimming.png" class="product-img">
+    <img src="/images/productImages/male_pants_swimming.png" class="product-img">
     <p class="product-name">Athletiq Swimming Shorts</p>
     <p class="price">£25</p>
     <select required>
@@ -173,7 +173,7 @@
 </div>
 
 <div class="product-card" data-category="bottoms">
-    <img src="src/view/images/productImages/male_joggers.png" class="product-img">
+    <img src="/images/productImages/male_joggers.png" class="product-img">
     <p class="product-name">Athletiq Joggers</p>
     <p class="price">£49.99</p>
     <select required>
@@ -184,7 +184,7 @@
 </div>
 
 <div class="product-card" data-category="bottoms">
-    <img src="src/view/images/productImages/male_pants_boxing.png" class="product-img">
+    <img src="/images/productImages/male_pants_boxing.png" class="product-img">
     <p class="product-name">Athletiq Boxing Shorts</p>
     <p class="price">£30</p>
     <select required>
@@ -195,7 +195,7 @@
 </div>
 
 <div class="product-card" data-category="footwear">
-    <img src="src/view/images/productImages/male_shoes_mountaineering.png" class="product-img">
+    <img src="/images/productImages/male_shoes_mountaineering.png" class="product-img">
     <p class="product-name">Mens Mountaineering Boots</p>
     <p class="price">£85.99</p>
     <select required>
@@ -206,7 +206,7 @@
 </div>
 
 <div class="product-card" data-category="footwear">
-    <img src="src/view/images/productImages/male_shoes_flipflops.png" class="product-img">
+    <img src="/images/productImages/male_shoes_flipflops.png" class="product-img">
     <p class="product-name">Mens Flip Flops</p>
     <p class="price">£20</p>
     <select required>
@@ -217,7 +217,7 @@
 </div>
 
 <div class="product-card" data-category="footwear">
-    <img src="src/view/images/productImages/male_shoes_running.png" class="product-img">
+    <img src="/images/productImages/male_shoes_running.png" class="product-img">
     <p class="product-name">Mens Running Shoes</p>
     <p class="price">£80</p>
     <select required>
@@ -228,7 +228,7 @@
 </div>
 
 <div class="product-card" data-category="footwear">
-    <img src="src/view/images/productImages/male_shoes_trainers.png" class="product-img">
+    <img src="/images/productImages/male_shoes_trainers.png" class="product-img">
     <p class="product-name">Mens Trainers</p>
     <p class="price">£90</p>
     <select required>
@@ -239,7 +239,7 @@
 </div>
 
 <div class="product-card" data-category="footwear">
-    <img src="src/view/images/productImages/male_shoes_studs.png" class="product-img">
+    <img src="/images/productImages/male_shoes_studs.png" class="product-img">
     <p class="product-name">Mens Football Boots</p>
     <p class="price">£85.99</p>
     <select required>
@@ -250,7 +250,7 @@
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="src/view/images/productImages/male_hat_visor.png" class="product-img">
+    <img src="/images/productImages/male_hat_visor.png" class="product-img">
     <p class="product-name">Athletiq Visor</p>
     <p class="price">£25</p>
     <select required>
@@ -261,7 +261,7 @@
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="src/view/images/productImages/male_hat_sweatband.png" class="product-img">
+    <img src="/images/productImages/male_hat_sweatband.png" class="product-img">
     <p class="product-name">Athletiq Sweatband</p>
     <p class="price">£15.99</p>
     <select required>
@@ -272,7 +272,7 @@
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="src/view/images/productImages/male_hat_rugby.png" class="product-img">
+    <img src="/images/productImages/male_hat_rugby.png" class="product-img">
     <p class="product-name">Athletiq Rugby Helmet</p>
     <p class="price">£75</p>
     <select required>
@@ -283,7 +283,7 @@
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="src/view/images/productImages/male_hat_baseball.png" class="product-img">
+    <img src="/images/productImages/male_hat_baseball.png" class="product-img">
     <p class="product-name">Athletiq Baseball Cap</p>
     <p class="price">£35</p>
     <select required>
@@ -294,7 +294,7 @@
 </div>
 
 <div class="product-card" data-category="headwear">
-    <img src="src/view/images/productImages/male_hat_swimming.png" class="product-img">
+    <img src="/images/productImages/male_hat_swimming.png" class="product-img">
     <p class="product-name">Athletiq Swimcap</p>
     <p class="price">£10.99</p>
     <select required>
@@ -306,7 +306,7 @@
 
 </section>
 
-<script src="src/view/js/mens_page.js"></script>
+<script src="/js/mens.js"></script>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>
 
