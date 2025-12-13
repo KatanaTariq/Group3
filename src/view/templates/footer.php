@@ -13,6 +13,6 @@
     </div>
 
     <div class="footer-logo">
-        <img src="/images/logos/athletiq_logo_transparent.png" alt="Athletiq Logo">
+        <img src="/public/images/logos/athletiq_logo_transparent.png" alt="Athletiq Logo">
     </div>
 </footer>

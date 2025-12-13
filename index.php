@@ -225,7 +225,7 @@ function handleCheckoutRequest() {
  * @return void
  */
 function handleWomenPageRequest() {
-    require __DIR__ . '/src/view/pages/womens_page.php';
+    require __DIR__ . '/src/view/pages/womens.php';
 }
 
 /**
@@ -234,7 +234,7 @@ function handleWomenPageRequest() {
  * @return void
  */
 function handleMenPageRequest() {
-    require __DIR__ . '/src/view/pages/mens_page.php';
+    require __DIR__ . '/src/view/pages/mens.php';
 }
 
 /**
