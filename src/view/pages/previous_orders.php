@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Previous Orders</title>
-    <link rel="icon" href="/images/logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/images/logos/favicon.png">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/previous_orders.css">
+    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
+    <link rel="stylesheet" href="/public/css/nav.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/previous_orders.css">
 </head>
 
 <body>
@@ -40,7 +40,7 @@
             <tbody>
                 <tr>
                     <td data-label="Date ordered">04/12/2025</td>
-                    <td data-label="Item"><img class="order-image" src="/images/productImages/male_hat_visor.png"></td>
+                    <td data-label="Item"><img class="order-image" src="/public/images/productImages/male_hat_visor.png"></td>
                     <td data-label="Description">
                         Athletiq Male Visor
                         <br>Size: S
@@ -52,7 +52,7 @@
                 </tr>
                 <tr>
                     <td data-label="Date ordered">04/12/2025</td>
-                    <td data-label="Item"><img class="order-image" src="/images/productImages/male_hoodie_zipup.png"></td>
+                    <td data-label="Item"><img class="order-image" src="/public/images/productImages/male_hoodie_zipup.png"></td>
                     <td data-label="Description">
                         Athletiq Male Hoodie
                         <br>Size: M

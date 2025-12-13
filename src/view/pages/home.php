@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Athletiq | Sportswear</title>
-    <link rel="icon" href="/images/logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/images/logos/favicon.png">
-    <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
+    <link rel="stylesheet" href="/public/css/home.css">
+    <link rel="stylesheet" href="/public/css/nav.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
 </head>
 
 <body>
@@ -33,7 +33,7 @@
     <div class="category-box">
         <a href="/shop-men">
             <div class="img-container">
-                <img src="/images/productImages/home_men_polo_tank.png" alt="Shop Men">
+                <img src="/public/images/productImages/home_men_polo_tank.png" alt="Shop Men">
                 <div class="overlay-text">Shop Men</div>
             </div>
         </a>
@@ -42,7 +42,7 @@
     <div class="category-box">
         <a href="/shop-women"> 
             <div class="img-container">
-                <img src="/images/productImages/women_polo_tee.png" alt="Shop Women">
+                <img src="/public/images/productImages/women_polo_tee.png" alt="Shop Women">
                 <div class="overlay-text">Shop Women</div>
             </div>
         </a>
@@ -57,7 +57,7 @@
     <div class="products">
 
         <div class="product-card">
-            <img src="/images/productImages/home_women_running_spikes.png" alt="Women Running Spikes">
+            <img src="/public/images/productImages/home_women_running_spikes.png" alt="Women Running Spikes">
             <h3>Women's Running Spikes</h3>
             <a href="/shop-women">
                 <button class="product-btn">View Product</button>
@@ -65,7 +65,7 @@
         </div>
 
         <div class="product-card">
-            <img src="/images/productImages/home_men_football_boot.png" alt="Men Football Boots">
+            <img src="/public/images/productImages/home_men_football_boot.png" alt="Men Football Boots">
             <h3>Men's Football Boots</h3>
             <a href="/shop-men">
                 <button class="product-btn">View Product</button>
@@ -73,7 +73,7 @@
         </div>
 
         <div class="product-card">
-            <img src="/images/productImages/home_women_running_shoes.png" alt="Women Running Shoes">
+            <img src="/public/images/productImages/home_women_running_shoes.png" alt="Women Running Shoes">
             <h3>Women's Running Shoes</h3>
             <a href="/shop-women">
                 <button class="product-btn">View Product</button>

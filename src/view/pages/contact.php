@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
-    <link rel="icon" href="/images/logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/images/logos/favicon.png">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/contact.css">
+    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
+    <link rel="stylesheet" href="/public/css/nav.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/contact.css">
     <link rel='stylesheet' href='https://cdn.boxicons.com/3.0.6/fonts/basic/boxicons.min.css'>
 </head>
 

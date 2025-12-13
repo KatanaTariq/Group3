@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
-    <link rel="icon" href="/images/logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/images/logos/favicon.png">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
+    <link rel="stylesheet" href="/public/css/nav.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/profile.css">
 </head>
 <body>
 
