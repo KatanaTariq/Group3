@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Athletiq | Log In</title>
-    <link rel="icon" href="/images/logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/images/logos/favicon.png">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
+    <link rel="stylesheet" href="/public/css/nav.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/login.css">
 </head>
 
 <body>
@@ -19,7 +19,7 @@
 <div class="login-border">
 
     <div class="login-logo">
-        <img src="/images/logos/athletiq_logo_transparent.png" alt="Athletiq logo">
+        <img src="/public/images/logos/athletiq_logo_transparent.png" alt="Athletiq logo">
         <h1>Login</h1>
     </div>
 
