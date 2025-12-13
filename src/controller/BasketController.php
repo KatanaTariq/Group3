@@ -7,7 +7,7 @@ Function: - add, remove, update basket items
 *******************************************/
 
 namespace AthlETIQ\Controller;
-use AthlETIQ\model\Basket;
+use AthlETIQ\Model\Basket;
 
 class BasketController {
 
