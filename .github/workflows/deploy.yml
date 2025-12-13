@@ -30,7 +30,7 @@ jobs:
     # verify essential project files exist
     - name: Check Core Files Exist
       run: |
-        test -f public/index.php
+        test -f index.php
         test -d src
         test -d config
         test -f config/database.php
