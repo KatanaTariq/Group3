@@ -30,7 +30,7 @@
 
 <section class="categories">
     <div class="category-box">
-        <a href="#">
+        <a href="/shop-men">
             <div class="img-container">
                 <img src="/src/view/images/productImages/home_men_polo_tank.png" alt="Shop Men">
                 <div class="overlay-text">Shop Men</div>
@@ -66,7 +66,7 @@
         <div class="product-card">
             <img src="/src/view/images/productImages/home_men_football_boot.png" alt="Men Football Boots">
             <h3>Men's Football Boots</h3>
-            <a href="#">
+            <a href="/shop-men">
                 <button class="product-btn">View Product</button>
             </a>
         </div>
@@ -86,7 +86,7 @@
 <section class="signup-promo">
     <h2>Love Athletiq?</h2>
     <p>Join our Athletiq champions and Sign up now! 10% Welcome voucher included and other deals, exclusive to members only.</p>
-    <a href="register.php">
+    <a href="/signup">
         <button class="signup-btn">Sign Up Now</button>
     </a>
 </section>

@@ -16,7 +16,7 @@
 <?php include __DIR__ . '/../templates/nav.php'; ?>
 
 <h1 class="checkout-title">Checkout</h1>
-
+    
 <div class="checkout-container" id="checkout-items">
     
 </div>

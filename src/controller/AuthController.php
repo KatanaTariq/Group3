@@ -21,7 +21,7 @@ class AuthController
 
         // CSRF check
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
-            return $this->redirect('/signup?error=' . urlencode('invalid CSRF token'));
+            return $this->redirect('/signup?error=' . urlencode('Invalid CSRF token'));
         }
 
         // Raw inputs
