@@ -1,6 +1,6 @@
 <nav>
     <a href="/home">
-        <img src="/images/logos/athletiq_logo.png" alt="Athletiq Logo" class="logo-img">
+        <img src="/public/images/logos/athletiq_logo.png" alt="Athletiq Logo" class="logo-img">
     </a>
 
     <ul class="nav-links">
