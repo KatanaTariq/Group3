@@ -33,15 +33,7 @@ include __DIR__ . '/src/model/Product.php';
 include __DIR__ . '/src/model/Wishlist.php';
 
 // Include Controllers
-require __DIR__ . '/src/controller/AdminController.php';
-require __DIR__ . '/src/controller/AuthController.php';
-require __DIR__ . '/src/controller/BasketController.php';
-require __DIR__ . '/src/controller/CustomerController.php';
-require __DIR__ . '/src/controller/OrderController.php';
-require __DIR__ . '/src/controller/ProductController.php';
-require __DIR__ . '/src/controller/ReturnController.php';
-require __DIR__ . '/src/controller/ReviewController.php';
-require __DIR__ . '/src/controller/WishlistController.php';
+require __DIR__ . '/src/controller/Controller.php';
 
 // Initialise Controllers
 $auth = new AuthController($pdo);

@@ -19,7 +19,7 @@
     <div class="signup-border">
 
         <div class="signup-logo">
-            <img src="/images/logos/athletiq_logo_transparent.png" alt="Athletiq logo">
+            <img src="/public/images/logos/athletiq_logo_transparent.png" alt="Athletiq logo">
             <h1>Sign Up</h1>
         </div>
 
