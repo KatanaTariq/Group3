@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * ==========================================================
+ *                    AUTH CONTROLLER
+ * ==========================================================
+ * Fully implemented and active
+ * Developer: Kiera
+ */
+
 class AuthController
 {
     private CustomerModel $customerModel;
@@ -19,65 +28,47 @@ class AuthController
             return $this->displayRegister();
         }
 
-        // CSRF check
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
             return $this->redirect('/signup?error=' . urlencode('Invalid CSRF token'));
         }
 
-        // Raw inputs
-        $firstNameRaw = $_POST['first_name'] ?? '';
-        $lastNameRaw  = $_POST['last_name'] ?? '';
-        $emailRaw     = $_POST['email'] ?? '';
-        $passwordRaw  = $_POST['password'] ?? '';
-
-        // Sanitize / validate
-        $firstName = sanitize_string($firstNameRaw);
-        $lastName  = sanitize_string($lastNameRaw);
-        $email     = validate_email($emailRaw);
+        $firstName = sanitize_string($_POST['first_name'] ?? '');
+        $lastName  = sanitize_string($_POST['last_name'] ?? '');
+        $email     = validate_email($_POST['email'] ?? '');
+        $password  = trim($_POST['password'] ?? '');
 
         if ($email === null) {
             return $this->redirect('/signup?error=' . urlencode('Invalid email'));
         }
 
-        // Password validation
-        $password = trim($passwordRaw);
         $errors = [];
 
         if (strlen($password) < 8) {
             $errors[] = 'Password must be at least 8 characters long';
         }
-
         if (!preg_match('/[A-Z]/', $password)) {
-            $errors[] = 'Password must contain at least one uppercase letter';
+            $errors[] = 'Password must contain an uppercase letter';
         }
-
         if (!preg_match('/[\W_]/', $password)) {
-            $errors[] = 'Password must contain at least one special character';
+            $errors[] = 'Password must contain a special character';
         }
 
-        if (!empty($errors)) {
-            $errorString = urlencode(implode(', ', $errors));
-            return $this->redirect('/signup?error=' . $errorString);
+        if ($errors) {
+            return $this->redirect('/signup?error=' . urlencode(implode(', ', $errors)));
         }
 
-        // Password hashing (NEVER store plain text)
-        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-        // Create the customer (CustomerModel uses prepared statements)
         $customer = $this->customerModel->registerCustomer([
             'email'         => $email,
-            'password_hash' => $passwordHash,
+            'password_hash' => password_hash($password, PASSWORD_DEFAULT),
             'first_name'    => $firstName,
             'last_name'     => $lastName,
         ]);
 
-        if ($customer === null) {
+        if (!$customer) {
             return $this->redirect('/signup?error=' . urlencode('could not create account'));
         }
 
-        // Log the user in
         $_SESSION['customer_id'] = $customer->getId();
-
         return $this->redirect('/profile');
     }
 
@@ -92,32 +83,24 @@ class AuthController
             return $this->view('pages/login');
         }
 
-        // CSRF check
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
             return $this->redirect('/login?error=' . urlencode('Invalid CSRF token'));
         }
 
-        $emailRaw = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
-
-        $email = validate_email($emailRaw);
-        $password = trim($password);
+        $email = validate_email($_POST['email'] ?? '');
+        $password = trim($_POST['password'] ?? '');
 
         if ($email === null || $password === '') {
             return $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
         }
 
-        // Retrieve user by email
         $customer = $this->customerModel->getCustomerByEmail($email);
 
-        // Use password_verify to compare plaintext to hash
         if (!$customer || !password_verify($password, $customer->getPasswordHash())) {
             return $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
         }
 
-        // Success: store session data
         $_SESSION['customer_id'] = $customer->getId();
-
         return $this->redirect('/profile');
     }
 
@@ -139,4 +122,55 @@ class AuthController
     }
 }
 
-?>
+/* ==========================================================
+ * ==========================================================
+ *                    BASKET CONTROLLER
+ * ==========================================================
+ * NOT YET INTEGRATED — FULLY COMMENTED OUT
+ * Developer: Mokutmfonobong Utuk
+ * ==========================================================
+ * ========================================================== */
+
+// /*******************************************
+// Developer: Mokutmfonobong Utuk
+// University ID: 240240082
+// Function: - add, remove, update basket items
+//          - calculate and display basket subtotal
+// *******************************************/
+//
+// namespace AthlETIQ\Controller;
+// use AthlETIQ\Model\Basket;
+//
+// class BasketController {
+//
+//     private $basketModel;
+//
+//     public function __construct($db){
+//         if (session_status() === PHP_SESSION_NONE) {
+//             session_start();
+//         }
+//         $userID = $this->getCurrentUserID();
+//         $this->basketModel = new Basket($db, $userID);
+//     }
+//
+//     public function index() {
+//         $basketItem = $this->basketModel->getContents();
+//         $subtotal = $this->basketModel->calculateSubtotal();
+//     }
+//
+//     public function addItem(){}
+//
+//     public function updateBasket(){}
+//
+//     public function removeItem(){}
+//
+//     public function checkout(){}
+//
+//     protected function render(string $viewPath, array $data = []) {}
+//
+//     private function setFlashMessage($type, $message){}
+//
+//     private function getCurrentUserID(): int {
+//         return 1;
+//     }
+// }
