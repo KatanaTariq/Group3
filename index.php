@@ -1,29 +1,43 @@
 <?php
 
-// Routing
-$request = $_SERVER['REQUEST_URI'];
-$requestPath = parse_url($request, PHP_URL_PATH);
-$method = $_SERVER['REQUEST_METHOD'];
+// ===============================
+// ROUTING SETUP
+// ===============================
+$requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
 
-// Clean Up the Request Path - Remove index.php
+// Remove index.php from URL
 $requestPath = str_replace('/index.php', '', $requestPath);
-if ($requestPath === '') {
-    $requestPath = '/';
+
+// Remove base folder (/Group3) for XAMPP
+$basePath = '/Group3';
+if (stripos($requestPath, $basePath) === 0) {
+    $requestPath = substr($requestPath, strlen($basePath));
 }
 
-// Start Session
+// Normalise path
+if ($requestPath === '' || $requestPath[0] !== '/') {
+    $requestPath = '/' . ltrim($requestPath, '/');
+}
+if ($requestPath !== '/') {
+    $requestPath = rtrim($requestPath, '/');
+}
+
+// ===============================
+// SESSION + SECURITY
+// ===============================
 session_start();
 
-// Security helper (input validation, CSRF, headers)
 require __DIR__ . '/src/security.php';
-
-// Send secure HTTP headers on every request
 send_security_headers();
 
-// Create Connection to Database
-include __DIR__ . "/config/database.php";
+// ===============================
+// DATABASE
+// ===============================
+include __DIR__ . '/config/database.php';
 
-// Include Models
+// ===============================
+// MODELS
+// ===============================
 include __DIR__ . '/src/model/Admin.php';
 include __DIR__ . '/src/model/Auth.php';
 include __DIR__ . '/src/model/Basket.php';
@@ -32,209 +46,103 @@ include __DIR__ . '/src/model/Order.php';
 include __DIR__ . '/src/model/Product.php';
 include __DIR__ . '/src/model/Wishlist.php';
 
-// Include Controllers
-require __DIR__ . '/src/controller/Controller.php';
+// ✅ Inventory (Sprint 1 – Tariq)
+include __DIR__ . '/src/model/InventoryModel.php';
 
-// Initialise Controllers
+// ===============================
+// CONTROLLERS
+// ===============================
+require __DIR__ . '/src/controller/Controller.php';
+require __DIR__ . '/src/controller/InventoryController.php';
+
+// ===============================
+// INIT CONTROLLERS
+// ===============================
 $auth = new AuthController($pdo);
 
+// ===============================
+// ROUTES
+// ===============================
 switch ($requestPath) {
 
     case '/':
     case '/home':
-        handleHomeRequest();
+        require __DIR__ . '/src/view/pages/home.php';
         break;
 
     case '/about':
-        handleAboutRequest();
+        require __DIR__ . '/src/view/pages/about.php';
         break;
 
     case '/contact':
-        handleContactRequest();
+        require __DIR__ . '/src/view/pages/contact.php';
         break;
 
     case '/signup':
-        handleRegisterRequest();
+        ($_SERVER['REQUEST_METHOD'] === 'POST')
+            ? $auth->register()
+            : $auth->displayRegister();
         break;
 
     case '/login':
-        handleLoginRequest();
+        ($_SERVER['REQUEST_METHOD'] === 'POST')
+            ? $auth->login()
+            : $auth->displayLogin();
         break;
 
     case '/logout':
-        handleLogoutRequest();
+        $auth->logout();
         break;
 
     case '/profile':
-        handleProfileRequest();
+        require __DIR__ . '/src/view/pages/profile.php';
         break;
 
     case '/previous-orders':
-        handlePreviousOrdersRequest();
+        require __DIR__ . '/src/view/pages/previous_orders.php';
         break;
 
     case '/basket':
-        handleBasketRequest();
+        require __DIR__ . '/src/view/pages/basket.php';
         break;
 
     case '/checkout':
-        handleCheckoutRequest();
+        require __DIR__ . '/src/view/pages/checkout.php';
         break;
 
     case '/shop-women':
-        handleWomenPageRequest();
+        require __DIR__ . '/src/view/pages/womens.php';
         break;
 
     case '/shop-men':
-        handleMenPageRequest();
+        require __DIR__ . '/src/view/pages/mens.php';
+        break;
+
+    case '/admin/login':
+    // TEMP: Admin login page not present in this repo snapshot.
+    // Using standard login page so Inventory redirects don't 404.
+    require __DIR__ . '/src/view/pages/login.php';
+    break;
+
+
+
+    // ===============================
+    // ✅ ADMIN INVENTORY (Sprint 1 – Tariq)
+    // ===============================
+    case '/admin/inventory':
+        (new InventoryController($pdo))->index();
+        break;
+
+    case '/admin/inventory/update':
+        (new InventoryController($pdo))->update();
+        break;
+
+    case '/admin/inventory/logs':
+        (new InventoryController($pdo))->logs();
         break;
 
     default:
-        handle404Request();
+        http_response_code(404);
+        require __DIR__ . '/src/view/pages/404.php';
         break;
-}
-
-/**
- * Handles Home Page Requests
- * 
- * @return void
- */
-function handleHomeRequest() {
-    require __DIR__ . '/src/view/pages/home.php';
-}
-
-/**
- * Handles About Page Requests
- * 
- * @return void
- */
-function handleAboutRequest() {
-    require __DIR__ . '/src/view/pages/about.php';
-}
-
-/**
- * Handles Contact Page Requests
- *
- * @return void
- */
-function handleContactRequest() {
-    require __DIR__ . '/src/view/pages/contact.php';
-}
-
-/**
- * Handles Registration Page Requests
- * 
- * @return void
- */
-function handleRegisterRequest() {
-    global $auth;
-
-    switch ($_SERVER['REQUEST_METHOD']) {
-
-        // Display the Registration Form for GET Requests
-        case 'GET':
-            $auth->displayRegister();
-            break;
-        
-        // Handle Registration Form Submission for POST Requests
-        case 'POST':
-            $auth->register();
-            break;
-    }
-}
-
-/**
- * Handles Login Page Requests
- * 
- * @return void
- */
-function handleLoginRequest() {
-    global $auth;
-
-    switch ($_SERVER['REQUEST_METHOD']) {
-
-        // Display the Login Form for GET Requests
-        case 'GET':
-            $auth->displayLogin();
-            break;
-        
-        // Handle Login Form Submission for POST Requests
-        case 'POST':
-            $auth->login();
-            break;
-    }
-}
-
-/**
- * Handles Logout Requests
- * 
- * @return void
- */
-function handleLogoutRequest() {
-    global $auth;
-    $auth->logout();
-}
-
-/**
- * Handles Profile Page Requests
- * 
- * @return void
- */
-function handleProfileRequest() {
-    require __DIR__ . '/src/view/pages/profile.php';
-}
-
-/**
- * Handles Previous Orders Page Requests
- *
- * @return void
- */
-function handlePreviousOrdersRequest() {
-    require __DIR__ . '/src/view/pages/previous_orders.php';
-}
-
-/**
- * Handles Basket Page Requests
- *
- * @return void
- */
-function handleBasketRequest() {
-    require __DIR__ . '/src/view/pages/basket.php';
-}
-
-/**
- * Handles Checkout Page Requests
- *
- * @return void
- */
-function handleCheckoutRequest() {
-    require __DIR__ . '/src/view/pages/checkout.php';
-}
-
-/**
- * Handles Women's Category Page Requests
- *
- * @return void
- */
-function handleWomenPageRequest() {
-    require __DIR__ . '/src/view/pages/womens.php';
-}
-
-/**
- * Handles Men's Category Page Requests
- *
- * @return void
- */
-function handleMenPageRequest() {
-    require __DIR__ . '/src/view/pages/mens.php';
-}
-
-/**
- * Handles 404 Page Requests
- * 
- * @return void
- */
-function handle404Request() {
-    http_response_code(404);
-    require __DIR__ . '/src/view/pages/404.php';
 }
