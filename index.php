@@ -2,6 +2,11 @@
 // Create database connection
 include __DIR__ . "/config/database.php";
 
+// Start session once for the whole app
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Load the controllers
 require __DIR__ . '/src/controller/BaseController.php';
 require __DIR__ . '/src/controller/AdminController.php';
@@ -34,6 +39,18 @@ if (strpos($requestPath, $basePath) === 0) {
     }
 }
 
+// ======================
+// GLOBAL ADMIN ROUTE GUARD (PHP 7+ compatible)
+// Protect all /admin routes except /admin/login
+// ======================
+$isAdminRoute = (strpos($requestPath, '/admin') === 0);
+$isAdminLogin = ($requestPath === '/admin/login');
+
+if ($isAdminRoute && !$isAdminLogin && empty($_SESSION['admin_id'])) {
+    header('Location: /Group3/admin/login?err=session');
+    exit;
+}
+
 // Simple routers
 switch ($requestPath) {
 
@@ -50,28 +67,40 @@ switch ($requestPath) {
         break;
 
     // ======================
-    // ADMIN AUTH / DASHBOARD
+    // ADMIN AUTH
     // ======================
     case '/admin/login':
-        require __DIR__ . '/src/view/pages/admin/login.php';
+        $controller = new AdminController($pdo);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->login();
+        } else {
+            $controller->showLogin();
+        }
         break;
 
+    case '/admin/logout':
+        $controller = new AdminController($pdo);
+        $controller->logout();
+        break;
+
+    // ======================
+    // ADMIN DASHBOARD
+    // ======================
     case '/admin/home':
     case '/admin/dashboard':
-        require __DIR__ . '/src/view/pages/admin/home.php';
+        require __DIR__ . '/src/view/pages/admin/dashboard.php';
         break;
 
     // ======================
     // ADMIN INVENTORY (Tariq)
     // ======================
 
-    // Main inventory management page
     case '/admin/inventory':
         $controller = new InventoryController($pdo);
         $controller->index();
         break;
 
-    // Handle stock update form submissions (POST only)
     case '/admin/inventory/update':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $controller = new InventoryController($pdo);
@@ -82,11 +111,8 @@ switch ($requestPath) {
         }
         break;
 
-    // Inventory change log page (we’ll fill later)
     case '/admin/inventory/logs':
-        $controller = new InventoryController($pdo);
-        // $controller->logs(); // TODO: implement
-        require __DIR__ . '/src/view/pages/admin/inventory.php';
+        require __DIR__ . '/src/view/pages/admin/inventory_logs.php';
         break;
 
     // ======================
