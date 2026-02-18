@@ -1,0 +1,127 @@
+:root {
+    --primary: #A8D5BA;
+    --white: #fff;
+    --darkgrey: #888888;
+    --black: #000;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-300px);
+    }
+    to {
+        transform: translateX(0px);
+    }
+}
+
+.login-border {
+    animation: slideInLeft 1s;
+    margin: 50px auto;
+    margin-bottom: 50px;
+    background-color: var(--primary);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 0 15px #797979;
+    width: 350px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-logo {
+    text-align: center;
+}
+
+.login-logo img {
+    height: 70px;
+    margin: 0px;
+}
+
+.login-logo h1 {
+    margin: 0px;
+    margin-bottom: 25px;
+    font-size: 50px;
+}
+
+.details {
+    text-align: center;
+}
+
+.input-box {
+    width: 300px;
+    height: 30px;
+    margin-left: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #000;
+    border-radius: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
+}
+
+.login-button {
+    width: 150px;
+    height: 50px;
+    background-color: #000000;
+    color: var(--white);
+    margin-top: 25px;
+    margin-bottom: 15px;
+    border: 2px solid #000;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 25px;
+    transition: transform 0.3s ease;
+}
+
+.login-button:hover {
+    transform: scale(1.1);
+}
+
+.remember-forgotten {
+    display: flex;
+    justify-content: space-between;
+}
+
+.remember-forgotten label input {
+    accent-color: var(--white);
+}
+
+.remember-forgotten a {
+    color: var(--black);
+    text-decoration: none;
+}
+
+.remember-forgotten a:hover {
+    text-decoration: underline;
+}
+
+.no-account a {
+    color: var(--white);
+    text-decoration: none;
+}
+
+.no-account a:hover {
+    text-decoration: underline;
+}
+
+.error-message{
+    background: #000;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.error-message:hover {
+    opacity: 1 !important;
+    filter: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}

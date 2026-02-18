@@ -1,123 +1,146 @@
 <?php
-// Create database connection
-include __DIR__ . "/config/database.php";
 
-// Start session once for the whole app
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+// ===============================
+// ROUTING SETUP
+// ===============================
+$requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
+
+// Remove index.php from URL
+$requestPath = str_replace('/index.php', '', $requestPath);
+
+// Remove base folder (/Group3) for XAMPP
+$basePath = '/Group3';
+if (stripos($requestPath, $basePath) === 0) {
+    $requestPath = substr($requestPath, strlen($basePath));
 }
 
-// Load the controllers
-require __DIR__ . '/src/controller/BaseController.php';
-require __DIR__ . '/src/controller/AdminController.php';
-require __DIR__ . '/src/controller/AuthController.php';
-require __DIR__ . '/src/controller/BasketController.php';
-require __DIR__ . '/src/controller/CustomerController.php';
-require __DIR__ . '/src/controller/OrderController.php';
-require __DIR__ . '/src/controller/ProductController.php';
-require __DIR__ . '/src/controller/ReturnController.php';
-require __DIR__ . '/src/controller/ReviewController.php';
-require __DIR__ . '/src/controller/WishlistController.php';
+// Normalise path
+if ($requestPath === '' || $requestPath[0] !== '/') {
+    $requestPath = '/' . ltrim($requestPath, '/');
+}
+if ($requestPath !== '/') {
+    $requestPath = rtrim($requestPath, '/');
+}
+
+// ===============================
+// SESSION + SECURITY
+// ===============================
+session_start();
+
+require __DIR__ . '/src/security.php';
+send_security_headers();
+
+// ===============================
+// DATABASE
+// ===============================
+include __DIR__ . '/config/database.php';
+
+// ===============================
+// MODELS
+// ===============================
+include __DIR__ . '/src/model/Admin.php';
+include __DIR__ . '/src/model/Auth.php';
+include __DIR__ . '/src/model/Basket.php';
+include __DIR__ . '/src/model/Customer.php';
+include __DIR__ . '/src/model/Order.php';
+include __DIR__ . '/src/model/Product.php';
+include __DIR__ . '/src/model/Wishlist.php';
+
+// ✅ Inventory (Sprint 1 – Tariq)
+include __DIR__ . '/src/model/InventoryModel.php';
+
+// ===============================
+// CONTROLLERS
+// ===============================
+require __DIR__ . '/src/controller/Controller.php';
 require __DIR__ . '/src/controller/InventoryController.php';
 
-// Get the current request URL
-$request = $_SERVER['REQUEST_URI'];
-$requestPath = parse_url($request, PHP_URL_PATH);
+// ===============================
+// INIT CONTROLLERS
+// ===============================
+$auth = new AuthController($pdo);
 
-// Remove /index.php from path if present
-$requestPath = str_replace('/index.php', '', $requestPath);
-if ($requestPath === '') {
-    $requestPath = '/';
-}
-
-// Remove the /Group3 prefix (project folder) so routing works
-$basePath = '/Group3';
-if (strpos($requestPath, $basePath) === 0) {
-    $requestPath = substr($requestPath, strlen($basePath));
-    if ($requestPath === '') {
-        $requestPath = '/';
-    }
-}
-
-// ======================
-// GLOBAL ADMIN ROUTE GUARD (PHP 7+ compatible)
-// Protect all /admin routes except /admin/login
-// ======================
-$isAdminRoute = (strpos($requestPath, '/admin') === 0);
-$isAdminLogin = ($requestPath === '/admin/login');
-
-if ($isAdminRoute && !$isAdminLogin && empty($_SESSION['admin_id'])) {
-    header('Location: /Group3/admin/login?err=session');
-    exit;
-}
-
-// Simple routers
+// ===============================
+// ROUTES
+// ===============================
 switch ($requestPath) {
 
-    // ======================
-    // PUBLIC PAGES
-    // ======================
     case '/':
     case '/home':
         require __DIR__ . '/src/view/pages/home.php';
         break;
 
+    case '/about':
+        require __DIR__ . '/src/view/pages/about.php';
+        break;
+
+    case '/contact':
+        require __DIR__ . '/src/view/pages/contact.php';
+        break;
+
+    case '/signup':
+        ($_SERVER['REQUEST_METHOD'] === 'POST')
+            ? $auth->register()
+            : $auth->displayRegister();
+        break;
+
     case '/login':
-        require __DIR__ . '/src/view/pages/login.php';
+        ($_SERVER['REQUEST_METHOD'] === 'POST')
+            ? $auth->login()
+            : $auth->displayLogin();
         break;
 
-    // ======================
-    // ADMIN AUTH
-    // ======================
+    case '/logout':
+        $auth->logout();
+        break;
+
+    case '/profile':
+        require __DIR__ . '/src/view/pages/profile.php';
+        break;
+
+    case '/previous-orders':
+        require __DIR__ . '/src/view/pages/previous_orders.php';
+        break;
+
+    case '/basket':
+        require __DIR__ . '/src/view/pages/basket.php';
+        break;
+
+    case '/checkout':
+        require __DIR__ . '/src/view/pages/checkout.php';
+        break;
+
+    case '/shop-women':
+        require __DIR__ . '/src/view/pages/womens.php';
+        break;
+
+    case '/shop-men':
+        require __DIR__ . '/src/view/pages/mens.php';
+        break;
+
     case '/admin/login':
-        $controller = new AdminController($pdo);
+    // TEMP: Admin login page not present in this repo snapshot.
+    // Using standard login page so Inventory redirects don't 404.
+    require __DIR__ . '/src/view/pages/login.php';
+    break;
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller->login();
-        } else {
-            $controller->showLogin();
-        }
-        break;
 
-    case '/admin/logout':
-        $controller = new AdminController($pdo);
-        $controller->logout();
-        break;
 
-    // ======================
-    // ADMIN DASHBOARD
-    // ======================
-    case '/admin/home':
-    case '/admin/dashboard':
-        require __DIR__ . '/src/view/pages/admin/dashboard.php';
-        break;
-
-    // ======================
-    // ADMIN INVENTORY (Tariq)
-    // ======================
-
+    // ===============================
+    // ✅ ADMIN INVENTORY (Sprint 1 – Tariq)
+    // ===============================
     case '/admin/inventory':
-        $controller = new InventoryController($pdo);
-        $controller->index();
+        (new InventoryController($pdo))->index();
         break;
 
     case '/admin/inventory/update':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller = new InventoryController($pdo);
-            $controller->updateStock();
-        } else {
-            header('Location: /Group3/admin/inventory');
-            exit;
-        }
+        (new InventoryController($pdo))->update();
         break;
 
     case '/admin/inventory/logs':
-        require __DIR__ . '/src/view/pages/admin/inventory_logs.php';
+        (new InventoryController($pdo))->logs();
         break;
 
-    // ======================
-    // 404 FALLBACK
-    // ======================
     default:
         http_response_code(404);
         require __DIR__ . '/src/view/pages/404.php';

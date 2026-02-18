@@ -1,17 +1,46 @@
-<?php
-// Correct relative paths from /src/view/pages to /src/view/templates
-require __DIR__ . '/../templates/header.php';
-require __DIR__ . '/../templates/navbar.php';
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404 | Page Not Found</title>
+    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
+    <link rel="stylesheet" href="/public/css/nav.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/404.css">
+</head>
+<body>
 
-<h1>404 not found</h1>
-<p>The page you are looking for does not exist.</p>
+<?php include __DIR__ . '/../templates/nav.php'; ?>
 
-<ul>
-    <li><a href="/Group3/home">go to home</a></li>
-    <li><a href="/Group3/login">go to login</a></li>
-</ul>
+<div class="errorPage">
 
-<?php
-require __DIR__ . '/../templates/footer.php';
-?>
+    <div class="errorHeader">
+        <h1>404</h1>
+    </div>
+
+    <div class="errorCard">
+
+        <h2>Woah athlete!! Wrong lane.</h2>
+
+        <p class="subtitle">
+            Looks like you sprinted into a page that doesn’t exist.
+        </p>
+
+        <p class="joke">
+            Don’t worry, happens to the best of us.
+        </p>
+
+        <div class="actions">
+            <a href="/" class="btn">Return Home</a>
+            <a href="/login" class="btn secondary">Go to Login</a>
+        </div>
+
+    </div>
+
+</div>
+
+<?php include __DIR__ . '/../templates/footer.php'; ?>
+
+</body>
+</html>

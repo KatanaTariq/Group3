@@ -1,0 +1,140 @@
+:root {
+    --primary: #A8D5BA;
+    --black: #000;
+    --white: #fff;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #EEEEEE;
+    color: var(--black);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    padding: 15px 40px;
+    border-bottom: 1px solid #ccc;
+    background: var(--white);
+    gap: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    flex-wrap: wrap;
+}
+
+.logo-img {
+    width: 80px;
+    height: auto;
+    cursor: pointer;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    font-weight: bold;
+    margin-left: 10px;
+    padding: 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+.search-box {
+    margin-left: 20px;
+}
+
+.search-box input {
+    padding: 8px;
+    width: 230px;
+    border: 2px solid var(--black);
+    border-radius: 4px;
+}
+
+.auth-btns {
+    margin-left: auto;
+    display: flex;
+    gap: 15px;
+}
+
+.signup-btn,
+.login-btn,
+.basket-btn {
+    background: var(--black);
+    color: var(--white);
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.signup-btn:hover,
+.login-btn:hover,
+.basket-btn:hover {
+    background: var(--primary);
+    color: var(--black);
+}
+
+/* MOBILE PHONES */
+@media (max-width: 768px) {
+
+    nav {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px 20px;
+        gap: 12px;
+    }
+
+    nav a:first-child {
+        margin: 0 auto;
+    }
+
+    .nav-links {
+        justify-content: center;
+        margin: 0;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .search-box {
+        width: 100%;
+        margin: 0;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+
+    .auth-btns {
+        margin-left: 0;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+}
+
+/* VERY SMALL PHONES */
+@media (max-width: 480px) {
+
+    .signup-btn,
+    .login-btn,
+    .basket-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+}
