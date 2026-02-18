@@ -52,6 +52,7 @@ class InventoryController extends BaseController
      * Route: /admin/inventory/update (POST)
      *
      * Includes:
+     *  - CSRF protection
      *  - Input validation
      *  - Flash messages (success/error)
      *  - Inventory logging (old vs new quantity)
@@ -62,6 +63,25 @@ class InventoryController extends BaseController
             session_start();
         }
 
+        // ======================
+        // CSRF PROTECTION
+        // ======================
+        $csrfToken = $_POST['csrf_token'] ?? '';
+
+        if (
+            empty($csrfToken) ||
+            empty($_SESSION['csrf_token']) ||
+            !hash_equals($_SESSION['csrf_token'], $csrfToken)
+        ) {
+            http_response_code(403);
+            $_SESSION['flash_error'] = 'Invalid CSRF token. Please try again.';
+            header('Location: /admin/inventory');
+            exit;
+        }
+
+        // ======================
+        // INPUTS
+        // ======================
         $variantId   = isset($_POST['variant_id']) ? (int)$_POST['variant_id'] : null;
         $newQuantity = $_POST['new_quantity'] ?? null;
 
