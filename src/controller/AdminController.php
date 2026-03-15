@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../model/Admin.php';
+
 class AdminController extends BaseController
 {
     private PDO $pdo;
@@ -8,7 +10,6 @@ class AdminController extends BaseController
     {
         $this->pdo = $pdo;
 
-        // Session already started in index.php, but safe fallback:
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -37,15 +38,15 @@ class AdminController extends BaseController
     // -----------------------
     public function showLogin(): void
     {
+        // If already logged in as admin, go to inventory
         if (!empty($_SESSION['admin_id'])) {
             header('Location: /Group3/admin/inventory');
             exit;
         }
 
-        $csrf = $this->getCsrfToken();
+        $csrf  = $this->getCsrfToken();
         $error = $_GET['err'] ?? null;
 
-        // ✅ views live under /src/view/...
         require __DIR__ . '/../view/pages/admin/login.php';
     }
 
@@ -58,26 +59,32 @@ class AdminController extends BaseController
         $password = $_POST['password'] ?? '';
         $csrf     = $_POST['csrf_token'] ?? '';
 
+        // CSRF check
         if (!$this->validateCsrfToken($csrf)) {
             header('Location: /Group3/admin/login?err=csrf');
             exit;
         }
 
+        // Input validation
         if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
             header('Location: /Group3/admin/login?err=invalid');
             exit;
         }
 
-        require_once __DIR__ . '/../model/Admin.php';
+        // Authenticate admin
         $adminModel = new Admin($this->pdo);
-
         $admin = $adminModel->findByEmail($email);
 
-        if (!$admin || empty($admin['password_hash']) || !password_verify($password, $admin['password_hash'])) {
+        if (
+            !$admin ||
+            empty($admin['password_hash']) ||
+            !password_verify($password, $admin['password_hash'])
+        ) {
             header('Location: /Group3/admin/login?err=invalid');
             exit;
         }
 
+        // Set session
         $_SESSION['admin_id'] = (int)$admin['admin_id'];
 
         // Reduce session fixation risk
@@ -92,8 +99,25 @@ class AdminController extends BaseController
     // -----------------------
     public function logout(): void
     {
-        unset($_SESSION['admin_id']);
-        unset($_SESSION['admin_csrf_token']);
+        // Clear all session data
+        $_SESSION = [];
+
+        // Invalidate the session cookie
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params['path'],
+                $params['domain'],
+                $params['secure'],
+                $params['httponly']
+            );
+        }
+
+        // Destroy session
+        session_destroy();
 
         header('Location: /Group3/admin/login?err=loggedout');
         exit;

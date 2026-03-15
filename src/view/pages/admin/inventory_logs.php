@@ -1,12 +1,9 @@
 <?php
-// Use admin header + nav
-require __DIR__ . '/../../templates/header.php';
-require __DIR__ . '/../../templates/admin_nav.php';
+require_once __DIR__ . '/../../templates/header.php';
+require_once __DIR__ . '/../../templates/admin_nav.php';
 
-/**
- * Expecting $logs from InventoryController::logs()
- * If opened directly, we provide an empty default.
- */
+// Expecting $logs from InventoryController::logs()
+// If opened directly, fallback to empty list
 if (!isset($logs) || !is_array($logs)) {
     $logs = [];
 }
@@ -42,26 +39,50 @@ if (!isset($logs) || !is_array($logs)) {
                         $rowStyle = $change < 0 ? 'background:#fff5f5;' : 'background:#fff;';
                     ?>
                     <tr style="<?= $rowStyle ?>">
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($log['created_at'] ?? '') ?></td>
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($log['product_name'] ?? '') ?></td>
+                        <td style="padding:12px; border-bottom:1px solid #eee;">
+                            <?= htmlspecialchars($log['created_at'] ?? '') ?>
+                        </td>
+
+                        <td style="padding:12px; border-bottom:1px solid #eee;">
+                            <?= htmlspecialchars($log['product_name'] ?? '') ?>
+                        </td>
+
                         <td style="padding:12px; border-bottom:1px solid #eee;">
                             <?= htmlspecialchars($log['variant_size'] ?? '') ?>
-                            <?= isset($log['variant_colour']) ? ' / ' . htmlspecialchars($log['variant_colour']) : '' ?>
+                            <?= isset($log['variant_colour']) && $log['variant_colour'] !== '' ? ' / ' . htmlspecialchars($log['variant_colour']) : '' ?>
                         </td>
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($log['sku'] ?? '') ?></td>
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($log['old_quantity'] ?? '') ?></td>
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($log['new_quantity'] ?? '') ?></td>
+
+                        <td style="padding:12px; border-bottom:1px solid #eee;">
+                            <?= htmlspecialchars($log['sku'] ?? '') ?>
+                        </td>
+
+                        <td style="padding:12px; border-bottom:1px solid #eee;">
+                            <?= htmlspecialchars($log['old_quantity'] ?? '') ?>
+                        </td>
+
+                        <td style="padding:12px; border-bottom:1px solid #eee;">
+                            <?= htmlspecialchars($log['new_quantity'] ?? '') ?>
+                        </td>
 
                         <td style="padding:12px; border-bottom:1px solid #eee;">
                             <?php if ($change < 0): ?>
-                                <strong style="color:#b00000;"><?= htmlspecialchars($log['change_amount'] ?? '') ?></strong>
+                                <strong style="color:#b00000;">
+                                    <?= htmlspecialchars($log['change_amount'] ?? '') ?>
+                                </strong>
                             <?php else: ?>
-                                <strong style="color:#0a7a2f;"><?= htmlspecialchars($log['change_amount'] ?? '') ?></strong>
+                                <strong style="color:#0a7a2f;">
+                                    <?= htmlspecialchars($log['change_amount'] ?? '') ?>
+                                </strong>
                             <?php endif; ?>
                         </td>
 
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($log['admin_id'] ?? '—') ?></td>
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($log['reason'] ?? '') ?></td>
+                        <td style="padding:12px; border-bottom:1px solid #eee;">
+                            <?= htmlspecialchars($log['admin_id'] ?? '—') ?>
+                        </td>
+
+                        <td style="padding:12px; border-bottom:1px solid #eee;">
+                            <?= htmlspecialchars($log['reason'] ?? '') ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -70,6 +91,4 @@ if (!isset($logs) || !is_array($logs)) {
     <?php endif; ?>
 </main>
 
-<?php
-require __DIR__ . '/../../templates/footer.php';
-?>
+<?php require_once __DIR__ . '/../../templates/footer.php'; ?>

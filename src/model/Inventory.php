@@ -49,6 +49,22 @@ class Inventory
      *  - inventory
      *  - inventorylog
      */
+    public function getCurrentStock(int $variantId): ?int
+    {
+    $sql = "
+        SELECT current_stock
+        FROM inventory
+        WHERE variant_id = :variant_id
+        LIMIT 1
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([':variant_id' => $variantId]);
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ? (int)$row['current_stock'] : null;
+    }
+    
     public function updateStock(int $variantId, int $newQuantity): bool
     {
         try {

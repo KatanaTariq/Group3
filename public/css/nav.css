@@ -12,6 +12,20 @@ body {
     color: var(--black);
 }
 
+/* ===============================
+   GLOBAL LOGO CONTROL 
+================================ */
+.logo-img {
+    height: 40px !important;
+    width: auto !important;
+    max-width: 180px !important;
+    object-fit: contain;
+    display: block;
+}
+
+/* ===============================
+   NAVBAR
+================================ */
 nav {
     display: flex;
     align-items: center;
@@ -19,16 +33,15 @@ nav {
     border-bottom: 1px solid #ccc;
     background: var(--white);
     gap: 20px;
-    font-family: Arial, Helvetica, sans-serif;
     flex-wrap: wrap;
 }
 
-.logo-img {
-    width: 80px;
-    height: auto;
-    cursor: pointer;
+nav a {
+    text-decoration: none;
+    color: inherit;
 }
 
+/* NAV LINKS */
 .nav-links {
     display: flex;
     gap: 15px;
@@ -38,15 +51,11 @@ nav {
     padding: 0;
 }
 
-nav a {
-    text-decoration: none;
-    color: inherit;
-}
-
 .nav-links a:hover {
     color: var(--primary);
 }
 
+/* SEARCH */
 .search-box {
     margin-left: 20px;
 }
@@ -58,12 +67,14 @@ nav a {
     border-radius: 4px;
 }
 
+/* AUTH BUTTONS */
 .auth-btns {
     margin-left: auto;
     display: flex;
     gap: 15px;
 }
 
+/* BUTTON STYLING */
 .signup-btn,
 .login-btn,
 .basket-btn {
@@ -83,7 +94,10 @@ nav a {
     color: var(--black);
 }
 
-/* MOBILE PHONES */
+/* ===============================
+   MOBILE RESPONSIVE
+================================ */
+
 @media (max-width: 768px) {
 
     nav {
@@ -119,7 +133,6 @@ nav a {
         gap: 10px;
         flex-wrap: wrap;
     }
-
 }
 
 /* VERY SMALL PHONES */
@@ -136,5 +149,4 @@ nav a {
         flex-direction: column;
         align-items: center;
     }
-
 }

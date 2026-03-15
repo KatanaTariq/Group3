@@ -1,27 +1,19 @@
 <?php
-// Admin header + nav
-require __DIR__ . '/../../templates/header.php';
-require __DIR__ . '/../../templates/admin_nav.php';
+require_once __DIR__ . '/../../templates/header.php';
+require_once __DIR__ . '/../../templates/admin_nav.php';
 
-// Expecting $inventoryItems from InventoryController::index()
-// If opened directly, fallback for development:
-if (!isset($inventoryItems) || !is_array($inventoryItems)) {
-    $inventoryItems = [
-        [
-            'variant_id'          => 1,
-            'product_name'        => 'Sample Tee – Black',
-            'variant_size'        => 'M',
-            'variant_colour'      => 'Black',
-            'sku'                 => 'SAMPLE-TEE-BLK-M',
-            'current_stock'       => 10,
-            'low_stock_threshold' => 5
-        ]
-    ];
-}
-
-// Ensure session exists for flash messages
+// Ensure session exists for flash messages + CSRF
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Expecting $inventoryItems from InventoryController::index()
+// If opened directly, fallback to empty list
+if (!isset($inventoryItems) || !is_array($inventoryItems)) {
+    $inventoryItems = [];
 }
 ?>
 
@@ -70,11 +62,11 @@ if (session_status() === PHP_SESSION_NONE) {
                         $isLow        = $threshold > 0 && $currentStock <= $threshold;
                     ?>
                     <tr style="<?= $isLow ? 'background:#fff5f5;' : 'background:#fff;' ?>">
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($item['variant_id']) ?></td>
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($item['product_name']) ?></td>
+                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($item['variant_id'] ?? '') ?></td>
+                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($item['product_name'] ?? '') ?></td>
                         <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($item['variant_size'] ?? '') ?></td>
                         <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($item['variant_colour'] ?? '') ?></td>
-                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($item['sku']) ?></td>
+                        <td style="padding:12px; border-bottom:1px solid #eee;"><?= htmlspecialchars($item['sku'] ?? '') ?></td>
 
                         <td style="padding:12px; border-bottom:1px solid #eee;">
                             <?= $currentStock ?>
@@ -86,19 +78,18 @@ if (session_status() === PHP_SESSION_NONE) {
                         <td style="padding:12px; border-bottom:1px solid #eee;"><?= $threshold ?></td>
 
                         <td style="padding:12px; border-bottom:1px solid #eee;">
-                            <form method="post" action="/admin/inventory/update" style="display:flex; gap:10px; align-items:center;">
-                                <input type="hidden" name="variant_id" value="<?= (int)$item['variant_id'] ?>">
+                            <form method="post" action="<?= BASE_URL ?>/admin/inventory/update" style="display:flex; gap:10px; align-items:center;">
+                                <input type="hidden" name="variant_id" value="<?= (int)($item['variant_id'] ?? 0) ?>">
                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
 
                                 <input
                                     type="number"
                                     name="new_quantity"
                                     min="0"
-                                    value="<?= (int)$item['current_stock'] ?>"
+                                    value="<?= (int)($item['current_stock'] ?? 0) ?>"
                                     style="padding:8px; width:90px; border:2px solid #000; border-radius:4px;"
                                 >
 
-                                <!-- Uses existing nav.css button styling -->
                                 <button type="submit" class="login-btn">Update</button>
                             </form>
                         </td>
@@ -110,7 +101,4 @@ if (session_status() === PHP_SESSION_NONE) {
     <?php endif; ?>
 </main>
 
-<?php
-require __DIR__ . '/../../templates/footer.php';
-?>
-
+<?php require_once __DIR__ . '/../../templates/footer.php'; ?>

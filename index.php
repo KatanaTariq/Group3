@@ -27,44 +27,56 @@ if ($requestPath !== '/') {
 // ===============================
 session_start();
 
+define('BASE_URL', '/Group3');
+
 require __DIR__ . '/src/security.php';
 send_security_headers();
 
 // ===============================
+// ADMIN ROUTE GUARD (Sprint 3)
+// ===============================
+function requireAdmin(): void
+{
+    if (empty($_SESSION['admin_id'])) {
+        header('Location: /Group3/admin/login?err=session');
+        exit;
+    }
+}
+
+// ===============================
 // DATABASE
 // ===============================
-include __DIR__ . '/config/database.php';
+require __DIR__ . '/config/database.php';
 
 // ===============================
-// MODELS
+// MODELS (only what we actually use here)
 // ===============================
-include __DIR__ . '/src/model/Admin.php';
-include __DIR__ . '/src/model/Auth.php';
-include __DIR__ . '/src/model/Basket.php';
-include __DIR__ . '/src/model/Customer.php';
-include __DIR__ . '/src/model/Order.php';
-include __DIR__ . '/src/model/Product.php';
-include __DIR__ . '/src/model/Wishlist.php';
-
-// ✅ Inventory (Sprint 1 – Tariq)
-include __DIR__ . '/src/model/InventoryModel.php';
+require __DIR__ . '/src/model/Admin.php';
+require __DIR__ . '/src/model/Inventory.php';
+require __DIR__ . '/src/model/InventoryLog.php';
 
 // ===============================
-// CONTROLLERS
+// CONTROLLERS (only what exists in your repo)
 // ===============================
+require __DIR__ . '/src/controller/BaseController.php';
 require __DIR__ . '/src/controller/Controller.php';
+require __DIR__ . '/src/controller/AdminController.php';
 require __DIR__ . '/src/controller/InventoryController.php';
 
 // ===============================
 // INIT CONTROLLERS
 // ===============================
-$auth = new AuthController($pdo);
+$adminController     = new AdminController($pdo);
+$inventoryController = new InventoryController($pdo);
 
 // ===============================
 // ROUTES
 // ===============================
 switch ($requestPath) {
 
+    // -------------------------------
+    // PUBLIC PAGES
+    // -------------------------------
     case '/':
     case '/home':
         require __DIR__ . '/src/view/pages/home.php';
@@ -78,28 +90,12 @@ switch ($requestPath) {
         require __DIR__ . '/src/view/pages/contact.php';
         break;
 
-    case '/signup':
-        ($_SERVER['REQUEST_METHOD'] === 'POST')
-            ? $auth->register()
-            : $auth->displayRegister();
+    case '/shop-women':
+        require __DIR__ . '/src/view/pages/womens.php';
         break;
 
-    case '/login':
-        ($_SERVER['REQUEST_METHOD'] === 'POST')
-            ? $auth->login()
-            : $auth->displayLogin();
-        break;
-
-    case '/logout':
-        $auth->logout();
-        break;
-
-    case '/profile':
-        require __DIR__ . '/src/view/pages/profile.php';
-        break;
-
-    case '/previous-orders':
-        require __DIR__ . '/src/view/pages/previous_orders.php';
+    case '/shop-men':
+        require __DIR__ . '/src/view/pages/mens.php';
         break;
 
     case '/basket':
@@ -110,37 +106,73 @@ switch ($requestPath) {
         require __DIR__ . '/src/view/pages/checkout.php';
         break;
 
-    case '/shop-women':
-        require __DIR__ . '/src/view/pages/womens.php';
+    case '/profile':
+        require __DIR__ . '/src/view/pages/profile.php';
         break;
 
-    case '/shop-men':
-        require __DIR__ . '/src/view/pages/mens.php';
+    case '/previous-orders':
+        require __DIR__ . '/src/view/pages/previous_orders.php';
         break;
 
+    // -------------------------------
+    // CUSTOMER LOGIN/SIGNUP PAGES (NO AUTH CLASS)
+    // -------------------------------
+    case '/login':
+        // Just shows the page (since Auth.php is empty)
+        require __DIR__ . '/src/view/pages/login.php';
+        break;
+
+    case '/signup':
+        // If your repo uses signup.php, keep this
+        require __DIR__ . '/src/view/pages/signup.php';
+        break;
+
+    case '/logout':
+        // If you don't have a customer logout implementation, just redirect home
+        header('Location: /Group3/home');
+        exit;
+
+    // -------------------------------
+    // ✅ ADMIN AUTH (Sprint 3)
+    // -------------------------------
     case '/admin/login':
-    // TEMP: Admin login page not present in this repo snapshot.
-    // Using standard login page so Inventory redirects don't 404.
-    require __DIR__ . '/src/view/pages/login.php';
-    break;
+        ($_SERVER['REQUEST_METHOD'] === 'POST')
+            ? $adminController->login()
+            : $adminController->showLogin();
+        break;
 
+    case '/admin/logout':
+        $adminController->logout();
+        break;
 
-
-    // ===============================
-    // ✅ ADMIN INVENTORY (Sprint 1 – Tariq)
-    // ===============================
+    // -------------------------------
+    // ✅ ADMIN INVENTORY (Sprint 3) — PROTECTED
+    // -------------------------------
     case '/admin/inventory':
-        (new InventoryController($pdo))->index();
+        requireAdmin();
+        $inventoryController->index();
         break;
 
     case '/admin/inventory/update':
-        (new InventoryController($pdo))->update();
+        requireAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            header('Location: /Group3/admin/inventory');
+            exit;
+        }
+
+        $inventoryController->updateStock();
         break;
 
     case '/admin/inventory/logs':
-        (new InventoryController($pdo))->logs();
+        requireAdmin();
+        $inventoryController->logs();
         break;
 
+    // -------------------------------
+    // FALLBACK
+    // -------------------------------
     default:
         http_response_code(404);
         require __DIR__ . '/src/view/pages/404.php';
