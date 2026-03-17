@@ -96,7 +96,7 @@ class Basket {
                 ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['basket_id' => $basketID]);
-        $result = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+        $result = $stmt->fetchColumn();
 
         return round((float)$result, 2);
     }
