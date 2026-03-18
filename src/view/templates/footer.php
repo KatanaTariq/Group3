@@ -5,6 +5,9 @@
         <a href="<?= BASE_URL ?>/about">About Us</a>
         <a href="<?= BASE_URL ?>/contact">Contact Us</a>
         <a href="<?= BASE_URL ?>/login">Sign In</a>
+        <?php if (($_SERVER['REQUEST_URI'] === BASE_URL . '/home' || $_SERVER['REQUEST_URI'] === '/')): ?>
+            <a href="<?= BASE_URL ?>/admin/login">Admin</a>
+        <?php endif; ?>
     </div>
 
     <div class="footer-center">

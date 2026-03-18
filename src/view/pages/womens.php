@@ -10,6 +10,14 @@
     <link rel="stylesheet" href="/public/css/nav.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="/public/css/womens.css">
+    <style>
+        .logo-img {
+            width: 120px !important;
+            height: auto !important;
+            max-width: 120px !important;
+            display: block !important;
+        }
+    </style>
 </head>
 
 <body>
