@@ -135,6 +135,14 @@ nav {
     margin-bottom: 10px;
 }
 
+.product-desc {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 6px;
+    height: 32px;
+    overflow: hidden;
+}
+
 .product-name { font-size: 1rem; font-weight: bold; margin-bottom: 8px;}
 .price { font-size: .95rem; font-weight: bold; color: #444; margin-bottom: 10px;}
 
@@ -237,7 +245,7 @@ select {
 <body>
 
 <nav>
-    <img src="../images/logos/athletiqlogo.png" alt="Athletiq Logo" class="logo-img">
+    <img src="athletiq logo.png" alt="Athletiq Logo" class="logo-img">
 
     <ul class="nav-links">
         <li><a href="../Homepage/index.html">Home</a></li>
@@ -274,6 +282,7 @@ select {
 <div class="product-card" data-category="hoodies">
     <img src="WomanBlackhoodie.png" class="product-img">
     <p class="product-name">Black Athletiq Hoodie</p>
+    <p class="product-desc">Soft, breathable cotton hoodie to maximize comfort. </p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -284,6 +293,7 @@ select {
 <div class="product-card" data-category="hoodies">
     <img src="Womangreenblackhoodie.png" class="product-img">
     <p class="product-name">Green & Black Athletiq Hoodie</p>
+    <p class="product-desc">Stylish two-tone hoodie, ideal for everyday wear.</p>
     <p class="price">£35</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -294,6 +304,7 @@ select {
 <div class="product-card" data-category="hoodies">
     <img src="Womanwhitehoodie.png" class="product-img">
     <p class="product-name">White Athletiq Hoodie</p>
+    <p class="product-desc">Lightweight hoodie perfect for any sports activities. </p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -304,6 +315,7 @@ select {
 <div class="product-card" data-category="hoodies">
     <img src="Womangreenhoodie.png" class="product-img">
     <p class="product-name">Green Athletiq Hoodie</p>
+    <p class="product-desc">Breathable hoodie perfect for active lifestyles.</p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -314,6 +326,7 @@ select {
 <div class="product-card" data-category="hoodies">
     <img src="Womengreyhoodie.png" class="product-img">
     <p class="product-name">Grey Athletiq Hoodie</p>
+    <p class="product-desc">Classic athletiq hoodie built for all-day comfort.</p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -327,7 +340,8 @@ select {
 <div class="product-card" data-category="tops">
     <img src="poloteewomen.png" class="product-img">
     <p class="product-name">Athletiq Polo Tee</p>
-    <p class="price">£39.99</p>
+    <p class="product-desc">Polo tee made with lightweight fabric for atheltiq comfort.</p>
+    <p class="price">£40</p>
     <select>
         <option selected disabled>Select Size</option>
         <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
@@ -337,6 +351,7 @@ select {
 <div class="product-card" data-category="tops">
     <img src="footballjerseywomen.png" class="product-img">
     <p class="product-name">Athletiq Football Jersey</p>
+    <p class="product-desc">Soft football jersey designed for breathability.</p>
     <p class="price">£45</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -347,6 +362,7 @@ select {
 <div class="product-card" data-category="tops">
     <img src="Compressionshirtwomen.png" class="product-img">
     <p class="product-name">Athletiq Compression Top</p>
+    <p class="product-desc">Compression fit top that supports muscles and enhances training performance.</p>
     <p class="price">£40</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -357,6 +373,7 @@ select {
 <div class="product-card" data-category="tops">
     <img src="camitanktopwomen.png" class="product-img">
     <p class="product-name">Athletiq Cami-Tanktop</p>
+    <p class="product-desc">Lightweight cami tank perfect for Gym workouts.</p>
     <p class="price">£25</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -367,6 +384,7 @@ select {
 <div class="product-card" data-category="tops">
     <img src="basketballjerseywomen.png" class="product-img">
     <p class="product-name">Athletiq Basketball Jersey</p>
+    <p class="product-desc">Loose-fit basketball jersey for smooth movement on court.</p>
     <p class="price">£45</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -380,6 +398,7 @@ select {
 <div class="product-card" data-category="bottoms">
     <img src="tennisskortwomen.png" class="product-img">
     <p class="product-name">Athletiq Tennis Skort</p>
+    <p class="product-desc">Flexible tennis skort combining comfort with coverage.</p>
     <p class="price">£32</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -390,6 +409,7 @@ select {
 <div class="product-card" data-category="bottoms">
     <img src="leggingswomen.png" class="product-img">
     <p class="product-name">Athletiq Leggings</p>
+    <p class="product-desc">High-stretch leggings ideal for any sport.</p>
     <p class="price">£35</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -400,6 +420,7 @@ select {
 <div class="product-card" data-category="bottoms">
     <img src="swimmingshortswomen.png" class="product-img">
     <p class="product-name">Athletiq Swimming Shorts</p>
+    <p class="product-desc">Quick-drying swim shorts designed for easy swimming.</p>
     <p class="price">£25</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -410,7 +431,8 @@ select {
 <div class="product-card" data-category="bottoms">
     <img src="joggerswomen.png" class="product-img">
     <p class="product-name">Athletiq Baggy Joggers</p>
-    <p class="price">£49.99</p>
+    <p class="product-desc">Relaxed-fit joggers ideal for training and casual wear.</p>
+    <p class="price">£45</p>
     <select>
         <option selected disabled>Select Size</option>
         <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
@@ -420,6 +442,7 @@ select {
 <div class="product-card" data-category="bottoms">
     <img src="cyclingshortswomen.png" class="product-img">
     <p class="product-name">Athletiq Cycling Shorts</p>
+    <p class="product-desc">Comfortable cycling shorts ideal for long cycling journeys.</p>
     <p class="price">£30</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -435,7 +458,8 @@ select {
 <div class="product-card" data-category="footwear">
     <img src="womenrunningspikes.png" class="product-img">
     <p class="product-name">Womens Running Spikes</p>
-    <p class="price">£85.99</p>
+    <p class="product-desc">Lightweight spikes made for speed and traction.</p>
+    <p class="price">£80</p>
     <select>
         <option selected disabled>Select Size</option>
         <option>3.5</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
@@ -445,6 +469,7 @@ select {
 <div class="product-card" data-category="footwear">
     <img src="Womenflipflop.png" class="product-img">
     <p class="product-name">Womens Flip Flops</p>
+    <p class="product-desc">Easy to wear flip flops ideal for poolside wear.</p>
     <p class="price">£20</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -455,6 +480,7 @@ select {
 <div class="product-card" data-category="footwear">
     <img src="womenrunningshoes.png" class="product-img">
     <p class="product-name">Womens Running Shoes</p>
+    <p class="product-desc">Cushioned running shoes ideal for long-distance wear.</p>
     <p class="price">£80</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -465,6 +491,7 @@ select {
 <div class="product-card" data-category="footwear">
     <img src="womenbasketballshoes.png" class="product-img">
     <p class="product-name">Womens Basketball Shoes</p>
+    <p class="product-desc">Basketball shoes built for quick movement and stability.</p>
     <p class="price">£90</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -475,7 +502,8 @@ select {
 <div class="product-card" data-category="footwear">
     <img src="womanfootballboots.png" class="product-img">
     <p class="product-name">Womens Football Boots</p>
-    <p class="price">£85.99</p>
+    <p class="product-desc">Durable football boots made for control on the pitch.</p>
+    <p class="price">£70</p>
     <select>
         <option selected disabled>Select Size</option>
         <option>3.5</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
@@ -489,6 +517,7 @@ select {
 <div class="product-card" data-category="headwear">
     <img src="womenVisorcap.png" class="product-img">
     <p class="product-name">Athletiq Visor</p>
+    <p class="product-desc">Sports visor designed to keep sun and sweat away.</p>
     <p class="price">£25</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -500,7 +529,8 @@ select {
 <div class="product-card" data-category="headwear">
     <img src="womensweatband.png" class="product-img">
     <p class="product-name">Athletiq Sweatband</p>
-    <p class="price">£15.99</p>
+    <p class="product-desc">Comfortable sweatband that absorbs excess moisture.</p>
+    <p class="price">£15</p>
     <select>
         <option selected disabled>Select Size</option>
         <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
@@ -511,6 +541,7 @@ select {
 <div class="product-card" data-category="headwear">
     <img src="womenrugbyhelmet.png" class="product-img">
     <p class="product-name">Athletiq Rugby Helmet</p>
+    <p class="product-desc">Protective rugby helmet with safety features for comfort.</p>
     <p class="price">£75</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -522,6 +553,7 @@ select {
 <div class="product-card" data-category="headwear">
     <img src="womenbaseballcap.png" class="product-img">
     <p class="product-name">Athletiq Baseball Cap</p>
+    <p class="product-desc">Sports cap for style and sun protection.</p>
     <p class="price">£35</p>
     <select>
         <option selected disabled>Select Size</option>
@@ -533,7 +565,8 @@ select {
 <div class="product-card" data-category="headwear">
     <img src="Womanswimcap.png" class="product-img">
     <p class="product-name">Athletiq Swimcap</p>
-    <p class="price">£10.99</p>
+    <p class="product-desc">Swim cap with design to reduce drag in the water.</p>
+    <p class="price">£10</p>
     <select>
         <option selected disabled>Select Size</option>
         <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
@@ -562,6 +595,6 @@ select {
   </div>
 
   <div class="footer-logo">
-    <img src="../images/logos/athletiqlogotransparent.png" alt="Athletiq Logo">
+    <img src="../Homepage/athletiqlogotransparent.png" alt="Athletiq Logo">
   </div>
 </footer>

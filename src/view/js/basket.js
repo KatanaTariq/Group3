@@ -2,6 +2,32 @@ const basketContainer = document.getElementById('basket-items');
 const basketTotal = document.getElementById('basket-total');
 const checkoutBtn = document.querySelector('.checkout-btn');
 
+
+const SHOE_SIZES = ['3.5', '4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8'];
+
+const CLOTHING_SIZES = ['XS', 'S', 'M', 'L', 'XL'];
+
+function isShoe(item) {
+    if (item.category) {
+        return item.category.toLowerCase() === 'shoes' || item.category.toLowerCase() === 'footwear';
+    }
+    
+    const shoeKeywords = ['shoe', 'shoes', 'trainer', 'trainers', 'sneaker', 'sneakers', 'boot', 'boots', 'runner', 'runners'];
+    const nameLower = (item.name || '').toLowerCase();
+    return shoeKeywords.some(keyword => nameLower.includes(keyword));
+}
+
+function buildSizeOptions(item) {
+    const sizes = isShoe(item) ? SHOE_SIZES : CLOTHING_SIZES;
+
+    
+    if (!item.size) item.size = sizes[0];
+
+    return sizes.map(size => `
+        <option value="${size}" ${item.size === size ? 'selected' : ''}>${isShoe(item) ? 'UK ' + size : size}</option>
+    `).join('');
+}
+
 function loadBasket() {
     const basket = JSON.parse(localStorage.getItem('basket')) || [];
     basketContainer.innerHTML = '';
@@ -26,7 +52,12 @@ function loadBasket() {
             
             <div class="item-info">
                 <p>${item.name}</p>
-                <p>Size: ${item.size}</p>
+                <label>
+                    Size:
+                    <select class="size-select" data-index="${index}">
+                        ${buildSizeOptions(item)}
+                    </select>
+                </label>
             </div>
 
             <p class="item-price">£${item.price.toFixed(2)}</p>
@@ -52,7 +83,7 @@ function loadBasket() {
     updateButtons();
 }
 
-function updateButtons(){
+function updateButtons() {
     const basket = JSON.parse(localStorage.getItem('basket')) || [];
 
     document.querySelectorAll('.increase').forEach(btn => {
@@ -67,7 +98,7 @@ function updateButtons(){
     document.querySelectorAll('.decrease').forEach(btn => {
         btn.onclick = () => {
             const i = btn.dataset.index;
-            if (basket[i].quantity > 1){
+            if (basket[i].quantity > 1) {
                 basket[i].quantity--;
             }
             localStorage.setItem('basket', JSON.stringify(basket));
@@ -78,7 +109,7 @@ function updateButtons(){
     document.querySelectorAll('.quantity-input').forEach(input => {
         input.onchange = () => {
             const i = input.dataset.index;
-            basket[i].quantity = Math.max(1, parseInt(input.value)); // Minimum 1
+            basket[i].quantity = Math.max(1, parseInt(input.value)); 
             localStorage.setItem('basket', JSON.stringify(basket));
             loadBasket();
         };
@@ -92,6 +123,20 @@ function updateButtons(){
             loadBasket();
         };
     });
+
+    // update from feedback
+    document.querySelectorAll('.size-select').forEach(select => {
+        select.onchange = () => {
+            const i = select.dataset.index;
+            basket[i].size = select.value;
+            localStorage.setItem('basket', JSON.stringify(basket));
+        };
+    });
+}
+
+function saveAndReload(basket) {
+    localStorage.setItem('basket', JSON.stringify(basket));
+    loadBasket();
 }
 
 loadBasket();

@@ -19,7 +19,6 @@ body {
     color: var(--black);
 }
 
-
 nav {
     display: flex;
     align-items: center;
@@ -58,8 +57,6 @@ nav {
     background: var(--primary);
     color: var(--black);
 }
-
-
 
 .basket-title {
     text-align: center;
@@ -109,6 +106,7 @@ nav {
 
 .item-price, .item-subtotal { font-size: 1.1rem; font-weight: bold; }
 
+
 .quantity-control {
     display: flex;
     align-items: center;
@@ -153,6 +151,18 @@ nav {
     transform: scale(1.05);
 }
 
+.size-select {
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.size-select:hover {
+    border-color: var(--primary);
+}
 
 .basket-footer {
     display: flex;
@@ -183,7 +193,6 @@ nav {
     transform: scale(1.05);
 }
 
-
 #empty-message {
     text-align: center;
     font-size: 1.2rem;
@@ -191,8 +200,6 @@ nav {
     color: #555;
     margin: 30px 0;
 }
-
-
 
 #site-footer {
   background-color: #f2f2f2; 
@@ -202,16 +209,10 @@ nav {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
-  font-family: Arial, Helvetica, sans-serif;
   gap: 20px;
 }
 
-.footer-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
+.footer-nav { display: flex; flex-direction: column; gap: 10px; }
 .footer-nav h3 { margin: 0 0 10px 0; font-size: 1.2rem; color: var(--primary); }
 
 .footer-nav a {
@@ -220,12 +221,10 @@ nav {
   font-weight: bold;
   transition: color 0.3s ease;
 }
-
 .footer-nav a:hover { color: var(--primary); }
 
-.footer-center { flex: 1; text-align: center; min-width: 200px; margin-top: 10px; }
-
-.footer-center p { margin: 0 0 15px 0; font-size: 0.95rem; line-height: 1.5; }
+.footer-center { flex: 1; text-align: center; min-width: 200px; }
+.footer-center p { margin-bottom: 15px; }
 
 .footer-signup-btn {
   padding: 10px 20px;
@@ -233,27 +232,13 @@ nav {
   border: none;
   border-radius: 6px;
   font-weight: bold;
-  color: var(--black);
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
 }
-
-.footer-signup-btn:hover {
-  background-color: #8CCAA0;
-  transform: scale(1.05);
-}
-
-.footer-logo { display: flex; justify-content: flex-end; align-items: center; margin-top: 10px; }
 
 .footer-logo img { height: 60px; }
 
-
 @media (max-width: 700px) {
-    .basket-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
+    .basket-item { flex-direction: column; align-items: flex-start; gap: 10px; }
     .item-info { width: 100%; }
     .basket-footer { flex-direction: column; gap: 15px; }
 }
@@ -263,7 +248,7 @@ nav {
 <body>
 
 <nav>
-    <img src="../images/logos/athletiqlogo.png" class="logo-img" alt="Logo">
+    <img src="athletiq logo.png" class="logo-img" alt="Logo">
     <ul class="nav-links">
         <li><a href="../Homepage/index.html">Home</a></li>
         <li><a href="../Womensproductpage/womenspage.html">Women</a></li>
@@ -278,15 +263,12 @@ nav {
 
 <h1 class="basket-title">Your Shopping Basket</h1>
 
-<div class="basket-container" id="basket-items">
-    
-</div>
+<div class="basket-container" id="basket-items"></div>
 
 <div class="basket-footer">
-    <p class="total">Total: Â£<span id="basket-total">0.00</span></p>
+    <p class="total">Total: £<span id="basket-total">0.00</span></p>
     <button class="checkout-btn" onclick="location.href='checkout.html'">Proceed to Checkout</button>
 </div>
-
 
 <footer id="site-footer">
   <div class="footer-nav">
@@ -307,6 +289,6 @@ nav {
   </div>
 </footer>
 
-<script src="src\view\js\basket.js"></script>
+<script src="basket.js"></script>
 </body>
 </html>
