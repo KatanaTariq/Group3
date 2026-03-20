@@ -8,11 +8,6 @@ $method = $_SERVER['REQUEST_METHOD'];
 // Clean Up the Request Path - Remove index.php
 $requestPath = str_replace('/index.php', '', $requestPath);
 
-// Remove base folder for XAMPP
-$basePath = '/Group3';
-if (stripos($requestPath, $basePath) === 0) {
-    $requestPath = substr($requestPath, strlen($basePath));
-}
 
 // Normalise Request Path
 if ($requestPath === '' || $requestPath[0] !== '/') {
@@ -27,9 +22,6 @@ if ($requestPath === '') {
 
 // Start Session
 session_start();
-
-// Base URL
-define('BASE_URL', '/Group3');
 
 // Security helper (input validation, CSRF, headers)
 require __DIR__ . '/src/security.php';
@@ -145,7 +137,7 @@ switch ($requestPath) {
  */
 function requireAdmin() {
     if (empty($_SESSION['admin_id'])) {
-        header('Location: ' . BASE_URL . '/admin/login?err=session');
+        header('Location: /admin/login?err=session');
         exit;
     }
 }
@@ -331,7 +323,7 @@ function handleAdminInventoryUpdateRequest() {
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
-        header('Location: ' . BASE_URL . '/admin/inventory');
+        header('Location: /admin/inventory');
         exit;
     }
 
