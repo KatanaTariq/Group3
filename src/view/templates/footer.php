@@ -6,16 +6,15 @@
         <a href="/contact">Contact Us</a>
         <a href="/login">Sign In</a>
 
-        <?php if ($_SERVER['REQUEST_URI'] === '/home' || $_SERVER['REQUEST_URI'] === '/'): ?>
+        <?php $current = strtok($_SERVER['REQUEST_URI'], '?'); ?>
+        <?php if ($current === '/home' || $current === '/'): ?>
             <a href="/admin/login">Admin</a>
         <?php endif; ?>
     </div>
 
     <div class="footer-center">
         <p>Let's stay in touch! Sign up to experience the benefits of Athletiq!</p>
-        <a href="/signup">
-            <button class="footer-signup-btn">Sign Up</button>
-        </a>
+        <a href="/signup" class="footer-signup-btn">Sign Up</a>
     </div>
 
     <div class="footer-logo">

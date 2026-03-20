@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>404 | Page Not Found</title>
-    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
-    <link rel="stylesheet" href="/public/css/nav.css">
-    <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/public/css/404.css">
-</head>
-<body>
-
+<?php include __DIR__ . '/../templates/header.php'; ?>
 <?php include __DIR__ . '/../templates/nav.php'; ?>
 
 <div class="errorPage">

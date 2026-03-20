@@ -1,53 +1,64 @@
-<?php
-require_once __DIR__ . '/../templates/header.php';
-require_once __DIR__ . '/../templates/nav.php';
-?>
+<?php $title = 'Athletiq | About'; ?>
+<?php include __DIR__ . '/../templates/header.php'; ?>
+<?php include __DIR__ . '/../templates/nav.php'; ?>
 
 <div class="about-hero">
     <h1>About Athletiq</h1>
 </div>
 
 <section class="about-info">
-    <h2>Performative Wear for Upcoming Sports Enthusiasts</h2>
+    <h2>Performative wear for upcoming sports enthusiasts</h2>
     <p>
-        Over at Athletiq, clothing is created with concept. We've designed and refined
-        Sportswear with a Story.
+        At Athletiq, clothing is created with purpose. We design and refine
+        sportswear with a story.
     </p>
     <p>
-        Our products are proudly designed by Athletes, putting a meaning behind
-        each item built. With dedication, real performance and training, our Athletes know
+        Our products are proudly designed by athletes, bringing meaning behind
+        every item. With real training and performance experience, our athletes know
         what it takes to compete, and that all starts with what they wear.
     </p>
     <p>
-        We've collaborated with Sports Enthusiasts, ranging from competitive Sprinters to Elite
-        Footballers who have helped us tailor sportswear to reach maximum comfort, enhanced
-        flexibility and reduced friction to ensure our Athletiq Champions reach Peak Performance.
+        We collaborate with sports enthusiasts, from competitive sprinters to elite
+        footballers, to create sportswear that maximises comfort, enhances flexibility,
+        and reduces friction so our Athletiq champions can reach peak performance.
     </p>
 </section>
 
 <section class="athlete-section">
-    <h2>Athletes have designed them so our Athletiqs can wear them.</h2>
-    <p>Meet the Athletes and Players who have collaborated and helped build Athletiq Sportswear to what we are today.</p>
+    <h2>Athletes design them so our Athletiqs can wear them</h2>
+    <p>Meet the athletes and players who have helped shape Athletiq sportswear.</p>
 
     <div class="team-grid">
         <div class="athlete-card">
-            <img src="<?= BASE_URL ?>/public/images/productImages/about_us_rugby.png" alt="Rugby Athlete">
+            <img src="/public/images/productImages/about_us_rugby.png" alt="Rugby athlete">
             <h3>Jae</h3>
-            <p>Professional Rugby Player — Designer of Athletiq’s Protective Rugby Helmet, with ear padding and ventilation holes.</p>
+            <p>
+                Professional rugby player<br>
+                Designer of Athletiqs protective rugby helmet, featuring ear padding and ventilation.
+            </p>
         </div>
 
         <div class="athlete-card">
-            <img src="<?= BASE_URL ?>/public/images/productImages/about_us_running_shoes.png" alt="Runner">
+            <img src="/public/images/productImages/about_us_running_shoes.png" alt="Runner">
             <h3>Alayaa</h3>
-            <p>Competitive Long-distance Runner — Creator of Athletiq’s running shoes with breathable soles.</p>
+            <p>
+                Competitive long-distance runner<br>
+                Creator of Athletiqs running shoes with breathable soles.
+            </p>
         </div>
 
         <div class="athlete-card">
-            <img src="<?= BASE_URL ?>/public/images/productImages/about_us_basketball_jersey.png" alt="Basketball Athlete">
+            <img src="/public/images/productImages/about_us_basketball_jersey.png" alt="Basketball athlete">
             <h3>Miyaz</h3>
-            <p>Pro Basketballer — Worked on Athletiq’s Basketball Jersey, lightweight and moisture-wicking.</p>
+            <p>
+                Professional basketball player<br>
+                Contributed to Athletiqs basketball jersey, designed to be lightweight and moisture-wicking.
+            </p>
         </div>
     </div>
 </section>
 
-<?php require_once __DIR__ . '/../templates/footer.php'; ?>
+<?php include __DIR__ . '/../templates/footer.php'; ?>
+
+</body>
+</html>

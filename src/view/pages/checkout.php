@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Athletiq | Checkout</title>
-    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
-    <link rel="stylesheet" href="/public/css/nav.css">
-    <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/css/checkout.css">
-</head>
-
-<body>
-
+<?php $title = 'Athletiq | Checkout'; ?>
+<?php include __DIR__ . '/../templates/header.php'; ?>
 <?php include __DIR__ . '/../templates/nav.php'; ?>
 
 <h1 class="checkout-title">Checkout</h1>
@@ -43,9 +29,5 @@
     <button type="submit" class="submit-btn">Submit My Order</button>
 </form>
 
-<?php include __DIR__ . '/../templates/footer.php'; ?>
-
 <script src="/public/js/checkout.js"></script>
-
-</body>
-</html>
+<?php include __DIR__ . '/../templates/footer.php'; ?>
