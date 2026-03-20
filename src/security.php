@@ -1,16 +1,11 @@
-
 <?php
-/*******************************************
-Developer: Haroon Mohammed
-University ID: 240109826
-Function: CSRF AND INPUT VALIDATION
-*******************************************/
 // CENTRAL SECURITY HELPER
+
 // Secure headers
 
-//Reuseable input validation (strings, email, IDs)
+// Reusable input validation (strings, email, IDs)
 
-//CSRF token generation + verification
+// CSRF token generation + verification
 // Make sure session exists (needed for CSRF + login)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -22,22 +17,13 @@ if (session_status() === PHP_SESSION_NONE) {
  */
 function send_security_headers(): void
 {
-    // Clickjacking protection
     header('X-Frame-Options: SAMEORIGIN');
-
-    // MIME sniffing protection
     header('X-Content-Type-Options: nosniff');
-
-    // Basic XSS protection header (legacy, but harmless)
     header('X-XSS-Protection: 1; mode=block');
-
-    // Limit referrer information
     header('Referrer-Policy: strict-origin-when-cross-origin');
-
-    // Very simple Permissions-Policy example (lock down sensitive APIs)
     header('Permissions-Policy: geolocation=(), camera=(), microphone=()');
 
-    // Basic CSP – you can tweak later as needed
+    // Basic CSP
     header(
         "Content-Security-Policy: " .
         "default-src 'self'; " .
@@ -48,20 +34,18 @@ function send_security_headers(): void
 }
 
 /**
- * Sanitize a general string input (names, etc.)
+ * Sanitise a general string input (names, etc.)
  */
-function sanitize_string(string $value): string
+function sanitise_string(string $value): string
 {
     $value = trim($value);
-    // Remove HTML tags and filter out weird characters
-    $value = filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
     return $value;
 }
 
 /**
- * Validate and normalize an email address.
+ * Validate and normalise an email address.
  * 
- * @return string|null  sanitized email or null if invalid
+ * @return string|null  sanitised email or null if invalid
  */
 function validate_email(string $value): ?string
 {
