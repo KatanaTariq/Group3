@@ -1,7 +1,6 @@
-<?php
-require_once __DIR__ . '/../templates/header.php';
-require_once __DIR__ . '/../templates/nav.php';
-?>
+<?php $title = 'Athletiq | Sign Up'; ?>
+<?php include __DIR__ . '/../templates/header.php'; ?>
+<?php include __DIR__ . '/../templates/nav.php'; ?>
 
 <div class="signup-border">
 
@@ -55,4 +54,4 @@ require_once __DIR__ . '/../templates/nav.php';
 
 </div>
 
-<?php require_once __DIR__ . '/../templates/footer.php'; ?>
+<?php include __DIR__ . '/../templates/footer.php'; ?>

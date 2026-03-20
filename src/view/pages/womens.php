@@ -1,27 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Athletiq | Women</title>
-    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
-    <link rel="stylesheet" href="/public/css/nav.css">
-    <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/public/css/womens.css">
-    <style>
-        .logo-img {
-            width: 120px !important;
-            height: auto !important;
-            max-width: 120px !important;
-            display: block !important;
-        }
-    </style>
-</head>
-
-<body>
-
+<?php $title = 'Athletiq | Womens'; ?>
+<?php include __DIR__ . '/../templates/header.php'; ?>
 <?php include __DIR__ . '/../templates/nav.php'; ?>
 
 <h1 class="women-title">Women</h1>
@@ -318,6 +296,3 @@
 <script src="/public/js/womens.js"></script>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>
-
-</body>
-</html>

@@ -1,7 +1,6 @@
-<?php
-require_once __DIR__ . '/../templates/header.php';
-require_once __DIR__ . '/../templates/nav.php';
-?>
+<?php $title = 'Athletiq | Contact'; ?>
+<?php include __DIR__ . '/../templates/header.php'; ?>
+<?php include __DIR__ . '/../templates/nav.php'; ?>
 
 <div class="contactUsPage">
 
@@ -24,7 +23,7 @@ require_once __DIR__ . '/../templates/nav.php';
 
             <i class='bx bx-envelope'></i>
             <h3 class="header3">Email</h3>
-            <p>Athletiq@aston.ac.uk</p>
+            <p>athletiq@aston.ac.uk</p>
 
             <i class='bx bx-phone'></i>
             <h3 class="header3">Phone</h3>
@@ -35,7 +34,7 @@ require_once __DIR__ . '/../templates/nav.php';
             <h2>Write your inquiry</h2>
             <p>Need to get in touch? Fill out this form to send us a message and we'll lend you a hand.</p>
 
-            <form method="post" action="<?= BASE_URL ?>/contact">
+            <form method="post" action="/contact">
 
                 <div class="input-box">
                     <input type="text" name="name" placeholder="Enter your full name" required>
@@ -61,4 +60,4 @@ require_once __DIR__ . '/../templates/nav.php';
 
 </div>
 
-<?php require_once __DIR__ . '/../templates/footer.php'; ?>
+<?php include __DIR__ . '/../templates/footer.php'; ?>

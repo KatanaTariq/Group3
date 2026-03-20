@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
-    <link rel="icon" href="/public/images/logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/public/images/logos/favicon.png">
-    <link rel="stylesheet" href="/public/css/nav.css">
-    <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/public/css/profile.css">
-</head>
-<body>
-
+<?php $title = 'Athletiq | Profile'; ?>
+<?php include __DIR__ . '/../templates/header.php'; ?>
 <?php include __DIR__ . '/../templates/nav.php'; ?>
 
 <div class="profilePage">
@@ -53,6 +42,3 @@
 </div>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>
-
-</body>
-</html>
