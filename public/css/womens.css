@@ -215,3 +215,9 @@ select {
 .footer-logo img {
   height: 60px;
 }
+/* Fix oversized logo ONLY on mens page */
+.logo-img {
+    width: 120px;
+    height: auto;
+    display: block;
+}
