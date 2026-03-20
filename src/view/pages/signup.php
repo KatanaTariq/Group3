@@ -6,7 +6,7 @@
 
     <div class="signup-logo">
         <img 
-            src="<?= BASE_URL ?>/public/images/logos/athletiq_logo_transparent.png" 
+            src="/public/images/logos/athletiq_logo_transparent.png" 
             alt="Athletiq logo"
             class="logo-img"
         >
@@ -20,7 +20,7 @@
     <?php endif; ?>
 
     <div class="details">
-        <form method="POST" action="<?= BASE_URL ?>/signup">
+        <form method="POST" action="/signup">
 
             <input type="hidden" name="csrf_token"
                    value="<?= htmlspecialchars(get_csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
@@ -49,7 +49,7 @@
     </div>
 
     <div class="has-account">
-        <p>Already have an account? <a href="<?= BASE_URL ?>/login">Login here</a></p>
+        <p>Already have an account? <a href="/login">Login here</a></p>
     </div>
 
 </div>
