@@ -2,34 +2,98 @@
 
 /**
  * ==========================================================
+ *                    BASE CONTROLLER
+ * ==========================================================
+ * Shared helpers for all controllers
+ */
+
+class Controller
+{
+    protected PDO $pdo;
+
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
+    protected function view(string $path, array $data = []): void
+    {
+        extract($data, EXTR_SKIP);
+        require __DIR__ . '/../view/' . $path . '.php';
+    }
+
+    protected function redirect(string $url): void
+    {
+        header("Location: $url");
+        exit;
+    }
+}
+
+/**
+ * ==========================================================
+ *                    PAGE CONTROLLER
+ * ==========================================================
+ * Handles non-auth pages (views only)
+ */
+
+class PageController extends Controller
+{
+    public function home(): void { $this->view('pages/home'); }
+    public function about(): void { $this->view('pages/about'); }
+    public function contact(): void { $this->view('pages/contact'); }
+
+    public function profile(): void { $this->view('pages/profile'); }
+    public function previousOrders(): void { $this->view('pages/previous_orders'); }
+
+    public function basket(): void { $this->view('pages/basket'); }
+    public function checkout(): void { $this->view('pages/checkout'); }
+
+        public function womens(): void
+    {
+        $productModel = new ProductModel($this->pdo);
+
+        // your model assumes: women root category_id = 1
+        $products = $productModel->getProductsForListing(1, null);
+
+        $this->view('pages/womens', [
+            'products' => $products
+        ]);
+    }
+
+    public function mens(): void { $this->view('pages/mens'); }
+}
+
+/**
+ * ==========================================================
  *                    AUTH CONTROLLER
  * ==========================================================
- * Fully implemented and active
+ * Implemented and active
  * Developer: Kiera
  */
 
-class AuthController
+class AuthController extends Controller
 {
     private CustomerModel $customerModel;
 
     public function __construct(PDO $pdo)
     {
+        parent::__construct($pdo);
         $this->customerModel = new CustomerModel($pdo);
     }
 
-    public function displayRegister()
+    public function displayRegister(): void
     {
-        return $this->view('pages/signup');
+        $this->view('pages/signup');
     }
 
-    public function register()
+    public function register(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            return $this->displayRegister();
+            $this->displayRegister();
         }
 
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
-            return $this->redirect('/signup?error=' . urlencode('Invalid CSRF token'));
+            $this->redirect('/signup?error=' . urlencode('Invalid CSRF token'));
         }
 
         $firstName = sanitize_string($_POST['first_name'] ?? '');
@@ -38,7 +102,7 @@ class AuthController
         $password  = trim($_POST['password'] ?? '');
 
         if ($email === null) {
-            return $this->redirect('/signup?error=' . urlencode('Invalid email'));
+            $this->redirect('/signup?error=' . urlencode('Invalid email'));
         }
 
         $errors = [];
@@ -54,7 +118,7 @@ class AuthController
         }
 
         if ($errors) {
-            return $this->redirect('/signup?error=' . urlencode(implode(', ', $errors)));
+            $this->redirect('/signup?error=' . urlencode(implode(', ', $errors)));
         }
 
         $customer = $this->customerModel->registerCustomer([
@@ -65,59 +129,48 @@ class AuthController
         ]);
 
         if (!$customer) {
-            return $this->redirect('/signup?error=' . urlencode('could not create account'));
+            $this->redirect('/signup?error=' . urlencode('could not create account'));
         }
 
         $_SESSION['customer_id'] = $customer->getId();
-        return $this->redirect('/profile');
+        $this->redirect('/profile');
     }
 
-    public function displayLogin()
+    public function displayLogin(): void
     {
-        return $this->view('pages/login');
+        $this->view('pages/login');
     }
 
-    public function login()
+    public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            return $this->view('pages/login');
+            $this->displayLogin();
         }
 
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
-            return $this->redirect('/login?error=' . urlencode('Invalid CSRF token'));
+            $this->redirect('/login?error=' . urlencode('Invalid CSRF token'));
         }
 
         $email = validate_email($_POST['email'] ?? '');
         $password = trim($_POST['password'] ?? '');
 
         if ($email === null || $password === '') {
-            return $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
+            $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
         }
 
         $customer = $this->customerModel->getCustomerByEmail($email);
 
         if (!$customer || !password_verify($password, $customer->getPasswordHash())) {
-            return $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
+            $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
         }
 
         $_SESSION['customer_id'] = $customer->getId();
-        return $this->redirect('/profile');
+        $this->redirect('/profile');
     }
 
-    public function logout()
+    public function logout(): void
     {
         session_destroy();
-        return $this->redirect('/login');
-    }
-
-    private function view(string $path)
-    {
-        include __DIR__ . '/../view/' . $path . '.php';
-    }
-
-    private function redirect(string $url)
-    {
-        header("Location: $url");
-        exit;
+        $this->redirect('/login');
     }
 }

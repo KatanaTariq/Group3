@@ -15,281 +15,68 @@
 
 <section class="products-container" id="all-products">
 
-<div class="product-card" data-category="hoodies">
-    <img src="/public/images/productImages/women_black_hoodie.png" class="product-img">
-    <p class="product-name">Black Athletiq Hoodie</p>
-    <p class="price">£30</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+<?php
+// women subcategory ids:
+$categoryMap = [
+    3 => 'hoodies',
+    4 => 'tops',
+    5 => 'bottoms',
+    6 => 'footwear',
+    7 => 'headwear',
+];
 
-<div class="product-card" data-category="hoodies">
-    <img src="/public/images/productImages/women_green_black_hoodie.png" class="product-img">
-    <p class="product-name">Green & Black Athletiq Hoodie</p>
-    <p class="price">£35</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+function normaliseImagePath(?string $path): string
+{
+    if (!$path) {
+        return '/public/images/productImages/placeholder.png';
+    }
 
-<div class="product-card" data-category="hoodies">
-    <img src="/public/images/productImages/women_white_hoodie.png" class="product-img">
-    <p class="product-name">White Athletiq Hoodie</p>
-    <p class="price">£30</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+    if (strpos($path, '/src/view/images/') === 0) {
+        return str_replace('/src/view/images/', '/public/images/', $path);
+    }
 
-<div class="product-card" data-category="hoodies">
-    <img src="/public/images/productImages/women_green_hoodie.png" class="product-img">
-    <p class="product-name">Green Athletiq Hoodie</p>
-    <p class="price">£30</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+    return $path;
+}
+?>
 
-<div class="product-card" data-category="hoodies">
-    <img src="/public/images/productImages/women_grey_hoodie.png" class="product-img">
-    <p class="product-name">Grey Athletiq Hoodie</p>
-    <p class="price">£30</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+<?php if (empty($products ?? [])): ?>
+    <p style="text-align:center;">No products found.</p>
+<?php else: ?>
+    <?php foreach ($products as $product): ?>
+        <?php
+            $categoryId = $product->getCategoryID();
+            $filterCategory = $categoryMap[$categoryId] ?? 'all';
 
-<div class="product-card" data-category="tops">
-    <img src="/public/images/productImages/women_polo_tee.png" class="product-img">
-    <p class="product-name">Athletiq Polo Tee</p>
-    <p class="price">£39.99</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+            $img = normaliseImagePath($product->getPrimaryImageUrl());
+        ?>
 
-<div class="product-card" data-category="tops">
-    <img src="/public/images/productImages/women_football_jersey.png" class="product-img">
-    <p class="product-name">Athletiq Football Jersey</p>
-    <p class="price">£45</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+        <div class="product-card" data-category="<?php echo htmlspecialchars($filterCategory); ?>">
+            <img
+                src="<?php echo htmlspecialchars($img); ?>"
+                class="product-img"
+                alt="<?php echo htmlspecialchars($product->getName()); ?>"
+            >
 
-<div class="product-card" data-category="tops">
-    <img src="/public/images/productImages/women_compression_shirt.png" class="product-img">
-    <p class="product-name">Athletiq Compression Top</p>
-    <p class="price">£40</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+            <p class="product-name"><?php echo htmlspecialchars($product->getName()); ?></p>
+            <p class="price">£<?php echo number_format($product->getPrice(), 2); ?></p>
 
-<div class="product-card" data-category="tops">
-    <img src="/public/images/productImages/women_cami_tank_top.png" class="product-img">
-    <p class="product-name">Athletiq Cami-Tanktop</p>
-    <p class="price">£25</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+            <select required>
+                <option value="" disabled selected>Select Size</option>
 
-<div class="product-card" data-category="tops">
-    <img src="/public/images/productImages/women_basketball_jersey.png" class="product-img">
-    <p class="product-name">Athletiq Basketball Jersey</p>
-    <p class="price">£45</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+                <?php if ($filterCategory === 'footwear'): ?>
+                    <option>3</option><option>4</option><option>5</option>
+                    <option>6</option><option>7</option><option>8</option><option>9</option>
+                <?php else: ?>
+                    <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
+                <?php endif; ?>
+            </select><br>
 
-<div class="product-card" data-category="bottoms">
-    <img src="/public/images/productImages/women_tennis_skort.png" class="product-img">
-    <p class="product-name">Athletiq Tennis Skort</p>
-    <p class="price">£32</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="bottoms">
-    <img src="/public/images/productImages/women_leggings.png" class="product-img">
-    <p class="product-name">Athletiq Leggings</p>
-    <p class="price">£35</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="bottoms">
-    <img src="/public/images/productImages/women_swimming_shorts.png" class="product-img">
-    <p class="product-name">Athletiq Swimming Shorts</p>
-    <p class="price">£25</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="bottoms">
-    <img src="/public/images/productImages/women_joggers.png" class="product-img">
-    <p class="product-name">Athletiq Baggy Joggers</p>
-    <p class="price">£49.99</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="bottoms">
-    <img src="/public/images/productImages/women_cycling_shorts.png" class="product-img">
-    <p class="product-name">Athletiq Cycling Shorts</p>
-    <p class="price">£30</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-
-<div class="product-card" data-category="footwear">
-    <img src="/public/images/productImages/women_running_spikes.png" class="product-img">
-    <p class="product-name">Womens Running Spikes</p>
-    <p class="price">£85.99</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>3.5</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="footwear">
-    <img src="/public/images/productImages/women_flip_flops.png" class="product-img">
-    <p class="product-name">Womens Flip Flops</p>
-    <p class="price">£20</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>3.5</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="footwear">
-    <img src="/public/images/productImages/women_running_shoes.png" class="product-img">
-    <p class="product-name">Womens Running Shoes</p>
-    <p class="price">£80</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>3.5</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="footwear">
-    <img src="/public/images/productImages/women_basketball_shoes.png" class="product-img">
-    <p class="product-name">Womens Basketball Shoes</p>
-    <p class="price">£90</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>3.5</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="footwear">
-    <img src="/public/images/productImages/women_football_boots.png" class="product-img">
-    <p class="product-name">Womens Football Boots</p>
-    <p class="price">£85.99</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>3.5</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="headwear">
-    <img src="/public/images/productImages/women_visor_cap.png" class="product-img">
-    <p class="product-name">Athletiq Visor</p>
-    <p class="price">£25</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="headwear">
-    <img src="/public/images/productImages/women_sweatband.png" class="product-img">
-    <p class="product-name">Athletiq Sweatband</p>
-    <p class="price">£15.99</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="headwear">
-    <img src="/public/images/productImages/women_rugby_helmet.png" class="product-img">
-    <p class="product-name">Athletiq Rugby Helmet</p>
-    <p class="price">£75</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="headwear">
-    <img src="/public/images/productImages/women_baseball_cap.png" class="product-img">
-    <p class="product-name">Athletiq Baseball Cap</p>
-    <p class="price">£35</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
-
-<div class="product-card" data-category="headwear">
-    <img src="/public/images/productImages/women_swimcap.png" class="product-img">
-    <p class="product-name">Athletiq Swimcap</p>
-    <p class="price">£10.99</p>
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-    </select><br>
-    <button class="add-btn">Add to Basket</button>
-</div>
+            <button class="add-btn" data-product-id="<?php echo (int)$product->getID(); ?>">
+                Add to Basket
+            </button>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
 
 </section>
 
