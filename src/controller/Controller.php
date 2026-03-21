@@ -96,8 +96,8 @@ class AuthController extends Controller
             $this->redirect('/signup?error=' . urlencode('Invalid CSRF token'));
         }
 
-        $firstName = sanitize_string($_POST['first_name'] ?? '');
-        $lastName  = sanitize_string($_POST['last_name'] ?? '');
+        $firstName = sanitise_string($_POST['first_name'] ?? '');
+        $lastName  = sanitise_string($_POST['last_name'] ?? '');
         $email     = validate_email($_POST['email'] ?? '');
         $password  = trim($_POST['password'] ?? '');
 
