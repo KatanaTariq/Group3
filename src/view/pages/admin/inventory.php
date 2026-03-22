@@ -78,7 +78,7 @@ if (!isset($inventoryItems) || !is_array($inventoryItems)) {
                         <td style="padding:12px; border-bottom:1px solid #eee;"><?= $threshold ?></td>
 
                         <td style="padding:12px; border-bottom:1px solid #eee;">
-                            <form method="post" action="<?= BASE_URL ?>/admin/inventory/update" style="display:flex; gap:10px; align-items:center;">
+                            <form method="post" action="/admin/inventory/update" style="display:flex; gap:10px; align-items:center;">
                                 <input type="hidden" name="variant_id" value="<?= (int)($item['variant_id'] ?? 0) ?>">
                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
 

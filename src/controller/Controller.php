@@ -706,3 +706,216 @@ class CheckoutController extends Controller
         }
     }
 }
+
+/**
+ * Handles admin authentication.
+ */
+class AdminController extends Controller
+{
+    /**
+     * Initialises the admin controller with the active database connection.
+     *
+     * @param PDO $pdo The active database connection object.
+     * @return void
+     */
+    public function __construct(PDO $pdo)
+    {
+        parent::__construct($pdo);
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
+    /**
+     * Returns the admin CSRF token, creating one if needed.
+     *
+     * @return string
+     */
+    private function getCsrfToken(): string
+    {
+        if (empty($_SESSION['admin_csrf_token'])) {
+            $_SESSION['admin_csrf_token'] = bin2hex(random_bytes(32));
+        }
+
+        return $_SESSION['admin_csrf_token'];
+    }
+
+    /**
+     * Validates the submitted admin CSRF token.
+     *
+     * @param string|null $token The submitted token.
+     * @return bool
+     */
+    private function validateCsrfToken(?string $token): bool
+    {
+        return !empty($token)
+            && !empty($_SESSION['admin_csrf_token'])
+            && hash_equals($_SESSION['admin_csrf_token'], $token);
+    }
+
+    /**
+     * Displays the admin login page.
+     *
+     * @return void
+     */
+    public function showLogin(): void
+    {
+        if (!empty($_SESSION['admin_id'])) {
+            $this->redirect('/admin/inventory');
+        }
+
+        $csrf = $this->getCsrfToken();
+        $error = $_GET['err'] ?? null;
+
+        require __DIR__ . '/../view/pages/admin/login.php';
+    }
+
+    /**
+     * Logs an admin into their account.
+     *
+     * @return void
+     */
+    public function login(): void
+    {
+        $email = trim($_POST['email'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $csrf = $_POST['csrf_token'] ?? '';
+
+        if (!$this->validateCsrfToken($csrf)) {
+            $this->redirect('/admin/login?err=csrf');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
+            $this->redirect('/admin/login?err=invalid');
+        }
+
+        $adminModel = new Admin($this->pdo);
+        $admin = $adminModel->findByEmail($email);
+
+        if (
+            !$admin ||
+            empty($admin['password_hash']) ||
+            !password_verify($password, $admin['password_hash'])
+        ) {
+            $this->redirect('/admin/login?err=invalid');
+        }
+
+        $_SESSION['admin_id'] = (int) $admin['admin_id'];
+
+        session_regenerate_id(true);
+
+        $this->redirect('/admin/inventory');
+    }
+
+    /**
+     * Logs the current admin out of their account.
+     *
+     * @return void
+     */
+    public function logout(): void
+    {
+        unset($_SESSION['admin_id']);
+        unset($_SESSION['admin_csrf_token']);
+
+        $this->redirect('/admin/login?err=loggedout');
+    }
+}
+
+/**
+ * Handles admin inventory pages and stock updates.
+ */
+class InventoryController extends Controller
+{
+    private Inventory $inventoryModel;
+    private InventoryLog $inventoryLogModel;
+
+    /**
+     * Initialises the inventory controller and related models.
+     *
+     * @param PDO $pdo The active database connection object.
+     * @return void
+     */
+    public function __construct(PDO $pdo)
+    {
+        parent::__construct($pdo);
+
+        $this->inventoryModel = new Inventory($pdo);
+        $this->inventoryLogModel = new InventoryLog($pdo);
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
+    /**
+     * Displays the main admin inventory page.
+     *
+     * @return void
+     */
+    public function index(): void
+    {
+        $inventoryItems = $this->inventoryModel->getAllInventory();
+        require __DIR__ . '/../view/pages/admin/inventory.php';
+    }
+
+    /**
+     * Displays recent inventory change logs.
+     *
+     * @return void
+     */
+    public function logs(): void
+    {
+        $logs = $this->inventoryLogModel->getRecentLogs(50);
+        require __DIR__ . '/../view/pages/admin/inventory_logs.php';
+    }
+
+    /**
+     * Updates stock for a product variant.
+     *
+     * @return void
+     */
+    public function updateStock(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $csrfToken = $_POST['csrf_token'] ?? '';
+
+        if (
+            empty($csrfToken) ||
+            empty($_SESSION['csrf_token']) ||
+            !hash_equals($_SESSION['csrf_token'], $csrfToken)
+        ) {
+            http_response_code(403);
+            $_SESSION['flash_error'] = 'Invalid CSRF token. Please try again.';
+            $this->redirect('/admin/inventory');
+        }
+
+        $variantId = isset($_POST['variant_id']) ? (int) $_POST['variant_id'] : 0;
+        $newQuantity = $_POST['new_quantity'] ?? null;
+
+        if ($variantId <= 0) {
+            $_SESSION['flash_error'] = 'Invalid variant ID.';
+            $this->redirect('/admin/inventory');
+        }
+
+        if (!is_numeric($newQuantity) || (int) $newQuantity < 0) {
+            $_SESSION['flash_error'] = 'Quantity must be a non-negative number.';
+            $this->redirect('/admin/inventory');
+        }
+
+        $newQuantity = (int) $newQuantity;
+
+        $success = $this->inventoryModel->updateStock($variantId, $newQuantity);
+
+        if ($success) {
+            $_SESSION['flash_success'] = 'Stock updated successfully.';
+        } else {
+            $_SESSION['flash_error'] = 'Failed to update stock. Please try again later.';
+        }
+
+        $this->redirect('/admin/inventory');
+    }
+}

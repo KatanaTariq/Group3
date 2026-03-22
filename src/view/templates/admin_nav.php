@@ -1,7 +1,3 @@
-<?php
-require_once __DIR__ . '/../../config.php';
-?>
-
 <nav>
     <a href="/admin/inventory">
         <img 
