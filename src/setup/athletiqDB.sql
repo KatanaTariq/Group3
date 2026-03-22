@@ -56,16 +56,6 @@ ALTER TABLE customer
 ADD CONSTRAINT fk_customer_shipping_address 
 FOREIGN KEY (primary_shipping_address_id) REFERENCES address(address_id) ON DELETE SET NULL;
 
--- CustomerSession table
-CREATE TABLE customer_session (
-    session_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT NOT NULL,
-    token VARCHAR(255) NOT NULL,
-    expires_at TIMESTAMP NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- =====================================================
 -- PRODUCT TABLES
 -- =====================================================
@@ -115,18 +105,6 @@ CREATE TABLE product_image (
     FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Review table
-CREATE TABLE review (
-    review_id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT NOT NULL,
-    customer_id INT NOT NULL,
-    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE,
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- =====================================================
 -- ORDER PROCESSING TABLES
 -- =====================================================
@@ -155,30 +133,6 @@ CREATE TABLE order_line (
     unit_price DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE CASCADE,
-    FOREIGN KEY (variant_id) REFERENCES product_variant(variant_id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Return table
-CREATE TABLE `return` (
-    return_id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT NOT NULL,
-    customer_id INT NOT NULL,
-    reason VARCHAR(300) NOT NULL,
-    status ENUM('PENDING', 'APPROVED', 'REJECTED', 'REFUNDED') NOT NULL DEFAULT 'PENDING',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE RESTRICT,
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ReturnItem table
-CREATE TABLE return_item (
-    return_item_id INT AUTO_INCREMENT PRIMARY KEY,
-    return_id INT NOT NULL,
-    variant_id INT NOT NULL,
-    quantity INT NOT NULL CHECK (quantity > 0),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (return_id) REFERENCES `return`(return_id) ON DELETE CASCADE,
     FOREIGN KEY (variant_id) REFERENCES product_variant(variant_id) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

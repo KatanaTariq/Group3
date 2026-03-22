@@ -828,10 +828,9 @@ class AdminController extends Controller
 class InventoryController extends Controller
 {
     private Inventory $inventoryModel;
-    private InventoryLog $inventoryLogModel;
 
     /**
-     * Initialises the inventory controller and related models.
+     * Initialises the inventory controller and related model.
      *
      * @param PDO $pdo The active database connection object.
      * @return void
@@ -841,10 +840,21 @@ class InventoryController extends Controller
         parent::__construct($pdo);
 
         $this->inventoryModel = new Inventory($pdo);
-        $this->inventoryLogModel = new InventoryLog($pdo);
 
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
+        }
+    }
+
+    /**
+     * Ensures only logged-in admins can access inventory routes.
+     *
+     * @return void
+     */
+    private function requireAdmin(): void
+    {
+        if (empty($_SESSION['admin_id'])) {
+            $this->redirect('/admin/login?err=session');
         }
     }
 
@@ -855,6 +865,12 @@ class InventoryController extends Controller
      */
     public function index(): void
     {
+        $this->requireAdmin();
+
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+
         $inventoryItems = $this->inventoryModel->getAllInventory();
         require __DIR__ . '/../view/pages/admin/inventory.php';
     }
@@ -866,7 +882,9 @@ class InventoryController extends Controller
      */
     public function logs(): void
     {
-        $logs = $this->inventoryLogModel->getRecentLogs(50);
+        $this->requireAdmin();
+
+        $logs = $this->inventoryModel->getRecentLogs(50);
         require __DIR__ . '/../view/pages/admin/inventory_logs.php';
     }
 
@@ -877,9 +895,7 @@ class InventoryController extends Controller
      */
     public function updateStock(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        $this->requireAdmin();
 
         $csrfToken = $_POST['csrf_token'] ?? '';
 
@@ -888,7 +904,6 @@ class InventoryController extends Controller
             empty($_SESSION['csrf_token']) ||
             !hash_equals($_SESSION['csrf_token'], $csrfToken)
         ) {
-            http_response_code(403);
             $_SESSION['flash_error'] = 'Invalid CSRF token. Please try again.';
             $this->redirect('/admin/inventory');
         }
