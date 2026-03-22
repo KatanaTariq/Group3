@@ -22,7 +22,6 @@ include __DIR__ . '/src/model/Customer.php';
 include __DIR__ . '/src/model/Order.php';
 include __DIR__ . '/src/model/Product.php';
 include __DIR__ . '/src/model/Inventory.php';
-include __DIR__ . '/src/model/InventoryLog.php';
 
 require __DIR__ . '/src/controller/Controller.php';
 
