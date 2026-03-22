@@ -87,7 +87,17 @@ class PageController extends Controller
      */
     public function previousOrders(): void
     {
-        $this->view('pages/previous_orders');
+        if (empty($_SESSION['customer_id'])) {
+            $this->redirect('/login?error=' . urlencode('Please login to view your orders'));
+        }
+
+        $customerID = (int)$_SESSION['customer_id'];
+        $orderModel = new Order($this->pdo, $customerID);
+        $orders = $orderModel->getOrderHistory();
+
+        $this->view('pages/previous_orders', [
+            'orders' => $orders
+        ]);
     }
 
     /**
@@ -105,7 +115,30 @@ class PageController extends Controller
      */
     public function checkout(): void
     {
-        $this->view('pages/checkout');
+        if (empty($_SESSION['customer_id'])) {
+            $this->redirect('/login?error=' . urlencode('Please login to continue'));
+        }
+
+        $customerID = (int)$_SESSION['customer_id'];
+
+        $basketModel = new Basket($this->pdo, $customerID);
+        $items = $basketModel->getContents();
+        $subtotal = $basketModel->calculateSubtotal();
+
+        $stmt = $this->pdo->prepare("
+            SELECT address_id, street, city, post_code
+            FROM address
+            WHERE customer_id = :customer_id
+            ORDER BY created_at DESC
+        ");
+        $stmt->execute(['customer_id' => $customerID]);
+        $addresses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->view('pages/checkout', [
+            'items' => $items,
+            'subtotal' => $subtotal,
+            'addresses' => $addresses
+        ]);
     }
 
     /**
@@ -403,6 +436,10 @@ class BasketController extends Controller
             $this->redirect('/login');
         }
 
+        if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
+            $this->redirect('/basket?error=' . urlencode('Invalid CSRF token'));
+        }
+
         $basketItemID = (int) ($_POST['basket_item_id'] ?? 0);
         $quantity = (int) ($_POST['quantity'] ?? 1);
 
@@ -428,9 +465,57 @@ class BasketController extends Controller
             $this->redirect('/login');
         }
 
+        if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
+            $this->redirect('/basket?error=' . urlencode('Invalid CSRF token'));
+        }
+
         $basketItemID = (int) ($_POST['basket_item_id'] ?? 0);
         $this->basketModel->removeItem($basketItemID);
 
         $this->redirect('/basket');
+    }
+}
+
+class CheckoutController extends Controller
+{
+    /**
+     * Processes checkout and creates the order from the current basket.
+     * @return void
+     */
+    public function process(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/checkout');
+        }
+
+        if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
+            $this->redirect('/checkout?error=' . urlencode('Invalid CSRF token'));
+        }
+
+        if (empty($_SESSION['customer_id'])) {
+            $this->redirect('/login?error=' . urlencode('Please login to continue'));
+        }
+
+        $customerID = (int)$_SESSION['customer_id'];
+        $shippingAddressID = (int)($_POST['shipping_address_id'] ?? 0);
+        $billingAddressID = (int)($_POST['billing_address_id'] ?? 0);
+
+        if ($shippingAddressID <= 0 || $billingAddressID <= 0) {
+            $this->redirect('/checkout?error=' . urlencode('Please select shipping and billing addresses'));
+        }
+
+        $basketModel = new Basket($this->pdo, $customerID);
+
+        try {
+            $result = $basketModel->finaliseCheckout($shippingAddressID, $billingAddressID);
+
+            if ($result === true) {
+                $this->redirect('/previous-orders?success=' . urlencode('Order placed successfully'));
+            }
+
+            $this->redirect('/checkout?error=' . urlencode((string)$result));
+        } catch (Exception $e) {
+            $this->redirect('/checkout?error=' . urlencode($e->getMessage()));
+        }
     }
 }

@@ -71,29 +71,30 @@ $variants = is_array($variants ?? null) ? $variants : [];
         ?>
 
         <?php if (count($availableSizes) > 0): ?>
-            <form action="/basket/add" method="POST">
-                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(get_csrf_token()); ?>">
+        <form action="/basket/add" method="POST">
+            <input type="hidden" name="product_id" value="<?php echo (int)$product->getID(); ?>">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(get_csrf_token()); ?>">
 
-                <label for="size">Select Size</label>
-                <select name="size" id="size" required>
-                    <option value="" disabled selected>Select Size</option>
+            <label for="size">Select Size</label>
+            <select name="size" id="size" required>
+                <option value="" disabled selected>Select Size</option>
 
-                    <?php foreach ($availableSizes as $size): ?>
-                        <option value="<?php echo htmlspecialchars($size); ?>">
-                            <?php echo htmlspecialchars($size); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <?php foreach ($availableSizes as $availableSize): ?>
+                    <option value="<?php echo htmlspecialchars($availableSize); ?>">
+                        <?php echo htmlspecialchars($availableSize); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
 
-                <br><br>
+            <br><br>
 
-                <label for="quantity">Quantity</label>
-                <input type="number" name="quantity" id="quantity" value="1" min="1">
+            <label for="quantity">Quantity</label>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" required>
 
-                <br><br>
+            <br><br>
 
-                <button type="submit" class="add-btn">Add to Basket</button>
-            </form>
+            <button type="submit" class="add-btn">Add to Basket</button>
+        </form>
         <?php else: ?>
             <p>Out of stock.</p>
         <?php endif; ?>
