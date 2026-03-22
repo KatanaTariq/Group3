@@ -39,6 +39,7 @@
 
                 <form method="POST" action="/basket/update" class="quantity-control">
                     <input type="hidden" name="basket_item_id" value="<?php echo (int)$item['item_id']; ?>">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(get_csrf_token()); ?>">
 
                     <button
                         type="submit"
@@ -70,6 +71,7 @@
 
                 <form method="POST" action="/basket/remove">
                     <input type="hidden" name="basket_item_id" value="<?php echo (int)$item['item_id']; ?>">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(get_csrf_token()); ?>">
                     <button class="remove-btn" type="submit">Remove</button>
                 </form>
             </div>
