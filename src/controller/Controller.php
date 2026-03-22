@@ -353,38 +353,41 @@ class BasketController extends Controller
      * Adds an item to the basket using the selected product id, size and quantity.
      * @return void
      */
-    public function add(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('/basket');
-        }
-
-        if (!$this->userId || !$this->basketModel) {
-            $this->redirect('/login?error=' . urlencode('Please login to add items'));
-        }
-
-        $productID = (int) ($_POST['product_id'] ?? 0);
-        $size = trim($_POST['size'] ?? '');
-        $quantity = (int) ($_POST['quantity'] ?? 1);
-
-        if ($productID <= 0 || $size === '') {
-            $this->redirect('/basket?error=' . urlencode('Please select a size'));
-        }
-
-        try {
-            $variantID = $this->basketModel->getVariantIdByProductAndSize($productID, $size);
-
-            if ($variantID === null) {
-                throw new Exception('That size is not available for this product.');
-            }
-
-            $this->basketModel->addItem($variantID, $quantity);
-            $this->redirect('/basket?success=' . urlencode('Item added to basket'));
-        } catch (Exception $e) {
-            $this->redirect('/basket?error=' . urlencode($e->getMessage()));
-        }
+public function add(): void
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $this->redirect('/basket');
     }
 
+    if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
+        $this->redirect('/basket?error=' . urlencode('Invalid CSRF token'));
+    }
+
+    if (!$this->userId || !$this->basketModel) {
+        $this->redirect('/login?error=' . urlencode('Please login to add items'));
+    }
+
+    $productID = (int) ($_POST['product_id'] ?? 0);
+    $size = trim($_POST['size'] ?? '');
+    $quantity = (int) ($_POST['quantity'] ?? 1);
+
+    if ($productID <= 0 || $size === '') {
+        $this->redirect('/product?id=' . $productID . '&error=' . urlencode('Please select a size'));
+    }
+
+    try {
+        $variantID = $this->basketModel->getVariantIdByProductAndSize($productID, $size);
+
+        if ($variantID === null) {
+            throw new Exception('That size is not available for this product.');
+        }
+
+        $this->basketModel->addItem($variantID, $quantity);
+        $this->redirect('/basket?success=' . urlencode('Item added to basket'));
+    } catch (Exception $e) {
+        $this->redirect('/product?id=' . $productID . '&error=' . urlencode($e->getMessage()));
+    }
+}
     /**
      * Updates the quantity of an existing basket item.
      * @return void

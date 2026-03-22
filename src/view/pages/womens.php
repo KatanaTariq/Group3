@@ -47,42 +47,25 @@ function normaliseImagePath(?string $path): string
             $categoryId = $product->getCategoryID();
             $filterCategory = $categoryMap[$categoryId] ?? 'all';
             $img = normaliseImagePath($product->getPrimaryImageUrl());
-            $productId = (int)$product->getID();
         ?>
 
-<div class="product-card" data-category="<?php echo htmlspecialchars($filterCategory); ?>">
-    
-    <a href="/product?id=<?php echo (int)$product->getID(); ?>" class="product-link">
-        <img
-            src="<?php echo htmlspecialchars($img); ?>"
-            class="product-img"
-            alt="<?php echo htmlspecialchars($product->getName()); ?>"
-        >
+        <div class="product-card" data-category="<?php echo htmlspecialchars($filterCategory); ?>">
+            <a href="/product?id=<?php echo (int)$product->getID(); ?>" class="product-link">
+                <img
+                    src="<?php echo htmlspecialchars($img); ?>"
+                    class="product-img"
+                    alt="<?php echo htmlspecialchars($product->getName()); ?>"
+                >
 
-        <p class="product-name"><?php echo htmlspecialchars($product->getName()); ?></p>
+                <p class="product-name"><?php echo htmlspecialchars($product->getName()); ?></p>
 
-        <p class="product-description">
-            <?php echo htmlspecialchars($product->getDescription() ?: 'No description available.'); ?>
-        </p>
+                <p class="product-description">
+                    <?php echo htmlspecialchars($product->getDescription() ?: 'No description available.'); ?>
+                </p>
 
-        <p class="price">£<?php echo number_format($product->getPrice(), 2); ?></p>
-    </a>
-
-    <select required>
-        <option value="" disabled selected>Select Size</option>
-
-        <?php if ($filterCategory === 'footwear'): ?>
-            <option>3</option><option>4</option><option>5</option>
-            <option>6</option><option>7</option><option>8</option><option>9</option>
-        <?php else: ?>
-            <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-        <?php endif; ?>
-    </select><br>
-
-    <button class="add-btn" data-product-id="<?php echo (int)$product->getID(); ?>">
-        Add to Basket
-    </button>
-</div>
+                <p class="price">£<?php echo number_format($product->getPrice(), 2); ?></p>
+            </a>
+        </div>
     <?php endforeach; ?>
 <?php endif; ?>
 
