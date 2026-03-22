@@ -48,7 +48,7 @@ class PageController extends Controller
     public function basket(): void { $this->view('pages/basket'); }
     public function checkout(): void { $this->view('pages/checkout'); }
 
-        public function womens(): void
+    public function womens(): void
     {
         $productModel = new ProductModel($this->pdo);
 
@@ -60,7 +60,16 @@ class PageController extends Controller
         ]);
     }
 
-    public function mens(): void { $this->view('pages/mens'); }
+    public function mens(): void
+    {
+        $productModel = new ProductModel($this->pdo);
+
+        $products = $productModel->getProductsForListing(2, null);
+
+        $this->view('pages/mens', [
+            'products' => $products
+        ]);
+    }
 }
 
 /**

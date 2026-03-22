@@ -424,3 +424,365 @@ INSERT INTO inventory (variant_id, current_stock, low_stock_threshold) VALUES
 (2301, 50, 10),(2302, 50, 10),(2303, 50, 10),(2304, 50, 10),(2305, 50, 10),
 (2401, 50, 10),(2402, 50, 10),(2403, 50, 10),(2404, 50, 10),(2405, 50, 10),
 (2501, 50, 10),(2502, 50, 10),(2503, 50, 10),(2504, 50, 10),(2505, 50, 10);
+
+-- -----------------------------------------------------
+-- Men's Hoodies (26–30)
+-- -----------------------------------------------------
+
+INSERT INTO product (product_id, name, description, category_id, price) VALUES
+(26, 'Green Athletiq Hoodie', 'Lightweight cotton hoodie built for warm-ups and cool-downs.', @men_hoodies_cat_id, 30.00),
+(27, 'Green & Black Athletiq Hoodie', 'Two-tone cotton hoodie with a relaxed fit for training or casual wear.', @men_hoodies_cat_id, 35.00),
+(28, 'Green & Black Zipup Athletiq Turtleneck', 'Zip-up turtleneck with added neck coverage for cold weather training.', @men_hoodies_cat_id, 30.00),
+(29, 'Green Athletiq Turtleneck', 'Warm turtleneck hoodie designed to keep you covered on colder days.', @men_hoodies_cat_id, 30.00),
+(30, 'Green Zip up Athletiq Hoodie', 'Classic zip-up hoodie for easy layering before and after a session.', @men_hoodies_cat_id, 30.00);
+
+-- -----------------------------------------------------
+-- Men's Tops (31–35)
+-- -----------------------------------------------------
+
+INSERT INTO product (product_id, name, description, category_id, price) VALUES
+(31, 'Athletiq Polo Tee', 'Breathable polo tee suitable for training or casual sport wear.', @men_tops_cat_id, 40.00),
+(32, 'Athletiq Football Jersey', 'Lightweight jersey designed for full mobility on the pitch.', @men_tops_cat_id, 45.00),
+(33, 'Athletiq Compression Top', 'Compression fit top to support muscles during high-intensity workouts.', @men_tops_cat_id, 40.00),
+(34, 'Athletiq Gym Tanktop', 'Lightweight tank top built for unrestricted movement in the gym.', @men_tops_cat_id, 25.00),
+(35, 'Athletiq Basketball Jersey', 'Moisture-wicking jersey cut for speed and comfort on the court.', @men_tops_cat_id, 45.00);
+
+-- -----------------------------------------------------
+-- Men's Bottoms (36–40)
+-- -----------------------------------------------------
+
+INSERT INTO product (product_id, name, description, category_id, price) VALUES
+(36, 'Athletiq Tennis Shorts', 'Lightweight shorts with a flexible waistband for quick movement on court.', @men_bottoms_cat_id, 32.00),
+(37, 'Athletiq Rugby Shorts', 'Durable shorts built to handle the demands of contact sport.', @men_bottoms_cat_id, 35.00),
+(38, 'Athletiq Swimming Shorts', 'Quick-dry swimming shorts with a secure inner lining.', @men_bottoms_cat_id, 25.00),
+(39, 'Athletiq Joggers', 'Tapered joggers with a comfortable fit for training or everyday wear.', @men_bottoms_cat_id, 50.00),
+(40, 'Athletiq Boxing Shorts', 'Wide-cut shorts for full leg freedom during sparring and bag work.', @men_bottoms_cat_id, 30.00);
+
+-- -----------------------------------------------------
+-- Men's Footwear (41–45)
+-- -----------------------------------------------------
+
+INSERT INTO product (product_id, name, description, category_id, price) VALUES
+(41, 'Mens Mountaineering Boots', 'Sturdy boots with ankle support and grip for rugged terrain.', @men_footwear_cat_id, 85.00),
+(42, 'Mens Flip Flops', 'Lightweight slip-ons ideal for poolside or post-training recovery.', @men_footwear_cat_id, 20.00),
+(43, 'Mens Running Shoes', 'Cushioned running shoes built for long-distance comfort and support.', @men_footwear_cat_id, 80.00),
+(44, 'Mens Trainers', 'Versatile trainers suitable for gym sessions and everyday use.', @men_footwear_cat_id, 90.00),
+(45, 'Mens Football Boots', 'Studded boots designed for traction and control on grass pitches.', @men_footwear_cat_id, 85.00);
+
+-- -----------------------------------------------------
+-- Men's Headwear (46–50)
+-- -----------------------------------------------------
+
+INSERT INTO product (product_id, name, description, category_id, price) VALUES
+(46, 'Athletiq Visor', 'Open-top visor to keep the sun out without trapping heat.', @men_headwear_cat_id, 25.00),
+(47, 'Athletiq Sweatband', 'Moisture-absorbing sweatband to keep sweat away during intense sessions.', @men_headwear_cat_id, 15.00),
+(48, 'Athletiq Rugby Helmet', 'Padded helmet offering head protection without restricting vision.', @men_headwear_cat_id, 75.00),
+(49, 'Athletiq Baseball Cap', 'Adjustable cap with a structured brim for training or casual wear.', @men_headwear_cat_id, 35.00),
+(50, 'Athletiq Swimcap', 'Silicone swimcap to reduce drag and protect hair in the pool.', @men_headwear_cat_id, 10.00);
+
+-- =====================================================
+-- MEN'S PRODUCT VARIANTS
+-- =====================================================
+
+-- Men's Hoodie 26: Green (variants 2601–2605)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(2601, 26, 'XS', 'Green', 'M-HOO-GRN-XS'),
+(2602, 26, 'S', 'Green', 'M-HOO-GRN-S'),
+(2603, 26, 'M', 'Green', 'M-HOO-GRN-M'),
+(2604, 26, 'L', 'Green', 'M-HOO-GRN-L'),
+(2605, 26, 'XL', 'Green', 'M-HOO-GRN-XL');
+
+-- Men's Hoodie 27: Green & Black (variants 2701–2705)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(2701, 27, 'XS', 'Green/Black', 'M-HOO-GRB-XS'),
+(2702, 27, 'S', 'Green/Black', 'M-HOO-GRB-S'),
+(2703, 27, 'M', 'Green/Black', 'M-HOO-GRB-M'),
+(2704, 27, 'L', 'Green/Black', 'M-HOO-GRB-L'),
+(2705, 27, 'XL', 'Green/Black', 'M-HOO-GRB-XL');
+
+-- Men's Hoodie 28: Green & Black Zipup Turtleneck (variants 2801–2805)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(2801, 28, 'XS', 'Green/Black', 'M-HOO-ZTL-XS'),
+(2802, 28, 'S', 'Green/Black', 'M-HOO-ZTL-S'),
+(2803, 28, 'M', 'Green/Black', 'M-HOO-ZTL-M'),
+(2804, 28, 'L', 'Green/Black', 'M-HOO-ZTL-L'),
+(2805, 28, 'XL', 'Green/Black', 'M-HOO-ZTL-XL');
+
+-- Men's Hoodie 29: Green Turtleneck (variants 2901–2905)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(2901, 29, 'XS', 'Green', 'M-HOO-TUR-XS'),
+(2902, 29, 'S', 'Green', 'M-HOO-TUR-S'),
+(2903, 29, 'M', 'Green', 'M-HOO-TUR-M'),
+(2904, 29, 'L', 'Green', 'M-HOO-TUR-L'),
+(2905, 29, 'XL', 'Green', 'M-HOO-TUR-XL');
+
+-- Men's Hoodie 30: Green Zip up Hoodie (variants 3001–3005)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3001, 30, 'XS', 'Green', 'M-HOO-ZIP-XS'),
+(3002, 30, 'S', 'Green', 'M-HOO-ZIP-S'),
+(3003, 30, 'M', 'Green', 'M-HOO-ZIP-M'),
+(3004, 30, 'L', 'Green', 'M-HOO-ZIP-L'),
+(3005, 30, 'XL', 'Green', 'M-HOO-ZIP-XL');
+
+-- Men's Top 31: Polo Tee (variants 3101–3105)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3101, 31, 'XS', NULL, 'M-TOP-POL-XS'),
+(3102, 31, 'S', NULL, 'M-TOP-POL-S'),
+(3103, 31, 'M', NULL, 'M-TOP-POL-M'),
+(3104, 31, 'L', NULL, 'M-TOP-POL-L'),
+(3105, 31, 'XL', NULL, 'M-TOP-POL-XL');
+
+-- Men's Top 32: Football Jersey (variants 3201–3205)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3201, 32, 'XS', NULL, 'M-TOP-FBJ-XS'),
+(3202, 32, 'S', NULL, 'M-TOP-FBJ-S'),
+(3203, 32, 'M', NULL, 'M-TOP-FBJ-M'),
+(3204, 32, 'L', NULL, 'M-TOP-FBJ-L'),
+(3205, 32, 'XL', NULL, 'M-TOP-FBJ-XL');
+
+-- Men's Top 33: Compression Top (variants 3301–3305)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3301, 33, 'XS', NULL, 'M-TOP-CMP-XS'),
+(3302, 33, 'S', NULL, 'M-TOP-CMP-S'),
+(3303, 33, 'M', NULL, 'M-TOP-CMP-M'),
+(3304, 33, 'L', NULL, 'M-TOP-CMP-L'),
+(3305, 33, 'XL', NULL, 'M-TOP-CMP-XL');
+
+-- Men's Top 34: Gym Tanktop (variants 3401–3405)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3401, 34, 'XS', NULL, 'M-TOP-TNK-XS'),
+(3402, 34, 'S', NULL, 'M-TOP-TNK-S'),
+(3403, 34, 'M', NULL, 'M-TOP-TNK-M'),
+(3404, 34, 'L', NULL, 'M-TOP-TNK-L'),
+(3405, 34, 'XL', NULL, 'M-TOP-TNK-XL');
+
+-- Men's Top 35: Basketball Jersey (variants 3501–3505)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3501, 35, 'XS', NULL, 'M-TOP-BBJ-XS'),
+(3502, 35, 'S', NULL, 'M-TOP-BBJ-S'),
+(3503, 35, 'M', NULL, 'M-TOP-BBJ-M'),
+(3504, 35, 'L', NULL, 'M-TOP-BBJ-L'),
+(3505, 35, 'XL', NULL, 'M-TOP-BBJ-XL');
+
+-- Men's Bottom 36: Tennis Shorts (variants 3601–3605)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3601, 36, 'XS', NULL, 'M-BOT-TNS-XS'),
+(3602, 36, 'S', NULL, 'M-BOT-TNS-S'),
+(3603, 36, 'M', NULL, 'M-BOT-TNS-M'),
+(3604, 36, 'L', NULL, 'M-BOT-TNS-L'),
+(3605, 36, 'XL', NULL, 'M-BOT-TNS-XL');
+
+-- Men's Bottom 37: Rugby Shorts (variants 3701–3705)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3701, 37, 'XS', NULL, 'M-BOT-RUG-XS'),
+(3702, 37, 'S', NULL, 'M-BOT-RUG-S'),
+(3703, 37, 'M', NULL, 'M-BOT-RUG-M'),
+(3704, 37, 'L', NULL, 'M-BOT-RUG-L'),
+(3705, 37, 'XL', NULL, 'M-BOT-RUG-XL');
+
+-- Men's Bottom 38: Swimming Shorts (variants 3801–3805)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3801, 38, 'XS', NULL, 'M-BOT-SWM-XS'),
+(3802, 38, 'S', NULL, 'M-BOT-SWM-S'),
+(3803, 38, 'M', NULL, 'M-BOT-SWM-M'),
+(3804, 38, 'L', NULL, 'M-BOT-SWM-L'),
+(3805, 38, 'XL', NULL, 'M-BOT-SWM-XL');
+
+-- Men's Bottom 39: Joggers (variants 3901–3905)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(3901, 39, 'XS', NULL, 'M-BOT-JOG-XS'),
+(3902, 39, 'S', NULL, 'M-BOT-JOG-S'),
+(3903, 39, 'M', NULL, 'M-BOT-JOG-M'),
+(3904, 39, 'L', NULL, 'M-BOT-JOG-L'),
+(3905, 39, 'XL', NULL, 'M-BOT-JOG-XL');
+
+-- Men's Bottom 40: Boxing Shorts (variants 4001–4005)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4001, 40, 'XS', NULL, 'M-BOT-BOX-XS'),
+(4002, 40, 'S', NULL, 'M-BOT-BOX-S'),
+(4003, 40, 'M', NULL, 'M-BOT-BOX-M'),
+(4004, 40, 'L', NULL, 'M-BOT-BOX-L'),
+(4005, 40, 'XL', NULL, 'M-BOT-BOX-XL');
+
+-- Men's Footwear 41: Mountaineering Boots (variants 4101–4108, UK 5–12)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4101, 41, '5', NULL, 'M-FT-MTB-5'),
+(4102, 41, '6', NULL, 'M-FT-MTB-6'),
+(4103, 41, '7', NULL, 'M-FT-MTB-7'),
+(4104, 41, '8', NULL, 'M-FT-MTB-8'),
+(4105, 41, '9', NULL, 'M-FT-MTB-9'),
+(4106, 41, '10', NULL, 'M-FT-MTB-10'),
+(4107, 41, '11', NULL, 'M-FT-MTB-11'),
+(4108, 41, '12', NULL, 'M-FT-MTB-12');
+
+-- Men's Footwear 42: Flip Flops (variants 4201–4208, UK 5–12)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4201, 42, '5', NULL, 'M-FT-FLP-5'),
+(4202, 42, '6', NULL, 'M-FT-FLP-6'),
+(4203, 42, '7', NULL, 'M-FT-FLP-7'),
+(4204, 42, '8', NULL, 'M-FT-FLP-8'),
+(4205, 42, '9', NULL, 'M-FT-FLP-9'),
+(4206, 42, '10', NULL, 'M-FT-FLP-10'),
+(4207, 42, '11', NULL, 'M-FT-FLP-11'),
+(4208, 42, '12', NULL, 'M-FT-FLP-12');
+
+-- Men's Footwear 43: Running Shoes (variants 4301–4308, UK 5–12)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4301, 43, '5', NULL, 'M-FT-RSH-5'),
+(4302, 43, '6', NULL, 'M-FT-RSH-6'),
+(4303, 43, '7', NULL, 'M-FT-RSH-7'),
+(4304, 43, '8', NULL, 'M-FT-RSH-8'),
+(4305, 43, '9', NULL, 'M-FT-RSH-9'),
+(4306, 43, '10', NULL, 'M-FT-RSH-10'),
+(4307, 43, '11', NULL, 'M-FT-RSH-11'),
+(4308, 43, '12', NULL, 'M-FT-RSH-12');
+
+-- Men's Footwear 44: Trainers (variants 4401–4408, UK 5–12)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4401, 44, '5', NULL, 'M-FT-TRN-5'),
+(4402, 44, '6', NULL, 'M-FT-TRN-6'),
+(4403, 44, '7', NULL, 'M-FT-TRN-7'),
+(4404, 44, '8', NULL, 'M-FT-TRN-8'),
+(4405, 44, '9', NULL, 'M-FT-TRN-9'),
+(4406, 44, '10', NULL, 'M-FT-TRN-10'),
+(4407, 44, '11', NULL, 'M-FT-TRN-11'),
+(4408, 44, '12', NULL, 'M-FT-TRN-12');
+
+-- Men's Footwear 45: Football Boots (variants 4501–4508, UK 5–12)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4501, 45, '5', NULL, 'M-FT-FBT-5'),
+(4502, 45, '6', NULL, 'M-FT-FBT-6'),
+(4503, 45, '7', NULL, 'M-FT-FBT-7'),
+(4504, 45, '8', NULL, 'M-FT-FBT-8'),
+(4505, 45, '9', NULL, 'M-FT-FBT-9'),
+(4506, 45, '10', NULL, 'M-FT-FBT-10'),
+(4507, 45, '11', NULL, 'M-FT-FBT-11'),
+(4508, 45, '12', NULL, 'M-FT-FBT-12');
+
+-- Men's Headwear 46: Visor (variants 4601–4605)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4601, 46, 'XS', NULL, 'M-HD-VIS-XS'),
+(4602, 46, 'S', NULL, 'M-HD-VIS-S'),
+(4603, 46, 'M', NULL, 'M-HD-VIS-M'),
+(4604, 46, 'L', NULL, 'M-HD-VIS-L'),
+(4605, 46, 'XL', NULL, 'M-HD-VIS-XL');
+
+-- Men's Headwear 47: Sweatband (variants 4701–4705)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4701, 47, 'XS', NULL, 'M-HD-SWB-XS'),
+(4702, 47, 'S', NULL, 'M-HD-SWB-S'),
+(4703, 47, 'M', NULL, 'M-HD-SWB-M'),
+(4704, 47, 'L', NULL, 'M-HD-SWB-L'),
+(4705, 47, 'XL', NULL, 'M-HD-SWB-XL');
+
+-- Men's Headwear 48: Rugby Helmet (variants 4801–4805)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4801, 48, 'XS', NULL, 'M-HD-RGH-XS'),
+(4802, 48, 'S', NULL, 'M-HD-RGH-S'),
+(4803, 48, 'M', NULL, 'M-HD-RGH-M'),
+(4804, 48, 'L', NULL, 'M-HD-RGH-L'),
+(4805, 48, 'XL', NULL, 'M-HD-RGH-XL');
+
+-- Men's Headwear 49: Baseball Cap (variants 4901–4905)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(4901, 49, 'XS', NULL, 'M-HD-BBC-XS'),
+(4902, 49, 'S', NULL, 'M-HD-BBC-S'),
+(4903, 49, 'M', NULL, 'M-HD-BBC-M'),
+(4904, 49, 'L', NULL, 'M-HD-BBC-L'),
+(4905, 49, 'XL', NULL, 'M-HD-BBC-XL');
+
+-- Men's Headwear 50: Swimcap (variants 5001–5005)
+INSERT INTO product_variant (variant_id, product_id, size, colour, sku) VALUES
+(5001, 50, 'XS', NULL, 'M-HD-SWC-XS'),
+(5002, 50, 'S', NULL, 'M-HD-SWC-S'),
+(5003, 50, 'M', NULL, 'M-HD-SWC-M'),
+(5004, 50, 'L', NULL, 'M-HD-SWC-L'),
+(5005, 50, 'XL', NULL, 'M-HD-SWC-XL');
+
+-- =====================================================
+-- PRODUCT IMAGES
+-- =====================================================
+
+-- Men's Hoodies
+INSERT INTO product_image (product_id, image_url, is_main) VALUES
+(26, '/src/view/images/productImages/male_hoodie_green.png', 1),
+(27, '/src/view/images/productImages/male_hoodie_black.png', 1),
+(28, '/src/view/images/productImages/male_hoodie_turtleneck_zipup.png', 1),
+(29, '/src/view/images/productImages/male_hoodie_turtleneck.png', 1),
+(30, '/src/view/images/productImages/male_hoodie_zipup.png', 1);
+
+-- Men's Tops
+INSERT INTO product_image (product_id, image_url, is_main) VALUES
+(31, '/src/view/images/productImages/male_shirt_polo.png', 1),
+(32, '/src/view/images/productImages/male_shirt_football.png', 1),
+(33, '/src/view/images/productImages/male_shirt_compression.png', 1),
+(34, '/src/view/images/productImages/male_shirt_tank.png', 1),
+(35, '/src/view/images/productImages/male_shirt_basketball.png', 1);
+
+-- Men's Bottoms
+INSERT INTO product_image (product_id, image_url, is_main) VALUES
+(36, '/src/view/images/productImages/male_pants_tennis.png', 1),
+(37, '/src/view/images/productImages/male_pants_rugby.png', 1),
+(38, '/src/view/images/productImages/male_pants_swimming.png', 1),
+(39, '/src/view/images/productImages/male_joggers.png', 1),
+(40, '/src/view/images/productImages/male_pants_boxing.png', 1);
+
+-- Men's Footwear
+INSERT INTO product_image (product_id, image_url, is_main) VALUES
+(41, '/src/view/images/productImages/male_shoes_mountaineering.png', 1),
+(42, '/src/view/images/productImages/male_shoes_flipflops.png', 1),
+(43, '/src/view/images/productImages/male_shoes_running.png', 1),
+(44, '/src/view/images/productImages/male_shoes_trainers.png', 1),
+(45, '/src/view/images/productImages/male_shoes_studs.png', 1);
+
+-- Men's Headwear
+INSERT INTO product_image (product_id, image_url, is_main) VALUES
+(46, '/src/view/images/productImages/male_hat_visor.png', 1),
+(47, '/src/view/images/productImages/male_hat_sweatband.png', 1),
+(48, '/src/view/images/productImages/male_hat_rugby.png', 1),
+(49, '/src/view/images/productImages/male_hat_baseball.png', 1),
+(50, '/src/view/images/productImages/male_hat_swimming.png', 1);
+
+-- =====================================================
+-- INITIAL INVENTORY
+-- =====================================================
+
+-- Men's Hoodies
+INSERT INTO inventory (variant_id, current_stock, low_stock_threshold) VALUES
+(2601, 50, 10),(2602, 50, 10),(2603, 50, 10),(2604, 50, 10),(2605, 50, 10),
+(2701, 50, 10),(2702, 50, 10),(2703, 50, 10),(2704, 50, 10),(2705, 50, 10),
+(2801, 50, 10),(2802, 50, 10),(2803, 50, 10),(2804, 50, 10),(2805, 50, 10),
+(2901, 50, 10),(2902, 50, 10),(2903, 50, 10),(2904, 50, 10),(2905, 50, 10),
+(3001, 50, 10),(3002, 50, 10),(3003, 50, 10),(3004, 50, 10),(3005, 50, 10);
+
+-- Men's Tops
+INSERT INTO inventory (variant_id, current_stock, low_stock_threshold) VALUES
+(3101, 50, 10),(3102, 50, 10),(3103, 50, 10),(3104, 50, 10),(3105, 50, 10),
+(3201, 50, 10),(3202, 50, 10),(3203, 50, 10),(3204, 50, 10),(3205, 50, 10),
+(3301, 50, 10),(3302, 50, 10),(3303, 50, 10),(3304, 50, 10),(3305, 50, 10),
+(3401, 50, 10),(3402, 50, 10),(3403, 50, 10),(3404, 50, 10),(3405, 50, 10),
+(3501, 50, 10),(3502, 50, 10),(3503, 50, 10),(3504, 50, 10),(3505, 50, 10);
+
+-- Men's Bottoms
+INSERT INTO inventory (variant_id, current_stock, low_stock_threshold) VALUES
+(3601, 50, 10),(3602, 50, 10),(3603, 50, 10),(3604, 50, 10),(3605, 50, 10),
+(3701, 50, 10),(3702, 50, 10),(3703, 50, 10),(3704, 50, 10),(3705, 50, 10),
+(3801, 50, 10),(3802, 50, 10),(3803, 50, 10),(3804, 50, 10),(3805, 50, 10),
+(3901, 50, 10),(3902, 50, 10),(3903, 50, 10),(3904, 50, 10),(3905, 50, 10),
+(4001, 50, 10),(4002, 50, 10),(4003, 50, 10),(4004, 50, 10),(4005, 50, 10);
+
+-- Men's Footwear
+INSERT INTO inventory (variant_id, current_stock, low_stock_threshold) VALUES
+(4101, 35, 10),(4102, 35, 10),(4103, 50, 10),(4104, 50, 10),(4105, 50, 10),(4106, 25, 10),(4107, 25, 10),(4108, 20, 10),
+(4201, 35, 10),(4202, 35, 10),(4203, 50, 10),(4204, 50, 10),(4205, 50, 10),(4206, 25, 10),(4207, 25, 10),(4208, 20, 10),
+(4301, 35, 10),(4302, 35, 10),(4303, 50, 10),(4304, 50, 10),(4305, 50, 10),(4306, 25, 10),(4307, 25, 10),(4308, 20, 10),
+(4401, 35, 10),(4402, 35, 10),(4403, 50, 10),(4404, 50, 10),(4405, 50, 10),(4406, 25, 10),(4407, 25, 10),(4408, 20, 10),
+(4501, 35, 10),(4502, 35, 10),(4503, 50, 10),(4504, 50, 10),(4505, 50, 10),(4506, 25, 10),(4507, 25, 10),(4508, 20, 10);
+
+-- Men's Headwear
+INSERT INTO inventory (variant_id, current_stock, low_stock_threshold) VALUES
+(4601, 50, 10),(4602, 50, 10),(4603, 50, 10),(4604, 50, 10),(4605, 50, 10),
+(4701, 50, 10),(4702, 50, 10),(4703, 50, 10),(4704, 50, 10),(4705, 50, 10),
+(4801, 50, 10),(4802, 50, 10),(4803, 50, 10),(4804, 50, 10),(4805, 50, 10),
+(4901, 50, 10),(4902, 50, 10),(4903, 50, 10),(4904, 50, 10),(4905, 50, 10),
+(5001, 50, 10),(5002, 50, 10),(5003, 50, 10),(5004, 50, 10),(5005, 50, 10);
