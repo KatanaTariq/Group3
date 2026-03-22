@@ -47,10 +47,11 @@ $routes = [
 
         '/profile' => [PageController::class, 'profile'],
         '/previous-orders' => [PageController::class, 'previousOrders'],
-        '/basket' => [PageController::class, 'basket'],
+        '/basket' => [BasketController::class, 'index'],
         '/checkout' => [PageController::class, 'checkout'],
         '/shop-women' => [PageController::class, 'womens'],
         '/shop-men' => [PageController::class, 'mens'],
+        '/product' => [PageController::class, 'product'],
 
         '/signup' => [AuthController::class, 'displayRegister'],
         '/login' => [AuthController::class, 'displayLogin'],
@@ -59,6 +60,9 @@ $routes = [
     'POST' => [
         '/signup' => [AuthController::class, 'register'],
         '/login' => [AuthController::class, 'login'],
+        '/basket/add' => [BasketController::class, 'add'],
+        '/basket/update' => [BasketController::class, 'update'],
+        '/basket/remove' => [BasketController::class, 'remove'],
     ],
 ];
 
