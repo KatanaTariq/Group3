@@ -181,10 +181,12 @@ CREATE TABLE inventory (
 CREATE TABLE inventory_log (
     log_id INT AUTO_INCREMENT PRIMARY KEY,
     variant_id INT NOT NULL,
-    change_amount INT NOT NULL, 
+    change_amount INT NOT NULL,
+    admin_id INT NULL,
     reason VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (variant_id) REFERENCES product_variant(variant_id) ON DELETE CASCADE
+    FOREIGN KEY (variant_id) REFERENCES product_variant(variant_id) ON DELETE CASCADE,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================================================
