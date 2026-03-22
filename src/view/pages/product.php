@@ -72,7 +72,7 @@ $variants = is_array($variants ?? null) ? $variants : [];
 
         <?php if (count($availableSizes) > 0): ?>
             <form action="/basket/add" method="POST">
-                <input type="hidden" name="product_id" value="<?php echo (int)$product->getID(); ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
 
                 <label for="size">Select Size</label>
                 <select name="size" id="size" required>
