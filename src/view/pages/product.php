@@ -101,4 +101,4 @@ $variants = is_array($variants ?? null) ? $variants : [];
     </div>
 </section>
 
-<?php include __DIR__ . '/../templates/footer.php'; ?>
+<?php include __DIR__ . '/../templates/footer.php'; ?>  

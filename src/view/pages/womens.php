@@ -16,7 +16,7 @@
 <section class="products-container" id="all-products">
 
 <?php
-// women subcategory ids:
+// Women subcategory IDs:
 $categoryMap = [
     3 => 'hoodies',
     4 => 'tops',
@@ -59,7 +59,7 @@ function normaliseImagePath(?string $path): string
 
                 <p class="product-name"><?php echo htmlspecialchars($product->getName()); ?></p>
 
-                <p class="product-description">
+                <p class="product-desc">
                     <?php echo htmlspecialchars($product->getDescription() ?: 'No description available.'); ?>
                 </p>
 

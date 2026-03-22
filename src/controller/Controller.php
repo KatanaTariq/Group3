@@ -9,7 +9,9 @@ class Controller
 
     /**
      * Initialises the controller with the active database connection.
-     * @param PDO $pdo the active database connection object
+     *
+     * @param PDO $pdo The active database connection object.
+     * @return void
      */
     public function __construct(PDO $pdo)
     {
@@ -18,8 +20,9 @@ class Controller
 
     /**
      * Loads a view file and makes the provided data available to it.
-     * @param string $path the view path relative to the view directory
-     * @param array $data the data to extract into the view
+     *
+     * @param string $path The view path relative to the view directory.
+     * @param array $data The data to extract into the view.
      * @return void
      */
     protected function view(string $path, array $data = []): void
@@ -30,7 +33,8 @@ class Controller
 
     /**
      * Redirects the user to a new URL and stops execution.
-     * @param string $url the destination URL
+     *
+     * @param string $url The destination URL.
      * @return void
      */
     protected function redirect(string $url): void
@@ -47,6 +51,7 @@ class PageController extends Controller
 {
     /**
      * Displays the home page.
+     *
      * @return void
      */
     public function home(): void
@@ -56,6 +61,7 @@ class PageController extends Controller
 
     /**
      * Displays the about page.
+     *
      * @return void
      */
     public function about(): void
@@ -65,6 +71,7 @@ class PageController extends Controller
 
     /**
      * Displays the contact page.
+     *
      * @return void
      */
     public function contact(): void
@@ -74,6 +81,7 @@ class PageController extends Controller
 
     /**
      * Displays the customer profile page.
+     *
      * @return void
      */
     public function profile(): void
@@ -82,26 +90,8 @@ class PageController extends Controller
     }
 
     /**
-     * Displays the previous orders page.
-     * @return void
-     */
-    public function previousOrders(): void
-    {
-        if (empty($_SESSION['customer_id'])) {
-            $this->redirect('/login?error=' . urlencode('Please login to view your orders'));
-        }
-
-        $customerID = (int)$_SESSION['customer_id'];
-        $orderModel = new Order($this->pdo, $customerID);
-        $orders = $orderModel->getOrderHistory();
-
-        $this->view('pages/previous_orders', [
-            'orders' => $orders
-        ]);
-    }
-
-    /**
      * Displays the basket page.
+     *
      * @return void
      */
     public function basket(): void
@@ -111,6 +101,7 @@ class PageController extends Controller
 
     /**
      * Displays the checkout page.
+     *
      * @return void
      */
     public function checkout(): void
@@ -119,7 +110,7 @@ class PageController extends Controller
             $this->redirect('/login?error=' . urlencode('Please login to continue'));
         }
 
-        $customerID = (int)$_SESSION['customer_id'];
+        $customerID = (int) $_SESSION['customer_id'];
 
         $basketModel = new Basket($this->pdo, $customerID);
         $items = $basketModel->getContents();
@@ -143,13 +134,14 @@ class PageController extends Controller
 
     /**
      * Displays the women's shop page with all women's products.
+     *
      * @return void
      */
     public function womens(): void
     {
         $productModel = new ProductModel($this->pdo);
 
-        // women root category_id = 1
+        // Women root category_id = 1.
         $products = $productModel->getProductsForListing(1, null);
 
         $this->view('pages/womens', [
@@ -159,13 +151,14 @@ class PageController extends Controller
 
     /**
      * Displays the men's shop page with all men's products.
+     *
      * @return void
      */
     public function mens(): void
     {
         $productModel = new ProductModel($this->pdo);
 
-        // men root category_id = 2
+        // Men root category_id = 2.
         $products = $productModel->getProductsForListing(2, null);
 
         $this->view('pages/mens', [
@@ -174,7 +167,8 @@ class PageController extends Controller
     }
 
     /**
-     * Displays a single product page using the product id from the URL.
+     * Displays a single product page using the product ID from the URL.
+     *
      * @return void
      */
     public function product(): void
@@ -201,6 +195,60 @@ class PageController extends Controller
             'variants' => $productData['variants']
         ]);
     }
+
+    /**
+     * Displays the previous orders page.
+     *
+     * @return void
+     */
+    public function previousOrders(): void
+    {
+        if (empty($_SESSION['customer_id'])) {
+            $this->redirect('/login?error=' . urlencode('Please login to view your orders'));
+        }
+
+        $customerID = (int) $_SESSION['customer_id'];
+        $orderModel = new Order($this->pdo, $customerID);
+        $orders = $orderModel->getOrderHistory();
+
+        $this->view('pages/previous_orders', [
+            'orders' => $orders
+        ]);
+    }
+
+    /**
+     * Displays a single order with its full item details.
+     *
+     * @return void
+     */
+    public function orderDetails(): void
+    {
+        if (empty($_SESSION['customer_id'])) {
+            $this->redirect('/login?error=' . urlencode('Please login'));
+        }
+
+        $orderID = (int) ($_GET['id'] ?? 0);
+
+        if ($orderID <= 0) {
+            http_response_code(404);
+            $this->view('pages/404');
+            return;
+        }
+
+        $customerID = (int) $_SESSION['customer_id'];
+        $orderModel = new Order($this->pdo, $customerID);
+        $order = $orderModel->getOrderDetails($orderID);
+
+        if (!$order) {
+            http_response_code(404);
+            $this->view('pages/404');
+            return;
+        }
+
+        $this->view('pages/order_details', [
+            'order' => $order
+        ]);
+    }
 }
 
 /**
@@ -212,7 +260,9 @@ class AuthController extends Controller
 
     /**
      * Initialises the auth controller and customer model.
-     * @param PDO $pdo the active database connection object
+     *
+     * @param PDO $pdo The active database connection object.
+     * @return void
      */
     public function __construct(PDO $pdo)
     {
@@ -222,6 +272,7 @@ class AuthController extends Controller
 
     /**
      * Displays the registration page.
+     *
      * @return void
      */
     public function displayRegister(): void
@@ -231,12 +282,14 @@ class AuthController extends Controller
 
     /**
      * Registers a new customer account.
+     *
      * @return void
      */
     public function register(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->displayRegister();
+            return;
         }
 
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
@@ -244,9 +297,9 @@ class AuthController extends Controller
         }
 
         $firstName = sanitise_string($_POST['first_name'] ?? '');
-        $lastName  = sanitise_string($_POST['last_name'] ?? '');
-        $email     = validate_email($_POST['email'] ?? '');
-        $password  = trim($_POST['password'] ?? '');
+        $lastName = sanitise_string($_POST['last_name'] ?? '');
+        $email = validate_email($_POST['email'] ?? '');
+        $password = trim($_POST['password'] ?? '');
 
         if ($email === null) {
             $this->redirect('/signup?error=' . urlencode('Invalid email'));
@@ -271,14 +324,14 @@ class AuthController extends Controller
         }
 
         $customer = $this->customerModel->registerCustomer([
-            'email'         => $email,
+            'email' => $email,
             'password_hash' => password_hash($password, PASSWORD_DEFAULT),
-            'first_name'    => $firstName,
-            'last_name'     => $lastName,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
         ]);
 
         if (!$customer) {
-            $this->redirect('/signup?error=' . urlencode('could not create account'));
+            $this->redirect('/signup?error=' . urlencode('Could not create account'));
         }
 
         $_SESSION['customer_id'] = $customer->getId();
@@ -287,6 +340,7 @@ class AuthController extends Controller
 
     /**
      * Displays the login page.
+     *
      * @return void
      */
     public function displayLogin(): void
@@ -296,12 +350,14 @@ class AuthController extends Controller
 
     /**
      * Logs a customer into their account.
+     *
      * @return void
      */
     public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->displayLogin();
+            return;
         }
 
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
@@ -312,13 +368,13 @@ class AuthController extends Controller
         $password = trim($_POST['password'] ?? '');
 
         if ($email === null || $password === '') {
-            $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
+            $this->redirect('/login?error=' . urlencode('Invalid credentials'));
         }
 
         $customer = $this->customerModel->getCustomerByEmail($email);
 
         if (!$customer || !password_verify($password, $customer->getPasswordHash())) {
-            $this->redirect('/login?error=' . urlencode('Invalid Credentials'));
+            $this->redirect('/login?error=' . urlencode('Invalid credentials'));
         }
 
         $_SESSION['customer_id'] = $customer->getId();
@@ -327,6 +383,7 @@ class AuthController extends Controller
 
     /**
      * Logs the current customer out of their account.
+     *
      * @return void
      */
     public function logout(): void
@@ -337,7 +394,7 @@ class AuthController extends Controller
 }
 
 /**
- * Handles the customer's basket lifecycle, including display, add, update and remove actions.
+ * Handles the customer's basket lifecycle, including display, add, update, and remove actions.
  */
 class BasketController extends Controller
 {
@@ -346,7 +403,9 @@ class BasketController extends Controller
 
     /**
      * Initialises the basket controller and basket model for the logged-in user.
-     * @param PDO $pdo the active database connection object
+     *
+     * @param PDO $pdo The active database connection object.
+     * @return void
      */
     public function __construct(PDO $pdo)
     {
@@ -365,6 +424,7 @@ class BasketController extends Controller
 
     /**
      * Displays the basket page with all items and subtotal.
+     *
      * @return void
      */
     public function index(): void
@@ -383,7 +443,8 @@ class BasketController extends Controller
     }
 
     /**
-     * Adds an item to the basket using the selected product id, size and quantity.
+     * Adds an item to the basket using the selected product ID, size, and quantity.
+     *
      * @return void
      */
     public function add(): void
@@ -422,8 +483,10 @@ class BasketController extends Controller
             $this->redirect('/product?id=' . $productID . '&error=' . urlencode($e->getMessage()));
         }
     }
+
     /**
      * Updates the quantity of an existing basket item.
+     *
      * @return void
      */
     public function update(): void
@@ -453,6 +516,7 @@ class BasketController extends Controller
 
     /**
      * Removes an item from the current user's basket.
+     *
      * @return void
      */
     public function remove(): void
@@ -476,10 +540,107 @@ class BasketController extends Controller
     }
 }
 
+/**
+ * Handles checkout and address resolution.
+ */
 class CheckoutController extends Controller
 {
     /**
+     * Creates a new address for the current customer.
+     *
+     * @param int $customerID The ID of the current customer.
+     * @param string $street The street line of the address.
+     * @param string $city The city of the address.
+     * @param string $county The county of the address.
+     * @param string $postCode The post code of the address.
+     * @param string $addressType The address type: SHIPPING, BILLING, or BOTH.
+     * @return int The newly created address ID.
+     */
+    private function createAddress(
+        int $customerID,
+        string $street,
+        string $city,
+        string $county,
+        string $postCode,
+        string $addressType
+    ): int {
+        $sql = "INSERT INTO address (customer_id, address_type, street, city, county, post_code)
+                VALUES (:customer_id, :address_type, :street, :city, :county, :post_code)";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            'customer_id' => $customerID,
+            'address_type' => $addressType,
+            'street' => $street,
+            'city' => $city,
+            'county' => $county !== '' ? $county : null,
+            'post_code' => $postCode
+        ]);
+
+        return (int) $this->pdo->lastInsertId();
+    }
+
+    /**
+     * Resolves an address for checkout.
+     * Uses an existing selected address if provided; otherwise, creates a new one.
+     *
+     * @param int $customerID The ID of the current customer.
+     * @param int $selectedAddressID The selected saved address ID.
+     * @param string $street The submitted street.
+     * @param string $city The submitted city.
+     * @param string $county The submitted county.
+     * @param string $postCode The submitted post code.
+     * @param string $addressType The address type: SHIPPING or BILLING.
+     * @return int The resolved address ID.
+     */
+    private function resolveAddress(
+        int $customerID,
+        int $selectedAddressID,
+        string $street,
+        string $city,
+        string $county,
+        string $postCode,
+        string $addressType
+    ): int {
+        if ($selectedAddressID > 0) {
+            $sql = "SELECT address_id
+                    FROM address
+                    WHERE address_id = :address_id
+                      AND customer_id = :customer_id
+                    LIMIT 1";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'address_id' => $selectedAddressID,
+                'customer_id' => $customerID
+            ]);
+
+            $addressID = $stmt->fetchColumn();
+
+            if ($addressID === false) {
+                throw new Exception('Selected address is invalid.');
+            }
+
+            return (int) $addressID;
+        }
+
+        if ($street === '' || $city === '' || $postCode === '') {
+            throw new Exception('Please select an address or enter a new one.');
+        }
+
+        return $this->createAddress(
+            $customerID,
+            $street,
+            $city,
+            $county,
+            $postCode,
+            $addressType
+        );
+    }
+
+    /**
      * Processes checkout and creates the order from the current basket.
+     *
      * @return void
      */
     public function process(): void
@@ -496,25 +657,51 @@ class CheckoutController extends Controller
             $this->redirect('/login?error=' . urlencode('Please login to continue'));
         }
 
-        $customerID = (int)$_SESSION['customer_id'];
-        $shippingAddressID = (int)($_POST['shipping_address_id'] ?? 0);
-        $billingAddressID = (int)($_POST['billing_address_id'] ?? 0);
+        $customerID = (int) $_SESSION['customer_id'];
 
-        if ($shippingAddressID <= 0 || $billingAddressID <= 0) {
-            $this->redirect('/checkout?error=' . urlencode('Please select shipping and billing addresses'));
-        }
+        $selectedShippingAddressID = (int) ($_POST['shipping_address_id'] ?? 0);
+        $selectedBillingAddressID = (int) ($_POST['billing_address_id'] ?? 0);
 
-        $basketModel = new Basket($this->pdo, $customerID);
+        $shippingStreet = trim($_POST['shipping_street'] ?? '');
+        $shippingCity = trim($_POST['shipping_city'] ?? '');
+        $shippingCounty = trim($_POST['shipping_county'] ?? '');
+        $shippingPostCode = trim($_POST['shipping_post_code'] ?? '');
+
+        $billingStreet = trim($_POST['billing_street'] ?? '');
+        $billingCity = trim($_POST['billing_city'] ?? '');
+        $billingCounty = trim($_POST['billing_county'] ?? '');
+        $billingPostCode = trim($_POST['billing_post_code'] ?? '');
 
         try {
+            $shippingAddressID = $this->resolveAddress(
+                $customerID,
+                $selectedShippingAddressID,
+                $shippingStreet,
+                $shippingCity,
+                $shippingCounty,
+                $shippingPostCode,
+                'SHIPPING'
+            );
+
+            $billingAddressID = $this->resolveAddress(
+                $customerID,
+                $selectedBillingAddressID,
+                $billingStreet,
+                $billingCity,
+                $billingCounty,
+                $billingPostCode,
+                'BILLING'
+            );
+
+            $basketModel = new Basket($this->pdo, $customerID);
             $result = $basketModel->finaliseCheckout($shippingAddressID, $billingAddressID);
 
             if ($result === true) {
                 $this->redirect('/previous-orders?success=' . urlencode('Order placed successfully'));
             }
 
-            $this->redirect('/checkout?error=' . urlencode((string)$result));
-        } catch (Exception $e) {
+            $this->redirect('/checkout?error=' . urlencode((string) $result));
+        } catch (Throwable $e) {
             $this->redirect('/checkout?error=' . urlencode($e->getMessage()));
         }
     }

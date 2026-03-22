@@ -71,7 +71,7 @@ class ProductVariant
 /**
  * ProductModel
  *
- * supports:
+ * Supports:
  * 1) listing page:
  *    - women (all subcategories)
  *    - women > bottoms (single subcategory)
@@ -92,17 +92,17 @@ class ProductModel
     }
 
     /**
-     * list products for:
+     * List products for:
      * - a root section (Women=1, Men=2) -> returns ALL products under that root (all subcategories)
      * - OR a specific subcategory id -> returns ONLY products in that subcategory
      *
-     * pass ONE of:
+     * Pass ONE of:
      * - $root_category_id (1 or 2)
      * - $subcategory_id (3-12)
      */
     public function getProductsForListing(?int $root_category_id = null, ?int $subcategory_id = null): array
     {
-        // safety: must provide exactly one
+        // Safety: must provide exactly one
         if (($root_category_id === null && $subcategory_id === null) ||
             ($root_category_id !== null && $subcategory_id !== null)) {
             return [];
@@ -110,11 +110,11 @@ class ProductModel
 
         $where = "";
         if ($root_category_id !== null) {
-            // women/men: include all child categories under the root
-            // with your seed data, products live in the subcategories, not in the root
+            // Women/men: include all child categories under the root
+            // With your seed data, products live in the subcategories, not in the root
             $where = "c.parent_category_id = :root_category_id";
         } else {
-            // women > bottoms etc: exact category match
+            // Women > bottoms etc: exact category match
             $where = "p.category_id = :subcategory_id";
         }
 
@@ -158,7 +158,7 @@ class ProductModel
     }
 
     /**
-     * single product base details + primary image
+     * Single product base details + primary image
      */
     public function getProductByID(int $product_id): ?Product
     {
@@ -193,7 +193,7 @@ class ProductModel
     }
 
     /**
-     * get variants for the single product page (includes stock from inventory)
+     * Get variants for the single product page (includes stock from inventory)
      */
     public function getVariantsByProductID(int $product_id): array
     {
@@ -237,7 +237,7 @@ class ProductModel
     }
 
     /**
-     * convenience for single product page
+     * Convenience for single product page
      */
     public function getProductFull(int $product_id): ?array
     {

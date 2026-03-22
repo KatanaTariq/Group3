@@ -16,7 +16,7 @@
 <section class="products-container" id="all-products">
 
 <?php
-// men subcategory ids:
+// Men subcategory IDs:
 $categoryMap = [
     8  => 'hoodies',
     9  => 'tops',
