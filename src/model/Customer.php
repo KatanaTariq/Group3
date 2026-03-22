@@ -59,7 +59,7 @@ class CustomerModel
     }
 
     /**
-     * find a customer by email
+     * Find a customer by email
      */
     public function getCustomerByEmail(string $email): ?Customer
     {
@@ -80,7 +80,7 @@ class CustomerModel
     }
 
     /**
-     * find a customer by ID
+     * Find a customer by ID
      */
     public function getCustomerByID(int $id): ?Customer
     {
@@ -101,7 +101,7 @@ class CustomerModel
     }
 
     /**
-     * register a new customer
+     * Register a new customer
      */
     public function registerCustomer(array $userData): ?Customer
     {

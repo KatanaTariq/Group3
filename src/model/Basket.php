@@ -325,7 +325,7 @@ class Basket
      * @param int $billingAddressID the selected billing address id
      * @return bool|string true on success, or an error message on failure
      */
-    public function finalizeCheckout(int $shippingAddressID, int $billingAddressID): string|bool
+    public function finaliseCheckout(int $shippingAddressID, int $billingAddressID): string|bool
     {
         $basketID = $this->getOrCreateBasket();
 
