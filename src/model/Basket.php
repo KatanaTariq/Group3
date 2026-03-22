@@ -1,18 +1,12 @@
 <?php
 
-/*******************************************
-Developer: Mokutmfonobong Utuk
-University ID: 240240082
-Function: adds, removes, updates items with a checkout function
-*******************************************/
-
 class Basket
 {
     private PDO $pdo;
     private int $customerID;
 
     /**
-     * Initializes the Basket model with the active database connection and current customer id
+     * Initialises the Basket model with the active database connection and current customer id
      * @param PDO $pdo the active connection object
      * @param int $customerID the unique id of the customer
      */
@@ -286,4 +280,148 @@ class Basket
 
         return $stmt->rowCount() > 0;
     }
-}   
+
+    // --- CHECKOUT FUNCTIONALITY ---
+
+    /**
+     * Fetches all items in the current basket with product price information
+     * used during the checkout process
+     * @param int $basketID the id of the current customer's basket
+     * @return array|null the basket items for checkout, or null if the basket is empty
+     */
+    protected function getBasketItemsForCheckout(int $basketID): ?array
+    {
+        $sql = "SELECT 
+                    bi.variant_id,
+                    bi.quantity,
+                    p.price AS unit_price
+                FROM basket_item bi
+                JOIN product_variant pv ON bi.variant_id = pv.variant_id
+                JOIN product p ON pv.product_id = p.product_id
+                WHERE bi.basket_id = :basket_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['basket_id' => $basketID]);
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $items ?: null;
+    }
+
+    /**
+     * Generates a unique order number for the order table
+     * @return string a unique order number string
+     */
+    protected function generateOrderNumber(): string
+    {
+        return 'ATH-' . strtoupper(substr(uniqid(), -6)) . strtoupper(bin2hex(random_bytes(2)));
+    }
+
+    /**
+     * Executes the checkout process within a database transaction
+     * creates the order
+     * transfers basket items into order_line
+     * decrements stock
+     * clears the basket
+     * @param int $shippingAddressID the selected shipping address id
+     * @param int $billingAddressID the selected billing address id
+     * @return bool|string true on success, or an error message on failure
+     */
+    public function finalizeCheckout(int $shippingAddressID, int $billingAddressID): string|bool
+    {
+        $basketID = $this->getOrCreateBasket();
+
+        $this->pdo->beginTransaction();
+
+        try {
+            $basketItems = $this->getBasketItemsForCheckout($basketID);
+
+            if (empty($basketItems)) {
+                $this->pdo->rollBack();
+                throw new Exception('Basket is empty.');
+            }
+
+            $totalAmount = 0.0;
+
+            // Re-check stock and calculate total
+            foreach ($basketItems as $item) {
+                $variantID = (int)$item['variant_id'];
+                $quantity = (int)$item['quantity'];
+                $unitPrice = (float)$item['unit_price'];
+
+                $stockSql = "SELECT current_stock
+                             FROM inventory
+                             WHERE variant_id = :variant_id";
+                $stmt = $this->pdo->prepare($stockSql);
+                $stmt->execute(['variant_id' => $variantID]);
+                $stockResult = $stmt->fetchColumn();
+
+                if ($stockResult === false || $quantity > (int)$stockResult) {
+                    $this->pdo->rollBack();
+                    throw new Exception("Stock check failed for variant {$variantID}.");
+                }
+
+                $totalAmount += ($unitPrice * $quantity);
+            }
+
+            // Create order
+            $orderNumber = $this->generateOrderNumber();
+
+            $orderSql = "INSERT INTO `order`
+                        (customer_id, order_number, total_amount, shipping_address_id, billing_address_id, status)
+                         VALUES
+                        (:customer_id, :order_number, :total_amount, :shipping_address_id, :billing_address_id, 'PROCESSING')";
+            $stmt = $this->pdo->prepare($orderSql);
+            $stmt->execute([
+                'customer_id' => $this->customerID,
+                'order_number' => $orderNumber,
+                'total_amount' => $totalAmount,
+                'shipping_address_id' => $shippingAddressID,
+                'billing_address_id' => $billingAddressID
+            ]);
+            $orderID = (int)$this->pdo->lastInsertId();
+
+            // Insert order_line rows and decrement inventory
+            $orderLineSql = "INSERT INTO order_line
+                            (order_id, variant_id, quantity, unit_price)
+                             VALUES
+                            (:order_id, :variant_id, :quantity, :unit_price)";
+            $updateStockSql = "UPDATE inventory
+                               SET current_stock = current_stock - :quantity
+                               WHERE variant_id = :variant_id";
+
+            foreach ($basketItems as $item) {
+                $variantID = (int)$item['variant_id'];
+                $quantity = (int)$item['quantity'];
+                $unitPrice = (float)$item['unit_price'];
+
+                $stmt = $this->pdo->prepare($orderLineSql);
+                $stmt->execute([
+                    'order_id' => $orderID,
+                    'variant_id' => $variantID,
+                    'quantity' => $quantity,
+                    'unit_price' => $unitPrice
+                ]);
+
+                $stmt = $this->pdo->prepare($updateStockSql);
+                $stmt->execute([
+                    'quantity' => $quantity,
+                    'variant_id' => $variantID
+                ]);
+            }
+
+            // Clear basket
+            $deleteSql = "DELETE FROM basket_item WHERE basket_id = :basket_id";
+            $stmt = $this->pdo->prepare($deleteSql);
+            $stmt->execute(['basket_id' => $basketID]);
+
+            $this->pdo->commit();
+            return true;
+        } catch (Exception $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+
+            error_log('Checkout failed: ' . $e->getMessage());
+            return $e->getMessage();
+        }
+    }
+}

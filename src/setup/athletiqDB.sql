@@ -136,10 +136,14 @@ CREATE TABLE `order` (
     customer_id INT NOT NULL,
     order_number VARCHAR(50) UNIQUE NOT NULL,
     total_amount DECIMAL(10,2) NOT NULL,
+    shipping_address_id INT NULL,
+    billing_address_id INT NULL,
     status ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT,
+    FOREIGN KEY (shipping_address_id) REFERENCES address(address_id) ON DELETE SET NULL,
+    FOREIGN KEY (billing_address_id) REFERENCES address(address_id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- OrderLine table
