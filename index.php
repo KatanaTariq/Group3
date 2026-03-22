@@ -17,14 +17,22 @@ send_security_headers();
 include __DIR__ . "/config/database.php";
 
 include __DIR__ . '/src/model/Admin.php';
-include __DIR__ . '/src/model/Auth.php';
 include __DIR__ . '/src/model/Basket.php';
 include __DIR__ . '/src/model/Customer.php';
 include __DIR__ . '/src/model/Order.php';
 include __DIR__ . '/src/model/Product.php';
-include __DIR__ . '/src/model/Wishlist.php';
+include __DIR__ . '/src/model/Inventory.php';
+include __DIR__ . '/src/model/InventoryLog.php';
 
 require __DIR__ . '/src/controller/Controller.php';
+
+function requireAdmin(): void
+{
+    if (empty($_SESSION['admin_id'])) {
+        header('Location: /admin/login?err=session');
+        exit;
+    }
+}
 
 /**
  * Route table mapping METHOD + PATH to a [ControllerClass, action] pair.
@@ -46,6 +54,11 @@ $routes = [
         '/signup' => [AuthController::class, 'displayRegister'],
         '/login' => [AuthController::class, 'displayLogin'],
         '/logout' => [AuthController::class, 'logout'],
+
+        '/admin/login' => [AdminController::class, 'showLogin'],
+        '/admin/logout' => [AdminController::class, 'logout'],
+        '/admin/inventory' => [InventoryController::class, 'index'],
+        '/admin/inventory/logs' => [InventoryController::class, 'logs'],
     ],
     'POST' => [
         '/signup' => [AuthController::class, 'register'],
@@ -54,6 +67,9 @@ $routes = [
         '/basket/update' => [BasketController::class, 'update'],
         '/basket/remove' => [BasketController::class, 'remove'],
         '/checkout/process' => [CheckoutController::class, 'process'],
+
+        '/admin/login' => [AdminController::class, 'login'],
+        '/admin/inventory/update' => [InventoryController::class, 'updateStock'],
     ],
 ];
 
@@ -64,6 +80,14 @@ if (!$handler) {
     http_response_code(404);
     require __DIR__ . '/src/view/pages/404.php';
     exit;
+}
+
+if (in_array($requestPath, [
+    '/admin/inventory',
+    '/admin/inventory/update',
+    '/admin/inventory/logs',
+], true)) {
+    requireAdmin();
 }
 
 [$controllerClass, $action] = $handler;

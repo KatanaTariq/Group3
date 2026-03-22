@@ -21,16 +21,16 @@ require_once __DIR__ . '/../../templates/admin_nav.php';
         </div>
     <?php endif; ?>
 
-    <form method="POST" action="<?= BASE_URL ?>/admin/login" autocomplete="off" style="max-width:520px;">
+    <form method="POST" action="/admin/login" autocomplete="off" style="max-width:520px;">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf ?? '') ?>">
 
         <label for="email" style="display:block; margin:14px 0 6px; font-weight:600;">Email</label>
         <input type="email" name="email" id="email" required
-               style="width:100%; padding:10px; border:2px solid #000; border-radius:6px;">
+            style="width:100%; padding:10px; border:2px solid #000; border-radius:6px;">
 
         <label for="password" style="display:block; margin:14px 0 6px; font-weight:600;">Password</label>
         <input type="password" name="password" id="password" required
-               style="width:100%; padding:10px; border:2px solid #000; border-radius:6px;">
+            style="width:100%; padding:10px; border:2px solid #000; border-radius:6px;">
 
         <div style="margin-top:16px;">
             <button type="submit" class="login-btn">Log in</button>
