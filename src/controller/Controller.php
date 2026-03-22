@@ -923,7 +923,8 @@ class InventoryController extends Controller
 
         $newQuantity = (int) $newQuantity;
 
-        $success = $this->inventoryModel->updateStock($variantId, $newQuantity);
+        $adminId = (int) $_SESSION['admin_id'];
+        $success = $this->inventoryModel->updateStock($variantId, $newQuantity, $adminId);
 
         if ($success) {
             $_SESSION['flash_success'] = 'Stock updated successfully.';

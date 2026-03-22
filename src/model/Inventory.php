@@ -72,91 +72,94 @@ class Inventory
      * @param int $newQuantity
      * @return bool
      */
-    public function updateStock(int $variantId, int $newQuantity): bool
-    {
-        try {
-            $this->pdo->beginTransaction();
+public function updateStock(int $variantId, int $newQuantity, ?int $adminId = null): bool
+{
+    try {
+        $this->pdo->beginTransaction();
 
-            $currentSql = "
-                SELECT current_stock
-                FROM inventory
+        $currentSql = "
+            SELECT current_stock
+            FROM inventory
+            WHERE variant_id = :variant_id
+            FOR UPDATE
+        ";
+        $currentStmt = $this->pdo->prepare($currentSql);
+        $currentStmt->execute([
+            ':variant_id' => $variantId
+        ]);
+
+        $row = $currentStmt->fetch(PDO::FETCH_ASSOC);
+
+        $oldQty = $row ? (int)$row['current_stock'] : 0;
+        $changeAmount = $newQuantity - $oldQty;
+
+        if ($row) {
+            $updateSql = "
+                UPDATE inventory
+                SET current_stock = :qty,
+                    updated_at = NOW()
                 WHERE variant_id = :variant_id
-                FOR UPDATE
             ";
-            $currentStmt = $this->pdo->prepare($currentSql);
-            $currentStmt->execute([
-                ':variant_id' => $variantId
-            ]);
-
-            $row = $currentStmt->fetch(PDO::FETCH_ASSOC);
-
-            $oldQty = $row ? (int)$row['current_stock'] : 0;
-            $changeAmount = $newQuantity - $oldQty;
-
-            if ($row) {
-                $updateSql = "
-                    UPDATE inventory
-                    SET current_stock = :qty,
-                        updated_at = NOW()
-                    WHERE variant_id = :variant_id
-                ";
-            } else {
-                $updateSql = "
-                    INSERT INTO inventory (
-                        variant_id,
-                        current_stock,
-                        low_stock_threshold,
-                        created_at,
-                        updated_at
-                    )
-                    VALUES (
-                        :variant_id,
-                        :qty,
-                        0,
-                        NOW(),
-                        NOW()
-                    )
-                ";
-            }
-
-            $updateStmt = $this->pdo->prepare($updateSql);
-            $updateStmt->execute([
-                ':variant_id' => $variantId,
-                ':qty' => $newQuantity
-            ]);
-
-            $logSql = "
-                INSERT INTO inventory_log (
+        } else {
+            $updateSql = "
+                INSERT INTO inventory (
                     variant_id,
-                    change_amount,
-                    reason,
-                    created_at
+                    current_stock,
+                    low_stock_threshold,
+                    created_at,
+                    updated_at
                 )
                 VALUES (
                     :variant_id,
-                    :change_amount,
-                    :reason,
+                    :qty,
+                    0,
+                    NOW(),
                     NOW()
                 )
             ";
-
-            $logStmt = $this->pdo->prepare($logSql);
-            $logStmt->execute([
-                ':variant_id' => $variantId,
-                ':change_amount' => $changeAmount,
-                ':reason' => 'Manual admin update'
-            ]);
-
-            $this->pdo->commit();
-            return true;
-
-        } catch (PDOException $e) {
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
-            }
-            return false;
         }
+
+        $updateStmt = $this->pdo->prepare($updateSql);
+        $updateStmt->execute([
+            ':variant_id' => $variantId,
+            ':qty' => $newQuantity
+        ]);
+
+        $logSql = "
+            INSERT INTO inventory_log (
+                variant_id,
+                change_amount,
+                admin_id,
+                reason,
+                created_at
+            )
+            VALUES (
+                :variant_id,
+                :change_amount,
+                :admin_id,
+                :reason,
+                NOW()
+            )
+        ";
+
+        $logStmt = $this->pdo->prepare($logSql);
+        $logStmt->execute([
+            ':variant_id' => $variantId,
+            ':change_amount' => $changeAmount,
+            ':admin_id' => $adminId,
+            ':reason' => 'Manual admin update',
+        ]);
+
+        $this->pdo->commit();
+        return true;
+
+    } catch (PDOException $e) {
+        if ($this->pdo->inTransaction()) {
+            $this->pdo->rollBack();
+        }
+        return false;
     }
+}
 
     /**
      * Get recent inventory log entries.
@@ -164,24 +167,28 @@ class Inventory
      * @param int $limit
      * @return array
      */
+
     public function getRecentLogs(int $limit = 50): array
     {
         $sql = "
             SELECT
-                il.log_id,
                 il.variant_id,
                 il.change_amount,
                 il.reason,
+                il.admin_id,
                 il.created_at,
                 p.name AS product_name,
                 pv.size AS variant_size,
                 pv.colour AS variant_colour,
-                pv.sku
+                pv.sku,
+                i.current_stock
             FROM inventory_log il
             INNER JOIN product_variant pv
                 ON il.variant_id = pv.variant_id
             INNER JOIN product p
                 ON pv.product_id = p.product_id
+            LEFT JOIN inventory i
+                ON i.variant_id = il.variant_id
             ORDER BY il.created_at DESC
             LIMIT :limit
         ";
@@ -190,6 +197,17 @@ class Inventory
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($logs as &$log) {
+            $currentStock = isset($log['current_stock']) ? (int) $log['current_stock'] : 0;
+            $changeAmount = isset($log['change_amount']) ? (int) $log['change_amount'] : 0;
+
+            $log['new_quantity'] = $currentStock;
+            $log['old_quantity'] = $currentStock - $changeAmount;
+        }
+        unset($log);
+
+        return $logs;
     }
 }
