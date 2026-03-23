@@ -1,3 +1,13 @@
+<?php
+$currentPath = strtok($_SERVER['REQUEST_URI'], '?');
+
+$showSearch = str_starts_with($currentPath, '/shop-women')
+           || str_starts_with($currentPath, '/shop-men')
+           || $currentPath === '/search';
+
+$searchValue = isset($_GET['search']) ? trim($_GET['search']) : '';
+?>
+
 <nav class="site-nav">
     <a href="/home" class="nav-brand">
         <img src="/public/images/logos/athletiq_logo.png" alt="Athletiq Logo" class="logo-img">
@@ -9,9 +19,16 @@
         <li><a href="/shop-men">Men</a></li>
     </ul>
 
-    <div class="search-box">
-        <input type="text" placeholder="Search products...">
-    </div>
+    <?php if ($showSearch): ?>
+        <form class="search-box" method="GET" action="/search">
+            <input
+                type="text"
+                name="search"
+                placeholder="Search products..."
+                value="<?php echo htmlspecialchars($search ?? ''); ?>"
+            >
+        </form>
+    <?php endif; ?>
 
     <div class="auth-btns">
         <a href="/basket" class="basket-btn">View Basket</a>

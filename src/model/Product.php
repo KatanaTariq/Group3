@@ -158,6 +158,52 @@ class ProductModel
     }
 
     /**
+     * Searches across all products for the global search page.
+     *
+     * @param string $search The search term.
+     * @return array
+     */
+    public function searchAllProductsForListing(string $search): array
+    {
+        $query = "
+            SELECT
+                p.product_id,
+                p.name,
+                p.description,
+                p.category_id,
+                p.price,
+                (
+                    SELECT pi.image_url
+                    FROM product_image pi
+                    WHERE pi.product_id = p.product_id AND pi.is_main = 1
+                    ORDER BY pi.image_id ASC
+                    LIMIT 1
+                ) AS primary_image_url
+            FROM product p
+            WHERE p.name LIKE :name_search
+               OR p.description LIKE :description_search
+            ORDER BY p.product_id ASC
+        ";
+
+        $statement = $this->database->prepare($query);
+
+        $searchTerm = '%' . trim($search) . '%';
+
+        $statement->bindValue(':name_search', $searchTerm, PDO::PARAM_STR);
+        $statement->bindValue(':description_search', $searchTerm, PDO::PARAM_STR);
+
+        $products = [];
+
+        if ($statement->execute()) {
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $products[] = new Product($row);
+            }
+        }
+
+        return $products;
+    }
+    
+    /**
      * Single product base details + primary image
      */
     public function getProductByID(int $product_id): ?Product
