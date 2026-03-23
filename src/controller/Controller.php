@@ -676,6 +676,155 @@ class BasketController extends Controller
 class CheckoutController extends Controller
 {
     /**
+     * Validates a human name.
+     *
+     * @param string $name The submitted name.
+     * @return bool
+     */
+    private function isValidName(string $name): bool
+    {
+        return (bool) preg_match("/^[A-Za-zÀ-ÿ' -]{2,100}$/u", $name);
+    }
+
+    /**
+     * Validates a UK-style postcode loosely.
+     *
+     * @param string $postCode The submitted postcode.
+     * @return bool
+     */
+    private function isValidPostCode(string $postCode): bool
+    {
+        $postCode = strtoupper(trim($postCode));
+        return (bool) preg_match('/^[A-Z]{1,2}[0-9][A-Z0-9]?\s?[0-9][A-Z]{2}$/', $postCode);
+    }
+
+    /**
+     * Validates a card number using the Luhn algorithm.
+     *
+     * @param string $cardNumber The card number digits only.
+     * @return bool
+     */
+    private function passesLuhnCheck(string $cardNumber): bool
+    {
+        $sum = 0;
+        $shouldDouble = false;
+
+        for ($i = strlen($cardNumber) - 1; $i >= 0; $i--) {
+            $digit = (int) $cardNumber[$i];
+
+            if ($shouldDouble) {
+                $digit *= 2;
+                if ($digit > 9) {
+                    $digit -= 9;
+                }
+            }
+
+            $sum += $digit;
+            $shouldDouble = !$shouldDouble;
+        }
+
+        return $sum % 10 === 0;
+    }
+
+    /**
+     * Validates an expiry date in MM/YY format and checks it is not expired.
+     *
+     * @param string $expiry The submitted expiry value.
+     * @return bool
+     */
+    private function isValidExpiry(string $expiry): bool
+    {
+        if (!preg_match('/^(0[1-9]|1[0-2])\/([0-9]{2})$/', $expiry, $matches)) {
+            return false;
+        }
+
+        $month = (int) $matches[1];
+        $year = 2000 + (int) $matches[2];
+
+        $expiryTimestamp = mktime(23, 59, 59, $month + 1, 0, $year);
+
+        return $expiryTimestamp >= time();
+    }
+
+    /**
+     * Validates the submitted payment details.
+     *
+     * @param string $cardholderName The submitted cardholder name.
+     * @param string $paymentEmail The submitted payment email.
+     * @param string $cardNumber The submitted card number.
+     * @param string $expiry The submitted expiry.
+     * @param string $cvv The submitted CVV.
+     * @return void
+     */
+    private function validatePaymentDetails(
+        string $cardholderName,
+        string $paymentEmail,
+        string $cardNumber,
+        string $expiry,
+        string $cvv
+    ): void {
+        if (!$this->isValidName($cardholderName)) {
+            throw new Exception('Please enter a valid cardholder name.');
+        }
+
+        if (!filter_var($paymentEmail, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('Please enter a valid payment email address.');
+        }
+
+        $cardDigits = preg_replace('/\D/', '', $cardNumber);
+
+        if (!is_string($cardDigits) || !preg_match('/^\d{16}$/', $cardDigits)) {
+            throw new Exception('Card number must be 16 digits.');
+        }
+
+        if (!$this->passesLuhnCheck($cardDigits)) {
+            throw new Exception('Please enter a valid card number.');
+        }
+
+        if (!$this->isValidExpiry($expiry)) {
+            throw new Exception('Please enter a valid expiry date that is not in the past.');
+        }
+
+        if (!preg_match('/^\d{3,4}$/', $cvv)) {
+            throw new Exception('CVV must be 3 or 4 digits.');
+        }
+    }
+
+    /**
+     * Validates address fields for a manually entered address.
+     *
+     * @param string $street The submitted street.
+     * @param string $city The submitted city.
+     * @param string $county The submitted county.
+     * @param string $postCode The submitted postcode.
+     * @param string $label The label used in error messages.
+     * @return void
+     */
+    private function validateManualAddress(
+        string $street,
+        string $city,
+        string $county,
+        string $postCode,
+        string $label
+    ): void {
+        if ($street === '' || mb_strlen($street) > 120) {
+            throw new Exception("Please enter a valid {$label} street.");
+        }
+
+        if ($city === '' || mb_strlen($city) > 60) {
+            throw new Exception("Please enter a valid {$label} city.");
+        }
+
+        if ($county !== '' && mb_strlen($county) > 60) {
+            throw new Exception("Please enter a valid {$label} county.");
+        }
+
+        if ($postCode === '' || !$this->isValidPostCode($postCode)) {
+            throw new Exception("Please enter a valid {$label} post code.");
+        }
+    }
+
+    /**
      * Creates a new address for the current customer.
      *
      * @param int $customerID The ID of the current customer.
@@ -704,7 +853,7 @@ class CheckoutController extends Controller
             'street' => $street,
             'city' => $city,
             'county' => $county !== '' ? $county : null,
-            'post_code' => $postCode
+            'post_code' => strtoupper(trim($postCode))
         ]);
 
         return (int) $this->pdo->lastInsertId();
@@ -795,16 +944,57 @@ class CheckoutController extends Controller
         $shippingStreet = trim($_POST['shipping_street'] ?? '');
         $shippingCity = trim($_POST['shipping_city'] ?? '');
         $shippingCounty = trim($_POST['shipping_county'] ?? '');
-        $shippingPostCode = trim($_POST['shipping_post_code'] ?? '');
+        $shippingPostCode = strtoupper(trim($_POST['shipping_post_code'] ?? ''));
 
         $billingStreet = trim($_POST['billing_street'] ?? '');
         $billingCity = trim($_POST['billing_city'] ?? '');
         $billingCounty = trim($_POST['billing_county'] ?? '');
-        $billingPostCode = trim($_POST['billing_post_code'] ?? '');
+        $billingPostCode = strtoupper(trim($_POST['billing_post_code'] ?? ''));
 
         $sameAsShipping = isset($_POST['same_as_shipping']);
 
+        $cardholderName = trim($_POST['cardholder_name'] ?? '');
+        $paymentEmail = trim($_POST['payment_email'] ?? '');
+        $cardNumber = trim($_POST['card_number'] ?? '');
+        $expiry = trim($_POST['expiry'] ?? '');
+        $cvv = trim($_POST['cvv'] ?? '');
+
         try {
+            $basketModel = new Basket($this->pdo, $customerID);
+            $items = $basketModel->getContents();
+
+            if (empty($items)) {
+                throw new Exception('Your basket is empty.');
+            }
+
+            $this->validatePaymentDetails(
+                $cardholderName,
+                $paymentEmail,
+                $cardNumber,
+                $expiry,
+                $cvv
+            );
+
+            if ($selectedShippingAddressID <= 0) {
+                $this->validateManualAddress(
+                    $shippingStreet,
+                    $shippingCity,
+                    $shippingCounty,
+                    $shippingPostCode,
+                    'shipping'
+                );
+            }
+
+            if (!$sameAsShipping && $selectedBillingAddressID <= 0) {
+                $this->validateManualAddress(
+                    $billingStreet,
+                    $billingCity,
+                    $billingCounty,
+                    $billingPostCode,
+                    'billing'
+                );
+            }
+
             $shippingAddressID = $this->resolveAddress(
                 $customerID,
                 $selectedShippingAddressID,
@@ -829,7 +1019,6 @@ class CheckoutController extends Controller
                 );
             }
 
-            $basketModel = new Basket($this->pdo, $customerID);
             $result = $basketModel->finaliseCheckout($shippingAddressID, $billingAddressID);
 
             if ($result === true) {
