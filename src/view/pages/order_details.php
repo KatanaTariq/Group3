@@ -2,65 +2,90 @@
 <?php include __DIR__ . '/../templates/header.php'; ?>
 <?php include __DIR__ . '/../templates/nav.php'; ?>
 
-<div class="orders">
-    <h1>Order Details</h1>
-</div>
+<div class="order-details-page">
 
-<div class="order-summary">
-    <p><strong>Order Number:</strong> <?php echo htmlspecialchars($order['order_number']); ?></p>
-    <p><strong>Date ordered:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($order['created_at']))); ?></p>
-    <p><strong>Status:</strong> <?php echo htmlspecialchars($order['status']); ?></p>
-    <p><strong>Total:</strong> £<?php echo number_format((float)$order['total_amount'], 2); ?></p>
-</div>
+    <div class="order-details-header">
+        <h1>Order Details</h1>
+        <p>Review the items and status for this order.</p>
+    </div>
 
-<?php if (!empty($order['items'])): ?>
-    <table class="orders-table">
-        <div class="table-headings">
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Description</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
+    <div class="order-details-summary-card">
+        <div class="order-details-summary-grid">
+            <div class="order-summary-item">
+                <span class="order-summary-label">Order Number</span>
+                <span class="order-summary-value"><?php echo htmlspecialchars($order['order_number']); ?></span>
+            </div>
+
+            <div class="order-summary-item">
+                <span class="order-summary-label">Date ordered</span>
+                <span class="order-summary-value"><?php echo htmlspecialchars(date('d/m/Y', strtotime($order['created_at']))); ?></span>
+            </div>
+
+            <div class="order-summary-item">
+                <span class="order-summary-label">Status</span>
+                <span class="order-summary-value">
+                    <span class="order-status"><?php echo htmlspecialchars($order['status']); ?></span>
+                </span>
+            </div>
+
+            <div class="order-summary-item">
+                <span class="order-summary-label">Total</span>
+                <span class="order-summary-value">£<?php echo number_format((float)$order['total_amount'], 2); ?></span>
+            </div>
         </div>
+    </div>
 
-        <div class="table-content">
-            <tbody>
-                <?php foreach ($order['items'] as $item): ?>
+    <?php if (!empty($order['items'])): ?>
+        <div class="order-details-table-wrap">
+            <table class="order-details-table">
+                <thead>
                     <tr>
-                        <td data-label="Item">
-                            <?php echo htmlspecialchars($item['product_name']); ?>
-                        </td>
-                        <td data-label="Description">
-                            Size: <?php echo htmlspecialchars($item['size'] ?? 'N/A'); ?>
-                            <br>
-                            Colour: <?php echo htmlspecialchars($item['colour'] ?? 'N/A'); ?>
-                            <br>
-                            SKU: <?php echo htmlspecialchars($item['sku'] ?? 'N/A'); ?>
-                        </td>
-                        <td data-label="Unit Price">
-                            £<?php echo number_format((float)$item['unit_price'], 2); ?>
-                        </td>
-                        <td data-label="Quantity">
-                            <?php echo (int)$item['quantity']; ?>
-                        </td>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
+                </thead>
+
+                <tbody>
+                    <?php foreach ($order['items'] as $item): ?>
+                        <tr>
+                            <td data-label="Item">
+                                <span class="order-item-name">
+                                    <?php echo htmlspecialchars($item['product_name']); ?>
+                                </span>
+                            </td>
+
+                            <td data-label="Description">
+                                <div class="order-item-meta">
+                                    <p>Size: <?php echo htmlspecialchars($item['size'] ?? 'N/A'); ?></p>
+                                    <p>Colour: <?php echo htmlspecialchars($item['colour'] ?? 'N/A'); ?></p>
+                                    <p>SKU: <?php echo htmlspecialchars($item['sku'] ?? 'N/A'); ?></p>
+                                </div>
+                            </td>
+
+                            <td data-label="Unit Price">
+                                £<?php echo number_format((float)$item['unit_price'], 2); ?>
+                            </td>
+
+                            <td data-label="Quantity">
+                                <?php echo (int)$item['quantity']; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
-    </table>
-<?php else: ?>
-    <p style="text-align:center;">No items found for this order.</p>
-<?php endif; ?>
+    <?php else: ?>
+        <div class="order-details-empty">
+            <p>No items found for this order.</p>
+        </div>
+    <?php endif; ?>
 
-<p style="text-align:center; margin-top:20px;">
-    <a class="view-details-button" href="/previous-orders">Back to Orders</a>
-</p>
+    <div class="order-details-actions">
+        <a class="view-details-button" href="/previous-orders">Back to Orders</a>
+    </div>
 
-<style>
-    
-</style>
+</div>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>
