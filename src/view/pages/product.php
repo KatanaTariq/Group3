@@ -18,6 +18,7 @@ function normaliseImagePath(?string $path): string
 
 $img = normaliseImagePath($product->getPrimaryImageUrl());
 $variants = is_array($variants ?? null) ? $variants : [];
+$basketError = $basketError ?? null;
 
 $availableSizes = [];
 
@@ -73,6 +74,10 @@ usort($availableSizes, function ($a, $b) {
             </p>
 
             <?php if (count($availableSizes) > 0): ?>
+                <?php if (!empty($basketError)): ?>
+                    <p class="basket-inline-error"><?php echo htmlspecialchars($basketError); ?></p>
+                <?php endif; ?>
+
                 <form action="/basket/add" method="POST" class="single-product-form">
                     <input type="hidden" name="product_id" value="<?php echo (int)$product->getID(); ?>">
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(get_csrf_token()); ?>">

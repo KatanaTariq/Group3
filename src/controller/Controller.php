@@ -423,6 +423,37 @@ class BasketController extends Controller
     }
 
     /**
+     * Renders the product page again so an inline basket error can be shown.
+     *
+     * @param int $productID The selected product ID.
+     * @param string|null $error Optional error message to display.
+     * @return void
+     */
+    private function renderProductPage(int $productID, ?string $error = null): void
+    {
+        if ($productID <= 0) {
+            http_response_code(404);
+            $this->view('pages/404');
+            return;
+        }
+
+        $productModel = new ProductModel($this->pdo);
+        $productData = $productModel->getProductFull($productID);
+
+        if (!$productData) {
+            http_response_code(404);
+            $this->view('pages/404');
+            return;
+        }
+
+        $this->view('pages/product', [
+            'product' => $productData['product'],
+            'variants' => $productData['variants'],
+            'basketError' => $error
+        ]);
+    }
+
+    /**
      * Displays the basket page with all items and subtotal.
      *
      * @return void
@@ -456,31 +487,41 @@ class BasketController extends Controller
         $productID = (int) ($_POST['product_id'] ?? 0);
 
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
-            $this->redirect('/product?id=' . $productID . '&error=' . urlencode('Invalid CSRF token'));
+            $this->renderProductPage($productID, 'Something went wrong. Please try again.');
+            return;
         }
 
         if (!$this->userId || !$this->basketModel) {
-            $this->redirect('/login?error=' . urlencode('Please login to add items'));
+            $this->renderProductPage($productID, 'Please log in to add items to your basket.');
+            return;
         }
 
         $size = trim($_POST['size'] ?? '');
         $quantity = (int) ($_POST['quantity'] ?? 1);
 
-        if ($productID <= 0 || $size === '') {
-            $this->redirect('/product?id=' . $productID . '&error=' . urlencode('Invalid product or size selection'));
+        if ($productID <= 0) {
+            http_response_code(404);
+            $this->view('pages/404');
+            return;
+        }
+
+        if ($size === '') {
+            $this->renderProductPage($productID, 'Please select a size.');
+            return;
         }
 
         try {
             $variantID = $this->basketModel->getVariantIdByProductAndSize($productID, $size);
 
             if ($variantID === null) {
-                throw new Exception('That size is not available for this product.');
+                $this->renderProductPage($productID, 'That size is not available for this product.');
+                return;
             }
 
             $this->basketModel->addItem($variantID, $quantity);
             $this->redirect('/basket?success=' . urlencode('Item added to basket'));
         } catch (Exception $e) {
-            $this->redirect('/product?id=' . $productID . '&error=' . urlencode($e->getMessage()));
+            $this->renderProductPage($productID, $e->getMessage());
         }
     }
 

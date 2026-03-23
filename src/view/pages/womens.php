@@ -59,10 +59,6 @@ function normaliseImagePath(?string $path): string
 
                 <p class="product-name"><?php echo htmlspecialchars($product->getName()); ?></p>
 
-                <p class="product-desc">
-                    <?php echo htmlspecialchars($product->getDescription() ?: 'No description available.'); ?>
-                </p>
-
                 <p class="price">£<?php echo number_format($product->getPrice(), 2); ?></p>
             </a>
         </div>
