@@ -753,10 +753,6 @@ class CheckoutController extends Controller
             throw new Exception('Card number must be 16 digits.');
         }
 
-        if (!$this->passesLuhnCheck($cardDigits)) {
-            throw new Exception('Please enter a valid card number.');
-        }
-
         if (!$this->isValidExpiry($expiry)) {
             throw new Exception('Please enter a valid expiry date that is not in the past.');
         }
