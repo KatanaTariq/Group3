@@ -50,6 +50,7 @@ $routes = [
         '/checkout' => [PageController::class, 'checkout'],
         '/shop-women' => [PageController::class, 'womens'],
         '/shop-men' => [PageController::class, 'mens'],
+        '/search' => [PageController::class, 'search'],
         '/product' => [PageController::class, 'product'],
         '/signup' => [AuthController::class, 'displayRegister'],
         '/login' => [AuthController::class, 'displayLogin'],

@@ -73,55 +73,55 @@ SET
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(1, 'Black Athletiq Hoodie', 'Classic black hoodie with Athletiq branding', @women_hoodies_cat_id, 30.00),
-(2, 'Green & Black Athletiq Hoodie', 'Two-tone green and black hoodie', @women_hoodies_cat_id, 35.00),
-(3, 'White Athletiq Hoodie', 'Clean white hoodie with Athletiq branding', @women_hoodies_cat_id, 30.00),
-(4, 'Green Athletiq Hoodie', 'Vibrant green hoodie with Athletiq branding', @women_hoodies_cat_id, 30.00),
-(5, 'Grey Athletiq Hoodie', 'Neutral grey hoodie with Athletiq branding', @women_hoodies_cat_id, 30.00);
+(1, 'Black Athletiq Hoodie', 'Soft cotton hoodie designed for comfort during warm-ups, cool-downs, and everyday wear.', @women_hoodies_cat_id, 30.00),
+(2, 'Green & Black Athletiq Hoodie', 'Two-tone hoodie with a relaxed fit, suitable for training sessions or casual layering.', @women_hoodies_cat_id, 35.00),
+(3, 'White Athletiq Hoodie', 'Lightweight hoodie designed for comfort and easy everyday styling.', @women_hoodies_cat_id, 30.00),
+(4, 'Green Athletiq Hoodie', 'Breathable hoodie built for comfortable movement and active lifestyles.', @women_hoodies_cat_id, 30.00),
+(5, 'Grey Athletiq Hoodie', 'Classic hoodie with a relaxed fit, suitable for both training and casual wear.', @women_hoodies_cat_id, 30.00);
 
 -- -----------------------------------------------------
 -- Women's Tops (6–10)
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(6, 'Athletiq Polo Tee', 'Comfortable polo tee for active wear', @women_tops_cat_id, 39.99),
-(7, 'Athletiq Football Jersey', 'Performance football jersey', @women_tops_cat_id, 45.00),
-(8, 'Athletiq Compression Top', 'High-performance compression top', @women_tops_cat_id, 40.00),
-(9, 'Athletiq Cami-Tanktop', 'Lightweight cami tanktop for workouts', @women_tops_cat_id, 25.00),
-(10, 'Athletiq Basketball Jersey', 'Breathable basketball jersey', @women_tops_cat_id, 45.00);
+(6, 'Athletiq Polo Tee', 'Breathable polo tee designed for training, active days, and casual sport wear.', @women_tops_cat_id, 39.99),
+(7, 'Athletiq Football Jersey', 'Lightweight football jersey built for comfort and freedom of movement during play.', @women_tops_cat_id, 45.00),
+(8, 'Athletiq Compression Top', 'Compression fit top designed to support movement during high-intensity workouts.', @women_tops_cat_id, 40.00),
+(9, 'Athletiq Cami-Tanktop', 'Lightweight cami tank built for comfort and unrestricted movement during training.', @women_tops_cat_id, 25.00),
+(10, 'Athletiq Basketball Jersey', 'Breathable basketball jersey designed for smooth movement and on-court comfort.', @women_tops_cat_id, 45.00);
 
 -- -----------------------------------------------------
 -- Women's Bottoms (11–15)
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(11, 'Athletiq Tennis Skort', 'Stylish tennis skort with built-in shorts', @women_bottoms_cat_id, 32.00),
-(12, 'Athletiq Leggings', 'High-waisted performance leggings', @women_bottoms_cat_id, 35.00),
-(13, 'Athletiq Swimming Shorts', 'Quick-dry swimming shorts', @women_bottoms_cat_id, 25.00),
-(14, 'Athletiq Baggy Joggers', 'Comfortable baggy joggers for training', @women_bottoms_cat_id, 49.99),
-(15, 'Athletiq Cycling Shorts', 'Padded cycling shorts for comfort', @women_bottoms_cat_id, 30.00);
+(11, 'Athletiq Tennis Skort', 'Flexible tennis skort designed for comfort, coverage, and ease of movement.', @women_bottoms_cat_id, 32.00),
+(12, 'Athletiq Leggings', 'Stretch-fit leggings built for support and comfort across all training sessions.', @women_bottoms_cat_id, 35.00),
+(13, 'Athletiq Swimming Shorts', 'Quick-dry swimming shorts designed for comfort in and around the water.', @women_bottoms_cat_id, 25.00),
+(14, 'Athletiq Baggy Joggers', 'Relaxed-fit joggers suitable for training, recovery, and everyday wear.', @women_bottoms_cat_id, 49.99),
+(15, 'Athletiq Cycling Shorts', 'Comfortable cycling shorts designed to support movement on longer rides.', @women_bottoms_cat_id, 30.00);
 
 -- -----------------------------------------------------
 -- Women's Footwear (16–20)
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(16, 'Womens Running Spikes', 'Professional running spikes for track', @women_footwear_cat_id, 85.99),
-(17, 'Womens Flip Flops', 'Casual flip flops for post-workout', @women_footwear_cat_id, 20.00),
-(18, 'Womens Running Shoes', 'Cushioned running shoes for training', @women_footwear_cat_id, 80.00),
-(19, 'Womens Basketball Shoes', 'High-top basketball shoes with ankle support', @women_footwear_cat_id, 90.00),
-(20, 'Womens Football Boots', 'Professional football boots with studs', @women_footwear_cat_id, 85.99);
+(16, 'Women''s Running Spikes', 'Lightweight running spikes designed for speed, grip, and track performance.', @women_footwear_cat_id, 85.99),
+(17, 'Women''s Flip Flops', 'Easy slip-on flip flops ideal for poolside use and post-workout recovery.', @women_footwear_cat_id, 20.00),
+(18, 'Women''s Running Shoes', 'Cushioned running shoes built for comfort and support over longer distances.', @women_footwear_cat_id, 80.00),
+(19, 'Women''s Basketball Shoes', 'Basketball shoes designed for stability, grip, and quick movement on court.', @women_footwear_cat_id, 90.00),
+(20, 'Women''s Football Boots', 'Studded football boots designed for traction and control on the pitch.', @women_footwear_cat_id, 85.99);
 
 -- -----------------------------------------------------
 -- Women's Headwear (21–25)
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(21, 'Athletiq Visor', 'Sun visor for outdoor sports', @women_headwear_cat_id, 25.00),
-(22, 'Athletiq Sweatband', 'Absorbent sweatband for intense workouts', @women_headwear_cat_id, 15.99),
-(23, 'Athletiq Rugby Helmet', 'Protective rugby helmet with ear padding', @women_headwear_cat_id, 75.00),
-(24, 'Athletiq Baseball Cap', 'Classic baseball cap with Athletiq logo', @women_headwear_cat_id, 35.00),
-(25, 'Athletiq Swimcap', 'Silicone swimcap for competitive swimming', @women_headwear_cat_id, 10.99);
+(21, 'Athletiq Visor', 'Open-top visor designed to provide shade without trapping heat.', @women_headwear_cat_id, 25.00),
+(22, 'Athletiq Sweatband', 'Moisture-absorbing sweatband designed to keep sweat away during training.', @women_headwear_cat_id, 15.99),
+(23, 'Athletiq Rugby Helmet', 'Protective rugby helmet designed for comfort, coverage, and on-pitch safety.', @women_headwear_cat_id, 75.00),
+(24, 'Athletiq Baseball Cap', 'Classic baseball cap with a structured brim for sport or casual wear.', @women_headwear_cat_id, 35.00),
+(25, 'Athletiq Swimcap', 'Swim cap designed to reduce drag and improve comfort in the water.', @women_headwear_cat_id, 10.99);
 
 -- =====================================================
 -- WOMEN'S PRODUCT VARIANTS
@@ -430,56 +430,55 @@ INSERT INTO inventory (variant_id, current_stock, low_stock_threshold) VALUES
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(26, 'Green Athletiq Hoodie', 'Lightweight cotton hoodie built for warm-ups and cool-downs.', @men_hoodies_cat_id, 30.00),
-(27, 'Green & Black Athletiq Hoodie', 'Two-tone cotton hoodie with a relaxed fit for training or casual wear.', @men_hoodies_cat_id, 35.00),
-(28, 'Green & Black Zipup Athletiq Turtleneck', 'Zip-up turtleneck with added neck coverage for cold weather training.', @men_hoodies_cat_id, 30.00),
-(29, 'Green Athletiq Turtleneck', 'Warm turtleneck hoodie designed to keep you covered on colder days.', @men_hoodies_cat_id, 30.00),
-(30, 'Green Zip up Athletiq Hoodie', 'Classic zip-up hoodie for easy layering before and after a session.', @men_hoodies_cat_id, 30.00);
+(26, 'Green Athletiq Hoodie', 'Lightweight cotton hoodie built for warm-ups, cool-downs, and everyday comfort.', @men_hoodies_cat_id, 30.00),
+(27, 'Green & Black Athletiq Hoodie', 'Two-tone hoodie with a relaxed fit, suitable for training or casual wear.', @men_hoodies_cat_id, 35.00),
+(28, 'Green & Black Zipup Athletiq Turtleneck', 'Zip-up turtleneck hoodie designed to provide warmth during colder training sessions.', @men_hoodies_cat_id, 30.00),
+(29, 'Green Athletiq Turtleneck', 'Turtleneck hoodie built for comfort and added coverage in cooler conditions.', @men_hoodies_cat_id, 30.00),
+(30, 'Green Zip up Athletiq Hoodie', 'Zip-up hoodie designed for easy layering before and after training sessions.', @men_hoodies_cat_id, 30.00);
 
 -- -----------------------------------------------------
 -- Men's Tops (31–35)
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(31, 'Athletiq Polo Tee', 'Breathable polo tee suitable for training or casual sport wear.', @men_tops_cat_id, 40.00),
-(32, 'Athletiq Football Jersey', 'Lightweight jersey designed for full mobility on the pitch.', @men_tops_cat_id, 45.00),
-(33, 'Athletiq Compression Top', 'Compression fit top to support muscles during high-intensity workouts.', @men_tops_cat_id, 40.00),
-(34, 'Athletiq Gym Tanktop', 'Lightweight tank top built for unrestricted movement in the gym.', @men_tops_cat_id, 25.00),
-(35, 'Athletiq Basketball Jersey', 'Moisture-wicking jersey cut for speed and comfort on the court.', @men_tops_cat_id, 45.00);
+(31, 'Athletiq Polo Tee', 'Breathable polo tee suitable for training, active days, and casual sport wear.', @men_tops_cat_id, 40.00),
+(32, 'Athletiq Football Jersey', 'Lightweight football jersey designed for comfort and mobility on the pitch.', @men_tops_cat_id, 45.00),
+(33, 'Athletiq Compression Top', 'Compression fit top built to support muscles during high-intensity workouts.', @men_tops_cat_id, 40.00),
+(34, 'Athletiq Gym Tanktop', 'Lightweight tank top designed for unrestricted movement during gym sessions.', @men_tops_cat_id, 25.00),
+(35, 'Athletiq Basketball Jersey', 'Moisture-wicking basketball jersey designed for comfort and on-court performance.', @men_tops_cat_id, 45.00);
 
 -- -----------------------------------------------------
 -- Men's Bottoms (36–40)
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(36, 'Athletiq Tennis Shorts', 'Lightweight shorts with a flexible waistband for quick movement on court.', @men_bottoms_cat_id, 32.00),
-(37, 'Athletiq Rugby Shorts', 'Durable shorts built to handle the demands of contact sport.', @men_bottoms_cat_id, 35.00),
-(38, 'Athletiq Swimming Shorts', 'Quick-dry swimming shorts with a secure inner lining.', @men_bottoms_cat_id, 25.00),
-(39, 'Athletiq Joggers', 'Tapered joggers with a comfortable fit for training or everyday wear.', @men_bottoms_cat_id, 50.00),
-(40, 'Athletiq Boxing Shorts', 'Wide-cut shorts for full leg freedom during sparring and bag work.', @men_bottoms_cat_id, 30.00);
+(36, 'Athletiq Tennis Shorts', 'Lightweight tennis shorts designed for quick movement and on-court comfort.', @men_bottoms_cat_id, 32.00),
+(37, 'Athletiq Rugby Shorts', 'Durable rugby shorts built to handle the demands of contact sport.', @men_bottoms_cat_id, 35.00),
+(38, 'Athletiq Swimming Shorts', 'Quick-dry swimming shorts designed for comfort in and around the water.', @men_bottoms_cat_id, 25.00),
+(39, 'Athletiq Joggers', 'Tapered joggers designed for training, recovery, and everyday wear.', @men_bottoms_cat_id, 50.00),
+(40, 'Athletiq Boxing Shorts', 'Boxing shorts designed for full freedom of movement during training sessions.', @men_bottoms_cat_id, 30.00);
 
 -- -----------------------------------------------------
 -- Men's Footwear (41–45)
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(41, 'Mens Mountaineering Boots', 'Sturdy boots with ankle support and grip for rugged terrain.', @men_footwear_cat_id, 85.00),
-(42, 'Mens Flip Flops', 'Lightweight slip-ons ideal for poolside or post-training recovery.', @men_footwear_cat_id, 20.00),
-(43, 'Mens Running Shoes', 'Cushioned running shoes built for long-distance comfort and support.', @men_footwear_cat_id, 80.00),
-(44, 'Mens Trainers', 'Versatile trainers suitable for gym sessions and everyday use.', @men_footwear_cat_id, 90.00),
-(45, 'Mens Football Boots', 'Studded boots designed for traction and control on grass pitches.', @men_footwear_cat_id, 85.00);
+(41, 'Mens Mountaineering Boots', 'Sturdy boots designed with grip and support for rugged outdoor conditions.', @men_footwear_cat_id, 85.00),
+(42, 'Mens Flip Flops', 'Lightweight flip flops ideal for poolside use and post-training recovery.', @men_footwear_cat_id, 20.00),
+(43, 'Mens Running Shoes', 'Cushioned running shoes built for comfort and long-distance support.', @men_footwear_cat_id, 80.00),
+(44, 'Mens Trainers', 'Versatile trainers suitable for gym sessions and everyday wear.', @men_footwear_cat_id, 90.00),
+(45, 'Mens Football Boots', 'Studded football boots designed for traction and control on grass pitches.', @men_footwear_cat_id, 85.00);
 
 -- -----------------------------------------------------
 -- Men's Headwear (46–50)
 -- -----------------------------------------------------
 
 INSERT INTO product (product_id, name, description, category_id, price) VALUES
-(46, 'Athletiq Visor', 'Open-top visor to keep the sun out without trapping heat.', @men_headwear_cat_id, 25.00),
-(47, 'Athletiq Sweatband', 'Moisture-absorbing sweatband to keep sweat away during intense sessions.', @men_headwear_cat_id, 15.00),
-(48, 'Athletiq Rugby Helmet', 'Padded helmet offering head protection without restricting vision.', @men_headwear_cat_id, 75.00),
-(49, 'Athletiq Baseball Cap', 'Adjustable cap with a structured brim for training or casual wear.', @men_headwear_cat_id, 35.00),
-(50, 'Athletiq Swimcap', 'Silicone swimcap to reduce drag and protect hair in the pool.', @men_headwear_cat_id, 10.00);
-
+(46, 'Athletiq Visor', 'Open-top visor designed to provide shade while allowing heat to escape.', @men_headwear_cat_id, 25.00),
+(47, 'Athletiq Sweatband', 'Moisture-absorbing sweatband designed to keep sweat away during training.', @men_headwear_cat_id, 15.00),
+(48, 'Athletiq Rugby Helmet', 'Padded rugby helmet designed for protection without restricting movement.', @men_headwear_cat_id, 75.00),
+(49, 'Athletiq Baseball Cap', 'Adjustable baseball cap with a structured brim for sport or casual wear.', @men_headwear_cat_id, 35.00),
+(50, 'Athletiq Swimcap', 'Swim cap designed to reduce drag and improve comfort in the water.', @men_headwear_cat_id, 10.00);
 -- =====================================================
 -- MEN'S PRODUCT VARIANTS
 -- =====================================================

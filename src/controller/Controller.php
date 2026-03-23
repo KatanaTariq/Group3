@@ -178,6 +178,27 @@ public function profile(): void
     }
 
     /**
+     * Displays the global search results page.
+     *
+     * @return void
+     */
+    public function search(): void
+    {
+        $productModel = new ProductModel($this->pdo);
+
+        $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+        $products = $search !== ''
+            ? $productModel->searchAllProductsForListing($search)
+            : [];
+
+        $this->view('pages/search', [
+            'products' => $products,
+            'search' => $search
+        ]);
+    }
+
+    /**
      * Displays a single product page using the product ID from the URL.
      *
      * @return void
