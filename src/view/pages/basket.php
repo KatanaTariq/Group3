@@ -40,7 +40,6 @@
                             name="size"
                             id="size-<?php echo (int)$item['item_id']; ?>"
                             class="size-select"
-                            onchange="this.form.submit()"
                         >
                             <?php foreach (($item['available_sizes'] ?? []) as $size): ?>
                                 <option
@@ -103,7 +102,9 @@
 </div>
 
 <div class="basket-footer">
-    <p class="total">Total: £<span id="basket-total"><?php echo number_format($subtotal ?? 0, 2); ?></span></p>
+    <p class="total">
+        Total: £<span id="basket-total"><?php echo number_format($subtotal ?? 0, 2); ?></span>
+    </p>
 
     <?php if (!empty($items ?? [])): ?>
         <a href="/checkout" class="checkout-btn">Proceed to Checkout</a>
@@ -111,5 +112,7 @@
         <button class="checkout-btn" disabled style="opacity:0.5;">Proceed to Checkout</button>
     <?php endif; ?>
 </div>
+
+<script src="/public/js/basket.js"></script>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>

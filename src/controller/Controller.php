@@ -619,6 +619,7 @@ class BasketController extends Controller
     }
         public function updateSize(): void
     {
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->redirect('/basket');
         }
