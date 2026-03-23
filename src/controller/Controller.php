@@ -84,10 +84,21 @@ class PageController extends Controller
      *
      * @return void
      */
-    public function profile(): void
-    {
+public function profile(): void
+{
+    if (empty($_SESSION['customer_id'])) {
         $this->view('pages/profile');
+        return;
     }
+
+    $customerID = (int) $_SESSION['customer_id'];
+    $customerModel = new CustomerModel($this->pdo);
+    $customer = $customerModel->getCustomerById($customerID);
+
+    $this->view('pages/profile', [
+        'customer' => $customer
+    ]);
+}
 
     /**
      * Displays the basket page.
