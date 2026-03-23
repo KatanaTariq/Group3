@@ -136,10 +136,14 @@ public function profile(): void
         $stmt->execute(['customer_id' => $customerID]);
         $addresses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        $old = $_SESSION['checkout_old'] ?? [];
+        unset($_SESSION['checkout_old']);
+
         $this->view('pages/checkout', [
             'items' => $items,
             'subtotal' => $subtotal,
-            'addresses' => $addresses
+            'addresses' => $addresses,
+            'old' => $old
         ]);
     }
 
@@ -1019,14 +1023,17 @@ class CheckoutController extends Controller
                 );
             }
 
-            $result = $basketModel->finaliseCheckout($shippingAddressID, $billingAddressID);
+        $result = $basketModel->finaliseCheckout($shippingAddressID, $billingAddressID);
 
-            if ($result === true) {
-                $this->redirect('/previous-orders?success=' . urlencode('Order placed successfully'));
-            }
+        if ($result === true) {
+            $this->redirect('/previous-orders?success=' . urlencode('Order placed successfully'));
+        }
 
-            $this->redirect('/checkout?error=' . urlencode((string) $result));
+        $_SESSION['checkout_old'] = $_POST;
+
+        $this->redirect('/checkout?error=' . urlencode((string) $result));
         } catch (Throwable $e) {
+            $_SESSION['checkout_old'] = $_POST;
             $this->redirect('/checkout?error=' . urlencode($e->getMessage()));
         }
     }

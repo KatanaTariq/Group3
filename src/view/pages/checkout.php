@@ -6,6 +6,7 @@
 $items = $items ?? [];
 $addresses = $addresses ?? [];
 $subtotal = $subtotal ?? 0;
+$old = $old ?? [];
 ?>
 
 <div class="checkout-page">
@@ -53,7 +54,10 @@ $subtotal = $subtotal ?? 0;
                         <select name="shipping_address_id" id="shipping_address_id">
                             <option value="">Use a new shipping address</option>
                             <?php foreach ($addresses as $address): ?>
-                                <option value="<?php echo (int) $address['address_id']; ?>">
+                                <option
+                                    value="<?php echo (int) $address['address_id']; ?>"
+                                    <?php echo ((string) ($old['shipping_address_id'] ?? '') === (string) $address['address_id']) ? 'selected' : ''; ?>
+                                >
                                     <?php
                                     echo htmlspecialchars(
                                         $address['street'] . ', ' .
@@ -73,6 +77,7 @@ $subtotal = $subtotal ?? 0;
                                 id="shipping_street"
                                 autocomplete="address-line1"
                                 maxlength="120"
+                                value="<?php echo htmlspecialchars($old['shipping_street'] ?? ''); ?>"
                             >
 
                             <label for="shipping_city">City</label>
@@ -82,6 +87,7 @@ $subtotal = $subtotal ?? 0;
                                 id="shipping_city"
                                 autocomplete="address-level2"
                                 maxlength="60"
+                                value="<?php echo htmlspecialchars($old['shipping_city'] ?? ''); ?>"
                             >
 
                             <label for="shipping_county">County</label>
@@ -91,6 +97,7 @@ $subtotal = $subtotal ?? 0;
                                 id="shipping_county"
                                 autocomplete="address-level1"
                                 maxlength="60"
+                                value="<?php echo htmlspecialchars($old['shipping_county'] ?? ''); ?>"
                             >
 
                             <label for="shipping_post_code">Post Code</label>
@@ -102,6 +109,7 @@ $subtotal = $subtotal ?? 0;
                                 maxlength="10"
                                 pattern="[A-Za-z0-9 ]{5,10}"
                                 title="Enter a valid post code."
+                                value="<?php echo htmlspecialchars($old['shipping_post_code'] ?? ''); ?>"
                             >
                         </div>
                     </section>
@@ -113,7 +121,12 @@ $subtotal = $subtotal ?? 0;
                         </div>
 
                         <label class="checkbox-row">
-                            <input type="checkbox" id="same_as_shipping" name="same_as_shipping" checked>
+                            <input
+                                type="checkbox"
+                                id="same_as_shipping"
+                                name="same_as_shipping"
+                                <?php echo !array_key_exists('same_as_shipping', $old) || !empty($old['same_as_shipping']) ? 'checked' : ''; ?>
+                            >
                             <span>Billing address is the same as shipping</span>
                         </label>
 
@@ -122,7 +135,10 @@ $subtotal = $subtotal ?? 0;
                             <select name="billing_address_id" id="billing_address_id">
                                 <option value="">Use a new billing address</option>
                                 <?php foreach ($addresses as $address): ?>
-                                    <option value="<?php echo (int) $address['address_id']; ?>">
+                                    <option
+                                        value="<?php echo (int) $address['address_id']; ?>"
+                                        <?php echo ((string) ($old['billing_address_id'] ?? '') === (string) $address['address_id']) ? 'selected' : ''; ?>
+                                    >
                                         <?php
                                         echo htmlspecialchars(
                                             $address['street'] . ', ' .
@@ -142,6 +158,7 @@ $subtotal = $subtotal ?? 0;
                                     id="billing_street"
                                     autocomplete="address-line1"
                                     maxlength="120"
+                                    value="<?php echo htmlspecialchars($old['billing_street'] ?? ''); ?>"
                                 >
 
                                 <label for="billing_city">City</label>
@@ -151,6 +168,7 @@ $subtotal = $subtotal ?? 0;
                                     id="billing_city"
                                     autocomplete="address-level2"
                                     maxlength="60"
+                                    value="<?php echo htmlspecialchars($old['billing_city'] ?? ''); ?>"
                                 >
 
                                 <label for="billing_county">County</label>
@@ -160,6 +178,7 @@ $subtotal = $subtotal ?? 0;
                                     id="billing_county"
                                     autocomplete="address-level1"
                                     maxlength="60"
+                                    value="<?php echo htmlspecialchars($old['billing_county'] ?? ''); ?>"
                                 >
 
                                 <label for="billing_post_code">Post Code</label>
@@ -171,6 +190,7 @@ $subtotal = $subtotal ?? 0;
                                     maxlength="10"
                                     pattern="[A-Za-z0-9 ]{5,10}"
                                     title="Enter a valid post code."
+                                    value="<?php echo htmlspecialchars($old['billing_post_code'] ?? ''); ?>"
                                 >
                             </div>
                         </div>
@@ -192,6 +212,7 @@ $subtotal = $subtotal ?? 0;
                             maxlength="100"
                             pattern="[A-Za-zÀ-ÿ' -]{2,100}"
                             title="Enter the cardholder name using letters only."
+                            value="<?php echo htmlspecialchars($old['cardholder_name'] ?? ''); ?>"
                             required
                         >
 
@@ -203,6 +224,7 @@ $subtotal = $subtotal ?? 0;
                             placeholder="example@email.com"
                             autocomplete="email"
                             maxlength="254"
+                            value="<?php echo htmlspecialchars($old['payment_email'] ?? ''); ?>"
                             required
                         >
 
@@ -217,6 +239,7 @@ $subtotal = $subtotal ?? 0;
                             maxlength="19"
                             pattern="\d{4}\s\d{4}\s\d{4}\s\d{4}"
                             title="Enter a 16-digit card number."
+                            value="<?php echo htmlspecialchars($old['card_number'] ?? ''); ?>"
                             required
                         >
 
@@ -233,6 +256,7 @@ $subtotal = $subtotal ?? 0;
                                     maxlength="5"
                                     pattern="(0[1-9]|1[0-2])\/[0-9]{2}"
                                     title="Enter the expiry date in MM/YY format."
+                                    value="<?php echo htmlspecialchars($old['expiry'] ?? ''); ?>"
                                     required
                                 >
                             </div>
@@ -249,6 +273,7 @@ $subtotal = $subtotal ?? 0;
                                     maxlength="4"
                                     pattern="\d{3,4}"
                                     title="Enter a 3 or 4 digit CVV."
+                                    value=""
                                     required
                                 >
                             </div>
