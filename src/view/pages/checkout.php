@@ -37,7 +37,7 @@ $old = $old ?? [];
         <div class="checkout-layout">
 
             <div class="checkout-main">
-                <form class="payment-form" method="POST" action="/checkout/process" id="checkoutForm">
+                <form class="payment-form" method="POST" action="/checkout/process" id="checkoutForm" novalidate>
                     <input
                         type="hidden"
                         name="csrf_token"
@@ -107,8 +107,6 @@ $old = $old ?? [];
                                 id="shipping_post_code"
                                 autocomplete="postal-code"
                                 maxlength="10"
-                                pattern="[A-Za-z0-9 ]{5,10}"
-                                title="Enter a valid post code."
                                 value="<?php echo htmlspecialchars($old['shipping_post_code'] ?? ''); ?>"
                             >
                         </div>
@@ -188,8 +186,6 @@ $old = $old ?? [];
                                     id="billing_post_code"
                                     autocomplete="postal-code"
                                     maxlength="10"
-                                    pattern="[A-Za-z0-9 ]{5,10}"
-                                    title="Enter a valid post code."
                                     value="<?php echo htmlspecialchars($old['billing_post_code'] ?? ''); ?>"
                                 >
                             </div>
@@ -210,10 +206,7 @@ $old = $old ?? [];
                             placeholder="Alex Smith"
                             autocomplete="cc-name"
                             maxlength="100"
-                            pattern="[A-Za-zÀ-ÿ' -]{2,100}"
-                            title="Enter the cardholder name using letters only."
                             value="<?php echo htmlspecialchars($old['cardholder_name'] ?? ''); ?>"
-                            required
                         >
 
                         <label for="email">Email</label>
@@ -225,7 +218,6 @@ $old = $old ?? [];
                             autocomplete="email"
                             maxlength="254"
                             value="<?php echo htmlspecialchars($old['payment_email'] ?? ''); ?>"
-                            required
                         >
 
                         <label for="card">Card Number</label>
@@ -237,10 +229,7 @@ $old = $old ?? [];
                             inputmode="numeric"
                             autocomplete="cc-number"
                             maxlength="19"
-                            pattern="\d{4}\s\d{4}\s\d{4}\s\d{4}"
-                            title="Enter a 16-digit card number."
                             value="<?php echo htmlspecialchars($old['card_number'] ?? ''); ?>"
-                            required
                         >
 
                         <div class="payment-row">
@@ -254,27 +243,21 @@ $old = $old ?? [];
                                     inputmode="numeric"
                                     autocomplete="cc-exp"
                                     maxlength="5"
-                                    pattern="(0[1-9]|1[0-2])\/[0-9]{2}"
-                                    title="Enter the expiry date in MM/YY format."
                                     value="<?php echo htmlspecialchars($old['expiry'] ?? ''); ?>"
-                                    required
                                 >
                             </div>
 
                             <div>
                                 <label for="cvv">CVV</label>
                                 <input
-                                    type="password"
+                                    type="text"
                                     id="cvv"
                                     name="cvv"
                                     placeholder="123"
                                     inputmode="numeric"
                                     autocomplete="cc-csc"
                                     maxlength="4"
-                                    pattern="\d{3,4}"
-                                    title="Enter a 3 or 4 digit CVV."
                                     value=""
-                                    required
                                 >
                             </div>
                         </div>
