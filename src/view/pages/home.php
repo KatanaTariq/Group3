@@ -68,10 +68,11 @@
 </section>
 
 <section class="signup-promo">
-    <p class="section-eyebrow">JOIN THE COMMUNITY</p>
-    <h2>Love Athletiq?</h2>
-    <p>Sign up today for a 10% welcome voucher, exclusive member offers, and first access to new drops.</p>
-    <a href="/signup" class="signup-btn">Sign Up Now</a>
+    <div class="signup-promo-inner">
+        <h2>Love Athletiq?</h2>
+        <p>Sign up today for a 10% welcome voucher, exclusive member offers, and first access to new drops.</p>
+        <a href="/signup" class="signup-btn">Sign Up Now</a>
+    </div>
 </section>
 
 <script src="/public/js/home.js"></script>
