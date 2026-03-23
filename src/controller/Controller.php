@@ -617,6 +617,35 @@ class BasketController extends Controller
 
         $this->redirect('/basket');
     }
+        public function updateSize(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/basket');
+        }
+
+        if (!$this->userId || !$this->basketModel) {
+            $this->redirect('/login?message=' . urlencode('Please log in to update your basket.') . '&redirect=/basket');
+        }
+
+        if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
+            $this->redirect('/basket?error=' . urlencode('Invalid CSRF token'));
+        }
+
+        $basketItemID = (int) ($_POST['basket_item_id'] ?? 0);
+        $productID = (int) ($_POST['product_id'] ?? 0);
+        $size = trim($_POST['size'] ?? '');
+
+        if ($basketItemID <= 0 || $productID <= 0 || $size === '') {
+            $this->redirect('/basket?error=' . urlencode('Invalid size selection'));
+        }
+
+        try {
+            $this->basketModel->updateItemSize($basketItemID, $productID, $size);
+            $this->redirect('/basket?success=' . urlencode('Size updated successfully'));
+        } catch (Exception $e) {
+            $this->redirect('/basket?error=' . urlencode($e->getMessage()));
+        }
+    }
 }
 
 /**
