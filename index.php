@@ -45,6 +45,7 @@ $routes = [
         '/contact' => [PageController::class, 'contact'],
         '/profile' => [PageController::class, 'profile'],
         '/previous-orders' => [PageController::class, 'previousOrders'],
+        '/order-details' => [PageController::class, 'orderDetails'],
         '/basket' => [BasketController::class, 'index'],
         '/checkout' => [PageController::class, 'checkout'],
         '/shop-women' => [PageController::class, 'womens'],
