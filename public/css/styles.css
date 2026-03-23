@@ -105,6 +105,7 @@ h1, h2, h3, h4, h5, h6 {
 .signup-btn,
 .login-btn,
 .basket-btn,
+.profile-btn,
 .learn-more-btn,
 .product-btn,
 .add-btn,
@@ -128,6 +129,7 @@ h1, h2, h3, h4, h5, h6 {
 .signup-btn,
 .login-btn,
 .basket-btn,
+.profile-btn,
 .btn {
     background: linear-gradient(135deg, var(--black) 0%, var(--black-soft) 100%);
     color: var(--white);
@@ -138,6 +140,7 @@ h1, h2, h3, h4, h5, h6 {
 .signup-btn:hover,
 .login-btn:hover,
 .basket-btn:hover,
+.profile-btn:hover,
 .btn:hover {
     background: var(--primary);
     color: var(--black);
@@ -340,7 +343,8 @@ nav .logo-img {
 
 .signup-btn,
 .login-btn,
-.basket-btn {
+.basket-btn,
+.profile-btn {
     min-height: 44px;
     padding: 0 18px;
     border-radius: 12px;
@@ -2291,3 +2295,78 @@ nav .logo-img {
     }
     .order-item-meta { align-items: flex-end; }
 }
+
+/* home page buttons */
+.learn-more-btn,
+.product-btn,
+.signup-promo .signup-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 800;
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+/* hero button */
+.learn-more-btn {
+    min-height: 56px;
+    padding: 0 30px;
+    border-radius: 16px;
+    font-size: 1.05rem;
+    background: var(--primary);
+    color: var(--black);
+    box-shadow: var(--shadow-sm);
+}
+
+.learn-more-btn:hover {
+    background: var(--primary-dark);
+    color: var(--black);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* product card buttons */
+.product-btn {
+    min-height: 46px;
+    padding: 0 20px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    background: var(--primary);
+    color: var(--black);
+    box-shadow: var(--shadow-sm);
+    align-self: center;
+}
+
+.product-btn:hover {
+    background: var(--primary-dark);
+    color: var(--black);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* signup promo button */
+.signup-promo .signup-btn {
+    min-height: 56px;
+    padding: 0 30px;
+    border-radius: 16px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, var(--black) 0%, var(--black-soft) 100%);
+    color: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.signup-promo .signup-btn:hover {
+    background: var(--white);
+    color: var(--black);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+

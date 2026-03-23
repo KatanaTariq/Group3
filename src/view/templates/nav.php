@@ -15,7 +15,9 @@
 
     <div class="auth-btns">
         <a href="/basket" class="basket-btn">View Basket</a>
+
         <?php if (isset($_SESSION['customer_id'])): ?>
+            <a href="/profile" class="profile-btn">Profile</a>
             <a href="/logout" class="login-btn">Log Out</a>
         <?php else: ?>
             <a href="/signup" class="signup-btn">Sign Up</a>
