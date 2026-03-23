@@ -26,14 +26,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const billingCounty = document.getElementById('billing_county');
     const billingPostCode = document.getElementById('billing_post_code');
 
-    function setFieldValidity(field, message) {
+    function markFieldError(field, message) {
         if (!field) return;
         field.setCustomValidity(message);
+        field.classList.add('input-error');
     }
 
-    function clearFieldValidity(field) {
+    function clearFieldError(field) {
         if (!field) return;
         field.setCustomValidity('');
+        field.classList.remove('input-error');
     }
 
     function setAddressFieldsRequired(fieldsEl, isRequired) {
@@ -56,6 +58,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const usingSavedAddress = selectEl.value !== '';
         fieldsEl.style.display = usingSavedAddress ? 'none' : 'block';
         setAddressFieldsRequired(fieldsEl, !usingSavedAddress);
+
+        const inputs = fieldsEl.querySelectorAll('input');
+        inputs.forEach(function (input) {
+            clearFieldError(input);
+        });
     }
 
     function toggleBillingSection() {
@@ -66,6 +73,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (hideBilling) {
             setAddressFieldsRequired(billingFields, false);
+
+            const inputs = billingFields.querySelectorAll('input');
+            inputs.forEach(function (input) {
+                clearFieldError(input);
+            });
         } else if (billingSelect) {
             toggleAddressFields(billingSelect, billingFields);
         }
@@ -112,44 +124,51 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function validateAddressFields(fields, prefix) {
         const { street, city, county, postCode } = fields;
-
         let isValid = true;
 
-        clearFieldValidity(street);
-        clearFieldValidity(city);
-        clearFieldValidity(county);
-        clearFieldValidity(postCode);
+        clearFieldError(street);
+        clearFieldError(city);
+        clearFieldError(county);
+        clearFieldError(postCode);
 
         if (!street.value.trim()) {
-            setFieldValidity(street, `${prefix} street is required.`);
+            markFieldError(street, `${prefix} street is required.`);
             isValid = false;
         } else if (street.value.trim().length > 120) {
-            setFieldValidity(street, `${prefix} street must be 120 characters or fewer.`);
+            markFieldError(street, `${prefix} street must be 120 characters or fewer.`);
             isValid = false;
         }
 
         if (!city.value.trim()) {
-            setFieldValidity(city, `${prefix} city is required.`);
+            markFieldError(city, `${prefix} city is required.`);
             isValid = false;
         } else if (city.value.trim().length > 60) {
-            setFieldValidity(city, `${prefix} city must be 60 characters or fewer.`);
+            markFieldError(city, `${prefix} city must be 60 characters or fewer.`);
             isValid = false;
         }
 
         if (county.value.trim().length > 60) {
-            setFieldValidity(county, `${prefix} county must be 60 characters or fewer.`);
+            markFieldError(county, `${prefix} county must be 60 characters or fewer.`);
             isValid = false;
         }
 
         if (!postCode.value.trim()) {
-            setFieldValidity(postCode, `${prefix} post code is required.`);
+            markFieldError(postCode, `${prefix} post code is required.`);
             isValid = false;
         } else if (!isValidPostcode(postCode.value)) {
-            setFieldValidity(postCode, `Enter a valid ${prefix.toLowerCase()} post code.`);
+            markFieldError(postCode, `Enter a valid ${prefix.toLowerCase()} post code.`);
             isValid = false;
         }
 
         return isValid;
+    }
+
+    function attachLiveValidationClear(field) {
+        if (!field) return;
+
+        field.addEventListener('input', function () {
+            clearFieldError(field);
+        });
     }
 
     if (sameAsShipping) {
@@ -176,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let value = this.value.replace(/\D/g, '').substring(0, 16);
             value = value.replace(/(.{4})/g, '$1 ').trim();
             this.value = value;
-            clearFieldValidity(this);
+            clearFieldError(this);
         });
     }
 
@@ -189,28 +208,27 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             this.value = value;
-            clearFieldValidity(this);
+            clearFieldError(this);
         });
     }
 
     if (cvvInput) {
         cvvInput.addEventListener('input', function () {
             this.value = this.value.replace(/\D/g, '').substring(0, 4);
-            clearFieldValidity(this);
+            clearFieldError(this);
         });
     }
 
-    if (nameInput) {
-        nameInput.addEventListener('input', function () {
-            clearFieldValidity(this);
-        });
-    }
-
-    if (emailInput) {
-        emailInput.addEventListener('input', function () {
-            clearFieldValidity(this);
-        });
-    }
+    attachLiveValidationClear(nameInput);
+    attachLiveValidationClear(emailInput);
+    attachLiveValidationClear(shippingStreet);
+    attachLiveValidationClear(shippingCity);
+    attachLiveValidationClear(shippingCounty);
+    attachLiveValidationClear(shippingPostCode);
+    attachLiveValidationClear(billingStreet);
+    attachLiveValidationClear(billingCity);
+    attachLiveValidationClear(billingCounty);
+    attachLiveValidationClear(billingPostCode);
 
     if (form) {
         form.addEventListener('submit', function (event) {
@@ -220,39 +238,38 @@ document.addEventListener('DOMContentLoaded', function () {
             const expiry = expiryInput ? expiryInput.value.trim() : '';
             const cvv = cvvInput ? cvvInput.value.trim() : '';
             const cardholderName = nameInput ? nameInput.value.trim() : '';
-            const email = emailInput ? emailInput.value.trim() : '';
 
-            clearFieldValidity(nameInput);
-            clearFieldValidity(emailInput);
-            clearFieldValidity(cardInput);
-            clearFieldValidity(expiryInput);
-            clearFieldValidity(cvvInput);
+            clearFieldError(nameInput);
+            clearFieldError(emailInput);
+            clearFieldError(cardInput);
+            clearFieldError(expiryInput);
+            clearFieldError(cvvInput);
 
             if (!/^[A-Za-zÀ-ÿ' -]{2,100}$/.test(cardholderName)) {
-                setFieldValidity(nameInput, 'Enter a valid full name.');
+                markFieldError(nameInput, 'Enter a valid full name.');
                 valid = false;
             }
 
             if (!emailInput || !emailInput.checkValidity()) {
-                setFieldValidity(emailInput, 'Enter a valid email address.');
+                markFieldError(emailInput, 'Enter a valid email address.');
                 valid = false;
             }
 
             if (!/^\d{16}$/.test(cardNumber)) {
-                setFieldValidity(cardInput, 'Card number must be 16 digits.');
+                markFieldError(cardInput, 'Card number must be 16 digits.');
                 valid = false;
             } else if (!luhnCheck(cardNumber)) {
-                setFieldValidity(cardInput, 'Enter a valid card number.');
+                markFieldError(cardInput, 'Enter a valid card number.');
                 valid = false;
             }
 
             if (!isValidExpiry(expiry)) {
-                setFieldValidity(expiryInput, 'Enter a valid expiry date that is not in the past.');
+                markFieldError(expiryInput, 'Enter a valid expiry date that is not in the past.');
                 valid = false;
             }
 
             if (!/^\d{3,4}$/.test(cvv)) {
-                setFieldValidity(cvvInput, 'CVV must be 3 or 4 digits.');
+                markFieldError(cvvInput, 'CVV must be 3 or 4 digits.');
                 valid = false;
             }
 
@@ -264,7 +281,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     postCode: shippingPostCode
                 }, 'Shipping');
 
-                if (!shippingValid) valid = false;
+                if (!shippingValid) {
+                    valid = false;
+                }
             }
 
             if (
@@ -280,12 +299,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     postCode: billingPostCode
                 }, 'Billing');
 
-                if (!billingValid) valid = false;
+                if (!billingValid) {
+                    valid = false;
+                }
             }
 
             if (!valid) {
                 event.preventDefault();
                 form.reportValidity();
+
+                const firstError = form.querySelector('.input-error');
+                if (firstError) {
+                    firstError.focus();
+                }
             }
         });
     }
