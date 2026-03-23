@@ -59,10 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fieldsEl.style.display = usingSavedAddress ? 'none' : 'block';
         setAddressFieldsRequired(fieldsEl, !usingSavedAddress);
 
-        const inputs = fieldsEl.querySelectorAll('input');
-        inputs.forEach(function (input) {
-            clearFieldError(input);
-        });
+        fieldsEl.querySelectorAll('input').forEach(clearFieldError);
     }
 
     function toggleBillingSection() {
@@ -73,53 +70,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (hideBilling) {
             setAddressFieldsRequired(billingFields, false);
-
-            const inputs = billingFields.querySelectorAll('input');
-            inputs.forEach(function (input) {
-                clearFieldError(input);
-            });
+            billingFields.querySelectorAll('input').forEach(clearFieldError);
         } else if (billingSelect) {
             toggleAddressFields(billingSelect, billingFields);
         }
     }
 
-    function luhnCheck(cardNumber) {
-        let sum = 0;
-        let shouldDouble = false;
-
-        for (let i = cardNumber.length - 1; i >= 0; i--) {
-            let digit = parseInt(cardNumber.charAt(i), 10);
-
-            if (shouldDouble) {
-                digit *= 2;
-                if (digit > 9) digit -= 9;
-            }
-
-            sum += digit;
-            shouldDouble = !shouldDouble;
-        }
-
-        return sum % 10 === 0;
+    function isExpiryFormatValid(value) {
+        return /^(0[1-9]|1[0-2])\/\d{2}$/.test(value);
     }
 
     function isValidExpiry(value) {
-        if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
-            return false;
-        }
+        if (!isExpiryFormatValid(value)) return false;
 
         const [monthStr, yearStr] = value.split('/');
-        const month = parseInt(monthStr, 10);
-        const year = 2000 + parseInt(yearStr, 10);
+        const inputMonth = parseInt(monthStr, 10);
+        const inputYear = 2000 + parseInt(yearStr, 10);
 
         const now = new Date();
-        const expiryDate = new Date(year, month, 0, 23, 59, 59);
+        const currentMonth = now.getMonth() + 1;
+        const currentYear = now.getFullYear();
 
-        return expiryDate >= now;
+        if (inputYear < currentYear) return false;
+        if (inputYear === currentYear && inputMonth < currentMonth) return false;
+
+        return true;
     }
 
     function isValidPostcode(value) {
-        const trimmed = value.trim().toUpperCase();
-        return /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/.test(trimmed);
+        return /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/.test(value.trim().toUpperCase());
+    }
+
+    function isValidEmail(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
     }
 
     function validateAddressFields(fields, prefix) {
@@ -165,154 +148,111 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function attachLiveValidationClear(field) {
         if (!field) return;
-
-        field.addEventListener('input', function () {
-            clearFieldError(field);
-        });
+        field.addEventListener('input', () => clearFieldError(field));
     }
 
-    if (sameAsShipping) {
-        sameAsShipping.addEventListener('change', toggleBillingSection);
-        toggleBillingSection();
-    }
+    // toggles
+    sameAsShipping?.addEventListener('change', toggleBillingSection);
+    toggleBillingSection();
 
-    if (shippingSelect) {
-        shippingSelect.addEventListener('change', function () {
-            toggleAddressFields(shippingSelect, shippingFields);
-        });
-        toggleAddressFields(shippingSelect, shippingFields);
-    }
+    shippingSelect?.addEventListener('change', () => toggleAddressFields(shippingSelect, shippingFields));
+    toggleAddressFields(shippingSelect, shippingFields);
 
-    if (billingSelect) {
-        billingSelect.addEventListener('change', function () {
-            toggleAddressFields(billingSelect, billingFields);
-        });
-        toggleAddressFields(billingSelect, billingFields);
-    }
+    billingSelect?.addEventListener('change', () => toggleAddressFields(billingSelect, billingFields));
+    toggleAddressFields(billingSelect, billingFields);
 
-    if (cardInput) {
-        cardInput.addEventListener('input', function () {
-            let value = this.value.replace(/\D/g, '').substring(0, 16);
-            value = value.replace(/(.{4})/g, '$1 ').trim();
-            this.value = value;
-            clearFieldError(this);
-        });
-    }
+    // formatting
+    cardInput?.addEventListener('input', function () {
+        let value = this.value.replace(/\D/g, '').substring(0, 16);
+        value = value.replace(/(.{4})/g, '$1 ').trim();
+        this.value = value;
+        clearFieldError(this);
+    });
 
-    if (expiryInput) {
-        expiryInput.addEventListener('input', function () {
-            let value = this.value.replace(/\D/g, '').substring(0, 4);
+    expiryInput?.addEventListener('input', function () {
+        let value = this.value.replace(/\D/g, '').substring(0, 4);
+        if (value.length >= 3) value = value.slice(0, 2) + '/' + value.slice(2);
+        this.value = value;
+        clearFieldError(this);
+    });
 
-            if (value.length >= 3) {
-                value = value.substring(0, 2) + '/' + value.substring(2);
+    cvvInput?.addEventListener('input', function () {
+        this.value = this.value.replace(/\D/g, '').substring(0, 4);
+        clearFieldError(this);
+    });
+
+    [
+        nameInput, emailInput,
+        shippingStreet, shippingCity, shippingCounty, shippingPostCode,
+        billingStreet, billingCity, billingCounty, billingPostCode
+    ].forEach(attachLiveValidationClear);
+
+    // submit
+    form?.addEventListener('submit', function (event) {
+        let valid = true;
+
+        const digitsOnly = cardInput?.value.replace(/\D/g, '') || '';
+        const expiry = expiryInput?.value.trim() || '';
+        const cvv = cvvInput?.value.trim() || '';
+        const name = nameInput?.value.trim() || '';
+        const email = emailInput?.value.trim() || '';
+
+        [nameInput, emailInput, cardInput, expiryInput, cvvInput].forEach(clearFieldError);
+
+        if (!/^[A-Za-zÀ-ÿ' -]{2,100}$/.test(name)) {
+            markFieldError(nameInput, 'Enter a valid full name.');
+            valid = false;
+        }
+
+        if (!isValidEmail(email)) {
+            markFieldError(emailInput, 'Enter a valid email address.');
+            valid = false;
+        }
+
+        if (digitsOnly.length !== 16) {
+            markFieldError(cardInput, 'Card number must be exactly 16 digits.');
+            valid = false;
+        }
+
+        if (!isExpiryFormatValid(expiry)) {
+            markFieldError(expiryInput, 'Use MM/YY format (e.g. 03/27).');
+            valid = false;
+        } else if (!isValidExpiry(expiry)) {
+            markFieldError(expiryInput, 'This card has expired.');
+            valid = false;
+        }
+
+        if (!/^\d{3,4}$/.test(cvv)) {
+            markFieldError(cvvInput, 'CVV must be 3 or 4 digits.');
+            valid = false;
+        }
+
+        if (shippingSelect && shippingSelect.value === '') {
+            if (!validateAddressFields({
+                street: shippingStreet,
+                city: shippingCity,
+                county: shippingCounty,
+                postCode: shippingPostCode
+            }, 'Shipping')) valid = false;
+        }
+
+        if (!sameAsShipping.checked && billingSelect && billingSelect.value === '') {
+            if (!validateAddressFields({
+                street: billingStreet,
+                city: billingCity,
+                county: billingCounty,
+                postCode: billingPostCode
+            }, 'Billing')) valid = false;
+        }
+
+        if (!valid) {
+            event.preventDefault();
+
+            const firstError = form.querySelector('.input-error');
+            if (firstError) {
+                firstError.focus();
+                firstError.reportValidity();
             }
-
-            this.value = value;
-            clearFieldError(this);
-        });
-    }
-
-    if (cvvInput) {
-        cvvInput.addEventListener('input', function () {
-            this.value = this.value.replace(/\D/g, '').substring(0, 4);
-            clearFieldError(this);
-        });
-    }
-
-    attachLiveValidationClear(nameInput);
-    attachLiveValidationClear(emailInput);
-    attachLiveValidationClear(shippingStreet);
-    attachLiveValidationClear(shippingCity);
-    attachLiveValidationClear(shippingCounty);
-    attachLiveValidationClear(shippingPostCode);
-    attachLiveValidationClear(billingStreet);
-    attachLiveValidationClear(billingCity);
-    attachLiveValidationClear(billingCounty);
-    attachLiveValidationClear(billingPostCode);
-
-    if (form) {
-        form.addEventListener('submit', function (event) {
-            let valid = true;
-
-            const cardNumber = cardInput ? cardInput.value.replace(/\s/g, '') : '';
-            const expiry = expiryInput ? expiryInput.value.trim() : '';
-            const cvv = cvvInput ? cvvInput.value.trim() : '';
-            const cardholderName = nameInput ? nameInput.value.trim() : '';
-
-            clearFieldError(nameInput);
-            clearFieldError(emailInput);
-            clearFieldError(cardInput);
-            clearFieldError(expiryInput);
-            clearFieldError(cvvInput);
-
-            if (!/^[A-Za-zÀ-ÿ' -]{2,100}$/.test(cardholderName)) {
-                markFieldError(nameInput, 'Enter a valid full name.');
-                valid = false;
-            }
-
-            if (!emailInput || !emailInput.checkValidity()) {
-                markFieldError(emailInput, 'Enter a valid email address.');
-                valid = false;
-            }
-
-            if (!/^\d{16}$/.test(cardNumber)) {
-                markFieldError(cardInput, 'Card number must be 16 digits.');
-                valid = false;
-            } else if (!luhnCheck(cardNumber)) {
-                markFieldError(cardInput, 'Enter a valid card number.');
-                valid = false;
-            }
-
-            if (!isValidExpiry(expiry)) {
-                markFieldError(expiryInput, 'Enter a valid expiry date that is not in the past.');
-                valid = false;
-            }
-
-            if (!/^\d{3,4}$/.test(cvv)) {
-                markFieldError(cvvInput, 'CVV must be 3 or 4 digits.');
-                valid = false;
-            }
-
-            if (shippingSelect && shippingSelect.value === '') {
-                const shippingValid = validateAddressFields({
-                    street: shippingStreet,
-                    city: shippingCity,
-                    county: shippingCounty,
-                    postCode: shippingPostCode
-                }, 'Shipping');
-
-                if (!shippingValid) {
-                    valid = false;
-                }
-            }
-
-            if (
-                sameAsShipping &&
-                !sameAsShipping.checked &&
-                billingSelect &&
-                billingSelect.value === ''
-            ) {
-                const billingValid = validateAddressFields({
-                    street: billingStreet,
-                    city: billingCity,
-                    county: billingCounty,
-                    postCode: billingPostCode
-                }, 'Billing');
-
-                if (!billingValid) {
-                    valid = false;
-                }
-            }
-
-            if (!valid) {
-                event.preventDefault();
-                form.reportValidity();
-
-                const firstError = form.querySelector('.input-error');
-                if (firstError) {
-                    firstError.focus();
-                }
-            }
-        });
-    }
+        }
+    });
 });

@@ -703,34 +703,6 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Validates a card number using the Luhn algorithm.
-     *
-     * @param string $cardNumber The card number digits only.
-     * @return bool
-     */
-    private function passesLuhnCheck(string $cardNumber): bool
-    {
-        $sum = 0;
-        $shouldDouble = false;
-
-        for ($i = strlen($cardNumber) - 1; $i >= 0; $i--) {
-            $digit = (int) $cardNumber[$i];
-
-            if ($shouldDouble) {
-                $digit *= 2;
-                if ($digit > 9) {
-                    $digit -= 9;
-                }
-            }
-
-            $sum += $digit;
-            $shouldDouble = !$shouldDouble;
-        }
-
-        return $sum % 10 === 0;
-    }
-
-    /**
      * Validates an expiry date in MM/YY format and checks it is not expired.
      *
      * @param string $expiry The submitted expiry value.
