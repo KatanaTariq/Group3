@@ -285,58 +285,79 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function register(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->displayRegister();
-            return;
-        }
-
-        if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
-            $this->redirect('/signup?error=' . urlencode('Invalid CSRF token'));
-        }
-
-        $firstName = sanitise_string($_POST['first_name'] ?? '');
-        $lastName = sanitise_string($_POST['last_name'] ?? '');
-        $email = validate_email($_POST['email'] ?? '');
-        $password = trim($_POST['password'] ?? '');
-
-        if ($email === null) {
-            $this->redirect('/signup?error=' . urlencode('Invalid email'));
-        }
-
-        $errors = [];
-
-        if (strlen($password) < 8) {
-            $errors[] = 'Password must be at least 8 characters long';
-        }
-
-        if (!preg_match('/[A-Z]/', $password)) {
-            $errors[] = 'Password must contain an uppercase letter';
-        }
-
-        if (!preg_match('/[\W_]/', $password)) {
-            $errors[] = 'Password must contain a special character';
-        }
-
-        if ($errors) {
-            $this->redirect('/signup?error=' . urlencode(implode(', ', $errors)));
-        }
-
-        $customer = $this->customerModel->registerCustomer([
-            'email' => $email,
-            'password_hash' => password_hash($password, PASSWORD_DEFAULT),
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-        ]);
-
-        if (!$customer) {
-            $this->redirect('/signup?error=' . urlencode('Could not create account'));
-        }
-
-        $_SESSION['customer_id'] = $customer->getId();
-        $this->redirect('/profile');
+/**
+ * Registers a new customer account.
+ *
+ * @return void
+ */
+public function register(): void
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $this->displayRegister();
+        return;
     }
+
+    if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
+        $this->redirect('/signup?error=' . urlencode('Invalid CSRF token'));
+    }
+
+    $firstName = sanitise_string($_POST['first_name'] ?? '');
+    $lastName = sanitise_string($_POST['last_name'] ?? '');
+    $emailInput = trim($_POST['email'] ?? '');
+	$email = validate_email($emailInput);
+
+if ($email === null) {
+    $this->redirect('/signup?error=' . urlencode('Please enter a valid email address'));
+}
+    $password = trim($_POST['password'] ?? '');
+    $confirmPassword = trim($_POST['confirm_password'] ?? '');
+
+    if ($email === null) {
+        $this->redirect('/signup?error=' . urlencode('Invalid email'));
+    }
+
+    $errors = [];
+
+    if (strlen($password) < 8) {
+        $errors[] = 'Password must be at least 8 characters long';
+    }
+
+    if (!preg_match('/[A-Z]/', $password)) {
+        $errors[] = 'Password must contain at least one uppercase letter';
+    }
+
+    if (!preg_match('/[\W_]/', $password)) {
+        $errors[] = 'Password must contain at least one special character';
+    }
+
+    if ($password !== $confirmPassword) {
+        $errors[] = 'Passwords do not match';
+    }
+
+    if ($errors) {
+        $this->redirect('/signup?error=' . urlencode(implode(', ', $errors)));
+    }
+
+$existingCustomer = $this->customerModel->getCustomerByEmail($email);
+
+if ($existingCustomer) {
+    $this->redirect('/signup?error=' . urlencode('An account with this email already exists'));
+}
+	
+    $customer = $this->customerModel->registerCustomer([
+        'email' => $email,
+        'password_hash' => password_hash($password, PASSWORD_DEFAULT),
+        'first_name' => $firstName,
+        'last_name' => $lastName,
+    ]);
+
+    if (!$customer) {
+        $this->redirect('/signup?error=' . urlencode('Could not create account'));
+    }
+
+    $_SESSION['customer_id'] = $customer->getId();
+    $this->redirect('/profile');
+}
 
     /**
      * Displays the login page.

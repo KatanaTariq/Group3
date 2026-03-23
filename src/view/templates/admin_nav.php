@@ -1,5 +1,5 @@
-<nav>
-    <a href="/admin/inventory">
+<nav class="site-nav admin-nav">
+    <a href="/admin/inventory" class="nav-brand">
         <img 
             src="/public/images/logos/athletiq_logo.png"
             alt="Athletiq Logo"
@@ -12,7 +12,7 @@
         <li><a href="/admin/inventory/logs">Inventory Logs</a></li>
     </ul>
 
-    <div class="search-box"></div>
+    <div class="search-box search-box-empty"></div>
 
     <div class="auth-btns">
         <a href="/admin/logout" class="login-btn">Log Out</a>

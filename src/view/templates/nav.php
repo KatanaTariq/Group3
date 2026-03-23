@@ -1,5 +1,5 @@
-<nav>
-    <a href="/home">
+<nav class="site-nav">
+    <a href="/home" class="nav-brand">
         <img src="/public/images/logos/athletiq_logo.png" alt="Athletiq Logo" class="logo-img">
     </a>
 
