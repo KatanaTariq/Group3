@@ -1471,3 +1471,14 @@ select {
         max-width: none;
     }
 }
+
+.basket-inline-error {
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(217, 45, 32, 0.08);
+    color: #d92d20;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+}
