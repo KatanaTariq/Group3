@@ -2,127 +2,282 @@
 <?php include __DIR__ . '/../templates/header.php'; ?>
 <?php include __DIR__ . '/../templates/nav.php'; ?>
 
-<h1 class="checkout-title">Checkout</h1>
+<?php
+$items = $items ?? [];
+$addresses = $addresses ?? [];
+$subtotal = $subtotal ?? 0;
+?>
 
-<?php if (!empty($_GET['error'])): ?>
-    <p style="text-align:center; color:red;">
-        <?php echo htmlspecialchars($_GET['error']); ?>
-    </p>
-<?php endif; ?>
+<div class="checkout-page">
 
-<?php if (!empty($_GET['success'])): ?>
-    <p style="text-align:center; color:green;">
-        <?php echo htmlspecialchars($_GET['success']); ?>
-    </p>
-<?php endif; ?>
+    <div class="checkout-header">
+        <h1 class="checkout-title">Checkout</h1>
+        <p class="checkout-subtitle">Complete your order details below.</p>
+    </div>
 
-<div class="checkout-container" id="checkout-items">
-    <?php if (empty($items ?? [])): ?>
-        <p style="text-align:center; font-weight:bold; margin:20px 0;">Your basket is empty</p>
+    <?php if (!empty($_GET['error'])): ?>
+        <div class="checkout-message checkout-message-error">
+            <?php echo htmlspecialchars($_GET['error']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($_GET['success'])): ?>
+        <div class="checkout-message checkout-message-success">
+            <?php echo htmlspecialchars($_GET['success']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (empty($items)): ?>
+        <div class="checkout-empty">
+            <p>Your basket is empty.</p>
+        </div>
     <?php else: ?>
-        <?php foreach ($items as $item): ?>
-            <div class="checkout-item">
-                <img
-                    src="<?php echo htmlspecialchars($item['image_url']); ?>"
-                    alt="<?php echo htmlspecialchars($item['name']); ?>"
-                >
 
-                <div class="item-info">
-                    <p><?php echo htmlspecialchars($item['name']); ?></p>
-                    <p>Size: <?php echo htmlspecialchars($item['size']); ?></p>
+        <div class="checkout-layout">
 
-                    <?php if (!empty($item['colour'])): ?>
-                        <p>Colour: <?php echo htmlspecialchars($item['colour']); ?></p>
-                    <?php endif; ?>
+            <div class="checkout-main">
+                <form class="payment-form" method="POST" action="/checkout/process" id="checkoutForm">
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="<?php echo htmlspecialchars(get_csrf_token()); ?>"
+                    >
 
-                    <p>Quantity: <?php echo (int)$item['quantity']; ?></p>
-                </div>
+                    <section class="checkout-section">
+                        <div class="section-heading">
+                            <h2>Shipping Address</h2>
+                            <p>Choose a saved address or enter a new one.</p>
+                        </div>
 
-                <p class="item-price">
-                    £<?php echo number_format($item['price'] * $item['quantity'], 2); ?>
-                </p>
+                        <label for="shipping_address_id">Saved shipping address</label>
+                        <select name="shipping_address_id" id="shipping_address_id">
+                            <option value="">Use a new shipping address</option>
+                            <?php foreach ($addresses as $address): ?>
+                                <option value="<?php echo (int) $address['address_id']; ?>">
+                                    <?php
+                                    echo htmlspecialchars(
+                                        $address['street'] . ', ' .
+                                        $address['city'] . ', ' .
+                                        $address['post_code']
+                                    );
+                                    ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <div class="address-fields" id="shipping-address-fields">
+                            <label for="shipping_street">Street</label>
+                            <input
+                                type="text"
+                                name="shipping_street"
+                                id="shipping_street"
+                                autocomplete="address-line1"
+                            >
+
+                            <label for="shipping_city">City</label>
+                            <input
+                                type="text"
+                                name="shipping_city"
+                                id="shipping_city"
+                                autocomplete="address-level2"
+                            >
+
+                            <label for="shipping_county">County</label>
+                            <input
+                                type="text"
+                                name="shipping_county"
+                                id="shipping_county"
+                                autocomplete="address-level1"
+                            >
+
+                            <label for="shipping_post_code">Post Code</label>
+                            <input
+                                type="text"
+                                name="shipping_post_code"
+                                id="shipping_post_code"
+                                autocomplete="postal-code"
+                            >
+                        </div>
+                    </section>
+
+                    <section class="checkout-section">
+                        <div class="section-heading">
+                            <h2>Billing Address</h2>
+                            <p>Use the same details as shipping or choose another address.</p>
+                        </div>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" id="same_as_shipping" name="same_as_shipping" checked>
+                            <span>Billing address is the same as shipping</span>
+                        </label>
+
+                        <div id="billing-section-content" class="billing-section-content" style="display: none;">
+                            <label for="billing_address_id">Saved billing address</label>
+                            <select name="billing_address_id" id="billing_address_id">
+                                <option value="">Use a new billing address</option>
+                                <?php foreach ($addresses as $address): ?>
+                                    <option value="<?php echo (int) $address['address_id']; ?>">
+                                        <?php
+                                        echo htmlspecialchars(
+                                            $address['street'] . ', ' .
+                                            $address['city'] . ', ' .
+                                            $address['post_code']
+                                        );
+                                        ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <div class="address-fields" id="billing-address-fields">
+                                <label for="billing_street">Street</label>
+                                <input
+                                    type="text"
+                                    name="billing_street"
+                                    id="billing_street"
+                                    autocomplete="address-line1"
+                                >
+
+                                <label for="billing_city">City</label>
+                                <input
+                                    type="text"
+                                    name="billing_city"
+                                    id="billing_city"
+                                    autocomplete="address-level2"
+                                >
+
+                                <label for="billing_county">County</label>
+                                <input
+                                    type="text"
+                                    name="billing_county"
+                                    id="billing_county"
+                                    autocomplete="address-level1"
+                                >
+
+                                <label for="billing_post_code">Post Code</label>
+                                <input
+                                    type="text"
+                                    name="billing_post_code"
+                                    id="billing_post_code"
+                                    autocomplete="postal-code"
+                                >
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="checkout-section">
+                        <div class="section-heading">
+                            <h2>Payment Details</h2>
+                            <p>Enter your payment information below.</p>
+                        </div>
+
+                        <label for="name">Full Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="cardholder_name"
+                            placeholder="Alex Smith"
+                            autocomplete="cc-name"
+                            required
+                        >
+
+                        <label for="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="payment_email"
+                            placeholder="example@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                        <label for="card">Card Number</label>
+                        <input
+                            type="text"
+                            id="card"
+                            name="card_number"
+                            placeholder="1234 5678 9123 4567"
+                            inputmode="numeric"
+                            autocomplete="cc-number"
+                            maxlength="19"
+                            required
+                        >
+
+                        <div class="payment-row">
+                            <div>
+                                <label for="expiry">Expiry Date</label>
+                                <input
+                                    type="text"
+                                    id="expiry"
+                                    name="expiry"
+                                    placeholder="MM/YY"
+                                    inputmode="numeric"
+                                    autocomplete="cc-exp"
+                                    maxlength="5"
+                                    required
+                                >
+                            </div>
+
+                            <div>
+                                <label for="cvv">CVV</label>
+                                <input
+                                    type="text"
+                                    id="cvv"
+                                    name="cvv"
+                                    placeholder="123"
+                                    inputmode="numeric"
+                                    autocomplete="cc-csc"
+                                    maxlength="4"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Place Order</button>
+                    </section>
+                </form>
             </div>
-        <?php endforeach; ?>
+
+            <aside class="checkout-sidebar">
+                <div class="order-summary-card">
+                    <h2>Order Summary</h2>
+
+                    <div class="checkout-items">
+                        <?php foreach ($items as $item): ?>
+                            <div class="checkout-item">
+                                <img
+                                    src="<?php echo htmlspecialchars($item['image_url']); ?>"
+                                    alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                >
+
+                                <div class="item-info">
+                                    <p class="item-name"><?php echo htmlspecialchars($item['name']); ?></p>
+                                    <p>Size: <?php echo htmlspecialchars($item['size']); ?></p>
+
+                                    <?php if (!empty($item['colour'])): ?>
+                                        <p>Colour: <?php echo htmlspecialchars($item['colour']); ?></p>
+                                    <?php endif; ?>
+
+                                    <p>Qty: <?php echo (int) $item['quantity']; ?></p>
+                                </div>
+
+                                <p class="item-price">
+                                    £<?php echo number_format($item['price'] * $item['quantity'], 2); ?>
+                                </p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <strong>£<?php echo number_format($subtotal, 2); ?></strong>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
     <?php endif; ?>
 </div>
 
-<p class="total">Total: £<span id="checkout-total"><?php echo number_format($subtotal ?? 0, 2); ?></span></p>
-
-<?php if (!empty($items ?? [])): ?>
-    <form class="payment-form" method="POST" action="/checkout/process">
-        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(get_csrf_token()); ?>">
-
-        <h2>Shipping Address</h2>
-
-        <label for="shipping_address_id">Select a saved shipping address</label>
-        <select name="shipping_address_id" id="shipping_address_id">
-            <option value="">Use a new shipping address</option>
-            <?php foreach (($addresses ?? []) as $address): ?>
-                <option value="<?php echo (int)$address['address_id']; ?>">
-                    <?php echo htmlspecialchars($address['street'] . ', ' . $address['city'] . ', ' . $address['post_code']); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-
-        <p style="margin-top:15px;"><strong>Or enter a new shipping address</strong></p>
-
-        <label for="shipping_street">Street</label>
-        <input type="text" name="shipping_street" id="shipping_street">
-
-        <label for="shipping_city">City</label>
-        <input type="text" name="shipping_city" id="shipping_city">
-
-        <label for="shipping_county">County</label>
-        <input type="text" name="shipping_county" id="shipping_county">
-
-        <label for="shipping_post_code">Post Code</label>
-        <input type="text" name="shipping_post_code" id="shipping_post_code">
-
-        <h2 style="margin-top:30px;">Billing Address</h2>
-
-        <label for="billing_address_id">Select a saved billing address</label>
-        <select name="billing_address_id" id="billing_address_id">
-            <option value="">Use a new billing address</option>
-            <?php foreach (($addresses ?? []) as $address): ?>
-                <option value="<?php echo (int)$address['address_id']; ?>">
-                    <?php echo htmlspecialchars($address['street'] . ', ' . $address['city'] . ', ' . $address['post_code']); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-
-        <p style="margin-top:15px;"><strong>Or enter a new billing address</strong></p>
-
-        <label for="billing_street">Street</label>
-        <input type="text" name="billing_street" id="billing_street">
-
-        <label for="billing_city">City</label>
-        <input type="text" name="billing_city" id="billing_city">
-
-        <label for="billing_county">County</label>
-        <input type="text" name="billing_county" id="billing_county">
-
-        <label for="billing_post_code">Post Code</label>
-        <input type="text" name="billing_post_code" id="billing_post_code">
-
-        <h2 style="margin-top:30px;">Payment Details</h2>
-
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="cardholder_name" placeholder="Alex Smith" required>
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="payment_email" placeholder="example@email.com" required>
-
-        <label for="card">Card Number</label>
-        <input type="text" id="card" name="card_number" placeholder="1234 5678 9123 4567" required>
-
-        <label for="expiry">Expiry Date</label>
-        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
-
-        <label for="cvv">CVV</label>
-        <input type="text" id="cvv" name="cvv" placeholder="321" required>
-
-        <button type="submit" class="submit-btn">Submit My Order</button>
-    </form>
-<?php endif; ?>
+<script src="/public/js/checkout.js"></script>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>

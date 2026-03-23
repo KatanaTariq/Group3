@@ -734,6 +734,8 @@ class CheckoutController extends Controller
         $billingCounty = trim($_POST['billing_county'] ?? '');
         $billingPostCode = trim($_POST['billing_post_code'] ?? '');
 
+        $sameAsShipping = isset($_POST['same_as_shipping']);
+
         try {
             $shippingAddressID = $this->resolveAddress(
                 $customerID,
@@ -745,15 +747,19 @@ class CheckoutController extends Controller
                 'SHIPPING'
             );
 
-            $billingAddressID = $this->resolveAddress(
-                $customerID,
-                $selectedBillingAddressID,
-                $billingStreet,
-                $billingCity,
-                $billingCounty,
-                $billingPostCode,
-                'BILLING'
-            );
+            if ($sameAsShipping) {
+                $billingAddressID = $shippingAddressID;
+            } else {
+                $billingAddressID = $this->resolveAddress(
+                    $customerID,
+                    $selectedBillingAddressID,
+                    $billingStreet,
+                    $billingCity,
+                    $billingCounty,
+                    $billingPostCode,
+                    'BILLING'
+                );
+            }
 
             $basketModel = new Basket($this->pdo, $customerID);
             $result = $basketModel->finaliseCheckout($shippingAddressID, $billingAddressID);
