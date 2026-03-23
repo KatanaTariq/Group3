@@ -2,10 +2,6 @@
 <?php include __DIR__ . '/../templates/header.php'; ?>
 <?php include __DIR__ . '/../templates/nav.php'; ?>
 
-<div class="about-hero">
-    <h1>About Athletiq</h1>
-</div>
-
 <section class="about-info">
     <h2>Performative wear for upcoming sports enthusiasts</h2>
     <p>
@@ -59,6 +55,3 @@
 </section>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>
-
-</body>
-</html>

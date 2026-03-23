@@ -4,35 +4,45 @@
 
 <div class="profilePage">
 
-    <div class="profileHeader">
-        <h1>Profile</h1>
-    </div>
-
     <div class="profileCard">
 
         <?php if (!isset($_SESSION['customer_id'])): ?>
 
+            <p class="profile-eyebrow">ATHLETIQ ACCOUNT</p>
             <h2>You’re not logged in</h2>
-            <p>Please log in to access your profile.</p>
+            <p class="profile-subtitle">Log in to access your orders, account details, and personalised shopping.</p>
 
             <div class="profileActions">
-                <a href="/login" class="btn">Go to Login</a>
+                <a href="/login" class="btn">Log In</a>
             </div>
 
         <?php else: ?>
 
-            <h2>You're in!!</h2>
+            <p class="profile-eyebrow">ATHLETIQ MEMBER HUB</p>
 
-            <p class="user">
-                Athlete ID: <?php echo htmlspecialchars($_SESSION['customer_id']); ?>
-            </p>
+            <h1 class="welcome">
+                Welcome back, <?php echo htmlspecialchars($customer ? $customer->getFirstName() : 'Athlete'); ?>!
+            </h1>
 
-            <p>
-                You're officially logged in and ready to move.
+            <p class="profile-subtitle">
+                Ready for your next session?
             </p>
 
             <div class="profileActions">
-                <a href="/logout" class="btn secondary">Log out</a>
+                <a href="/home" class="profile-action-card">
+                    <span class="profile-action-title">Shop</span>
+                    <span class="profile-action-text">Browse the latest drops</span>
+                </a>
+
+                <a href="/previous-orders" class="profile-action-card">
+                    <span class="profile-action-title">Previous Orders</span>
+                    <span class="profile-action-text">Track and review your purchases</span>
+                </a>
+
+                <a href="/logout" class="profile-action-card profile-action-card-secondary">
+                    <span class="profile-action-title">Log Out</span>
+                    <span class="profile-action-text">Sign out of your account</span>
+                </a>
             </div>
 
         <?php endif; ?>
