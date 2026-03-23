@@ -16,13 +16,13 @@ $subtotal = $subtotal ?? 0;
     </div>
 
     <?php if (!empty($_GET['error'])): ?>
-        <div class="checkout-message checkout-message-error">
+        <div class="checkout-message checkout-message-error" aria-live="polite">
             <?php echo htmlspecialchars($_GET['error']); ?>
         </div>
     <?php endif; ?>
 
     <?php if (!empty($_GET['success'])): ?>
-        <div class="checkout-message checkout-message-success">
+        <div class="checkout-message checkout-message-success" aria-live="polite">
             <?php echo htmlspecialchars($_GET['success']); ?>
         </div>
     <?php endif; ?>
@@ -72,6 +72,7 @@ $subtotal = $subtotal ?? 0;
                                 name="shipping_street"
                                 id="shipping_street"
                                 autocomplete="address-line1"
+                                maxlength="120"
                             >
 
                             <label for="shipping_city">City</label>
@@ -80,6 +81,7 @@ $subtotal = $subtotal ?? 0;
                                 name="shipping_city"
                                 id="shipping_city"
                                 autocomplete="address-level2"
+                                maxlength="60"
                             >
 
                             <label for="shipping_county">County</label>
@@ -88,6 +90,7 @@ $subtotal = $subtotal ?? 0;
                                 name="shipping_county"
                                 id="shipping_county"
                                 autocomplete="address-level1"
+                                maxlength="60"
                             >
 
                             <label for="shipping_post_code">Post Code</label>
@@ -96,6 +99,9 @@ $subtotal = $subtotal ?? 0;
                                 name="shipping_post_code"
                                 id="shipping_post_code"
                                 autocomplete="postal-code"
+                                maxlength="10"
+                                pattern="[A-Za-z0-9 ]{5,10}"
+                                title="Enter a valid post code."
                             >
                         </div>
                     </section>
@@ -135,6 +141,7 @@ $subtotal = $subtotal ?? 0;
                                     name="billing_street"
                                     id="billing_street"
                                     autocomplete="address-line1"
+                                    maxlength="120"
                                 >
 
                                 <label for="billing_city">City</label>
@@ -143,6 +150,7 @@ $subtotal = $subtotal ?? 0;
                                     name="billing_city"
                                     id="billing_city"
                                     autocomplete="address-level2"
+                                    maxlength="60"
                                 >
 
                                 <label for="billing_county">County</label>
@@ -151,6 +159,7 @@ $subtotal = $subtotal ?? 0;
                                     name="billing_county"
                                     id="billing_county"
                                     autocomplete="address-level1"
+                                    maxlength="60"
                                 >
 
                                 <label for="billing_post_code">Post Code</label>
@@ -159,6 +168,9 @@ $subtotal = $subtotal ?? 0;
                                     name="billing_post_code"
                                     id="billing_post_code"
                                     autocomplete="postal-code"
+                                    maxlength="10"
+                                    pattern="[A-Za-z0-9 ]{5,10}"
+                                    title="Enter a valid post code."
                                 >
                             </div>
                         </div>
@@ -177,6 +189,9 @@ $subtotal = $subtotal ?? 0;
                             name="cardholder_name"
                             placeholder="Alex Smith"
                             autocomplete="cc-name"
+                            maxlength="100"
+                            pattern="[A-Za-zÀ-ÿ' -]{2,100}"
+                            title="Enter the cardholder name using letters only."
                             required
                         >
 
@@ -187,6 +202,7 @@ $subtotal = $subtotal ?? 0;
                             name="payment_email"
                             placeholder="example@email.com"
                             autocomplete="email"
+                            maxlength="254"
                             required
                         >
 
@@ -199,6 +215,8 @@ $subtotal = $subtotal ?? 0;
                             inputmode="numeric"
                             autocomplete="cc-number"
                             maxlength="19"
+                            pattern="\d{4}\s\d{4}\s\d{4}\s\d{4}"
+                            title="Enter a 16-digit card number."
                             required
                         >
 
@@ -213,6 +231,8 @@ $subtotal = $subtotal ?? 0;
                                     inputmode="numeric"
                                     autocomplete="cc-exp"
                                     maxlength="5"
+                                    pattern="(0[1-9]|1[0-2])\/[0-9]{2}"
+                                    title="Enter the expiry date in MM/YY format."
                                     required
                                 >
                             </div>
@@ -220,13 +240,15 @@ $subtotal = $subtotal ?? 0;
                             <div>
                                 <label for="cvv">CVV</label>
                                 <input
-                                    type="text"
+                                    type="password"
                                     id="cvv"
                                     name="cvv"
                                     placeholder="123"
                                     inputmode="numeric"
                                     autocomplete="cc-csc"
                                     maxlength="4"
+                                    pattern="\d{3,4}"
+                                    title="Enter a 3 or 4 digit CVV."
                                     required
                                 >
                             </div>
