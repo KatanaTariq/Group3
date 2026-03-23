@@ -424,4 +424,123 @@ class Basket
             return $e->getMessage();
         }
     }
+    private function getAvailableSizesForProduct(int $productID): array
+    {
+        $sql = "SELECT DISTINCT size
+                FROM product_variant
+                WHERE product_id = :product_id
+                AND size IS NOT NULL
+                AND TRIM(size) <> ''
+                ORDER BY size ASC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['product_id' => $productID]);
+
+        $sizes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        return array_values(array_filter(array_map('trim', $sizes)));
+    }
+
+    public function updateItemSize(int $basketItemID, int $productID, string $newSize): bool
+{
+    $basketID = $this->getOrCreateBasket();
+
+    $sql = "SELECT quantity
+            FROM basket_item
+            WHERE basket_item_id = :basket_item_id
+              AND basket_id = :basket_id
+            LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([
+        'basket_item_id' => $basketItemID,
+        'basket_id' => $basketID
+    ]);
+
+    $currentItem = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$currentItem) {
+        throw new Exception('Basket item not found.');
+    }
+
+    $currentQuantity = (int) $currentItem['quantity'];
+
+    $newVariantID = $this->getVariantIdByProductAndSize($productID, $newSize);
+
+    if ($newVariantID === null) {
+        throw new Exception('That size is not available for this product.');
+    }
+
+    $stockSql = "SELECT current_stock
+                 FROM inventory
+                 WHERE variant_id = :variant_id
+                 LIMIT 1";
+    $stmt = $this->pdo->prepare($stockSql);
+    $stmt->execute(['variant_id' => $newVariantID]);
+
+    $stock = $stmt->fetchColumn();
+
+    if ($stock === false) {
+        throw new Exception('Inventory record not found for selected size.');
+    }
+
+    if ($currentQuantity > (int)$stock) {
+        throw new Exception("Only {$stock} available in size {$newSize}.");
+    }
+
+    $checkSql = "SELECT basket_item_id, quantity
+                 FROM basket_item
+                 WHERE basket_id = :basket_id
+                   AND variant_id = :variant_id
+                 LIMIT 1";
+    $stmt = $this->pdo->prepare($checkSql);
+    $stmt->execute([
+        'basket_id' => $basketID,
+        'variant_id' => $newVariantID
+    ]);
+
+    $existingItem = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($existingItem && (int)$existingItem['basket_item_id'] !== $basketItemID) {
+        $mergedQuantity = (int)$existingItem['quantity'] + $currentQuantity;
+
+        if ($mergedQuantity > (int)$stock) {
+            throw new Exception("Cannot merge items. Only {$stock} available in size {$newSize}.");
+        }
+
+        $updateExistingSql = "UPDATE basket_item
+                              SET quantity = :quantity
+                              WHERE basket_item_id = :basket_item_id
+                                AND basket_id = :basket_id";
+        $stmt = $this->pdo->prepare($updateExistingSql);
+        $stmt->execute([
+            'quantity' => $mergedQuantity,
+            'basket_item_id' => (int)$existingItem['basket_item_id'],
+            'basket_id' => $basketID
+        ]);
+
+        $deleteOldSql = "DELETE FROM basket_item
+                         WHERE basket_item_id = :basket_item_id
+                           AND basket_id = :basket_id";
+        $stmt = $this->pdo->prepare($deleteOldSql);
+        $stmt->execute([
+            'basket_item_id' => $basketItemID,
+            'basket_id' => $basketID
+        ]);
+
+        return true;
+    }
+
+    $updateSql = "UPDATE basket_item
+                  SET variant_id = :variant_id
+                  WHERE basket_item_id = :basket_item_id
+                    AND basket_id = :basket_id";
+    $stmt = $this->pdo->prepare($updateSql);
+    $stmt->execute([
+        'variant_id' => $newVariantID,
+        'basket_item_id' => $basketItemID,
+        'basket_id' => $basketID
+    ]);
+
+    return true;
+}
 }

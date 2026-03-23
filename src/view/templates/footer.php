@@ -15,7 +15,7 @@
     </div>
 
     <div class="footer-col footer-center">
-        <p>Let's stay in touch! Sign up to experience the benefits of Athletiq!</p>
+        <p>Let's stay in touch! Sign up for the benefits of Athletiq!</p>
         <a href="/signup" class="footer-signup-btn">Sign Up</a>
     </div>
 

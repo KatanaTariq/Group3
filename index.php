@@ -66,6 +66,7 @@ $routes = [
         '/basket/add' => [BasketController::class, 'add'],
         '/basket/update' => [BasketController::class, 'update'],
         '/basket/remove' => [BasketController::class, 'remove'],
+        '/basket/update-size' => [BasketController::class, 'updateSize'],
         '/checkout/process' => [CheckoutController::class, 'process'],
 
         '/admin/login' => [AdminController::class, 'login'],

@@ -29,7 +29,30 @@
 
                 <div class="item-info">
                     <p><?php echo htmlspecialchars($item['name']); ?></p>
-                    <p>Size: <?php echo htmlspecialchars($item['size']); ?></p>
+
+                    <form method="POST" action="/basket/update-size" class="basket-size-form">
+                        <input type="hidden" name="basket_item_id" value="<?php echo (int)$item['item_id']; ?>">
+                        <input type="hidden" name="product_id" value="<?php echo (int)$item['product_id']; ?>">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(get_csrf_token()); ?>">
+
+                        <label for="size-<?php echo (int)$item['item_id']; ?>">Size:</label>
+                        <select
+                            name="size"
+                            id="size-<?php echo (int)$item['item_id']; ?>"
+                            class="size-select"
+                            onchange="this.form.submit()"
+                        >
+                            <?php foreach (($item['available_sizes'] ?? []) as $size): ?>
+                                <option
+                                    value="<?php echo htmlspecialchars($size); ?>"
+                                    <?php echo $item['size'] === $size ? 'selected' : ''; ?>
+                                >
+                                    <?php echo htmlspecialchars($size); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </form>
+
                     <?php if (!empty($item['colour'])): ?>
                         <p>Colour: <?php echo htmlspecialchars($item['colour']); ?></p>
                     <?php endif; ?>
