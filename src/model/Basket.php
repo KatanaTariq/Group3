@@ -105,11 +105,11 @@ class Basket
             if (strpos($image, '/src/view/images/') === 0) {
                 $image = str_replace('/src/view/images/', '/public/images/', $image);
             }
-
+            $productID = (int)$row['product_id'];
             return [
                 'item_id' => (int)$row['basket_item_id'],
                 'variant_id' => (int)$row['variant_id'],
-                'product_id' => (int)$row['product_id'],
+                'product_id' => $productID,
                 'name' => $row['product_name'],
                 'description' => $row['description'],
                 'price' => (float)$row['price'],
@@ -118,6 +118,7 @@ class Basket
                 'colour' => $row['colour'],
                 'image_url' => $image,
                 'current_stock' => (int)($row['current_stock'] ?? 0),
+                'available_sizes' => $this->getAvailableSizesForProduct($productID),
             ];
         }, $rows);
     }
@@ -430,17 +431,42 @@ class Basket
                 FROM product_variant
                 WHERE product_id = :product_id
                 AND size IS NOT NULL
-                AND TRIM(size) <> ''
-                ORDER BY size ASC";
+                AND TRIM(size) <> ''";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['product_id' => $productID]);
 
         $sizes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $sizes = array_values(array_filter(array_map('trim', $sizes)));
 
-        return array_values(array_filter(array_map('trim', $sizes)));
+        usort($sizes, function ($a, $b) {
+            $clothingOrder = [
+                'XS' => 1,
+                'S'  => 2,
+                'M'  => 3,
+                'L'  => 4,
+                'XL' => 5,
+            ];
+
+            $aUpper = strtoupper($a);
+            $bUpper = strtoupper($b);
+
+            $aIsClothing = isset($clothingOrder[$aUpper]);
+            $bIsClothing = isset($clothingOrder[$bUpper]);
+
+            if ($aIsClothing && $bIsClothing) {
+                return $clothingOrder[$aUpper] <=> $clothingOrder[$bUpper];
+            }
+
+            if (is_numeric($a) && is_numeric($b)) {
+                return (float)$a <=> (float)$b;
+            }
+
+            return strcasecmp($a, $b);
+        });
+
+        return $sizes;
     }
-
     public function updateItemSize(int $basketItemID, int $productID, string $newSize): bool
 {
     $basketID = $this->getOrCreateBasket();
