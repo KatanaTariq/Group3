@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/images/logos/athletiq_logo.png" width="300" alt="Athletiq Logo">
+  <img src="public/images/logos/favicon.png" width="400" alt="Athletiq Logo">
 </p>
 
 <h1 align="center">Athletiq</h1>
