@@ -1,4 +1,12 @@
-![Athletiq Banner](public/images/athletiq-banner.png)
+<p align="center">
+  <img src="public/images/logos/athletiq_logo.png" width="300" alt="Athletiq Logo">
+</p>
+
+<h1 align="center">Athletiq</h1>
+
+<p align="center">
+  A sportswear e-commerce web application for young athletes, built as part of the Aston University Computer Science Team Project module.
+</p>
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
